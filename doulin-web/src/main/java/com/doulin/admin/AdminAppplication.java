@@ -1,0 +1,1 @@
+package com.doulin.admin;import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;/** * 后台管理 */@SpringBootApplicationpublic class AdminAppplication {    public static void main(String[] args) {        SpringApplication.run(AdminAppplication.class, args);    }}
