@@ -1,5 +1,6 @@
 package com.doulin.admin.config;
 
+import com.doulin.admin.filter.XssFilter;
 import com.google.common.collect.Maps;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
