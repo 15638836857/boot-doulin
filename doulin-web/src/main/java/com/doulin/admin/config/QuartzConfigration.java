@@ -1,6 +1,6 @@
 package com.doulin.admin.config;
 
-import com.bootdo.common.quartz.factory.JobFactory;
+import com.doulin.admin.config.quartz.factory.JobFactory;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;

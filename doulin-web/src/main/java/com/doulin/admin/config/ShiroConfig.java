@@ -2,10 +2,10 @@ package com.doulin.admin.config;
 
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import com.bootdo.common.redis.shiro.RedisCacheManager;
-import com.bootdo.common.redis.shiro.RedisManager;
-import com.bootdo.common.redis.shiro.RedisSessionDAO;
-import com.bootdo.system.shiro.UserRealm;
+import com.doulin.admin.config.shiro.RedisCacheManager;
+import com.doulin.admin.config.shiro.RedisManager;
+import com.doulin.admin.config.shiro.RedisSessionDAO;
+import com.doulin.admin.config.shiro.UserRealm;
 import net.sf.ehcache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -182,7 +182,7 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
         sessionManager.setSessionDAO(sessionDAO());
         Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-        listeners.add(new com.bootdo.system.config.BDSessionListener());
+        listeners.add(new BDSessionListener());
         sessionManager.setSessionListeners(listeners);
         return sessionManager;
     }
