@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.SysDeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.SysDept">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sort_num" property="sortNum" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, parent_id, name, sort_num, del_flag, add_by, add_dt, edit_by, edit_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.SysDept">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

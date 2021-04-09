@@ -1,6 +1,6 @@
 package com.doulin.admin.filter;
 
-import com.youlan.common.xss.JsoupUtil;
+import com.doulin.common.xss.JsoupUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;

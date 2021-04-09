@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopHomeBaseInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeBaseInfo">
+        <id column="id" property="id" jdbcType="LONG"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="shop_home_name" property="shopHomeName" jdbcType="VARCHAR"/>
+        <result column="shop_grop_code" property="shopGropCode" jdbcType="VARCHAR"/>
+        <result column="shop_user_id" property="shopUserId" jdbcType="LONG"/>
+        <result column="community_code" property="communityCode" jdbcType="VARCHAR"/>
+        <result column="shop_province" property="shopProvince" jdbcType="VARCHAR"/>
+        <result column="shop_city" property="shopCity" jdbcType="VARCHAR"/>
+        <result column="shop_district" property="shopDistrict" jdbcType="VARCHAR"/>
+        <result column="shop_address" property="shopAddress" jdbcType="VARCHAR"/>
+        <result column="shop_flag" property="shopFlag" jdbcType="VARCHAR"/>
+        <result column="shop_open_business_time" property="shopOpenBusinessTime" jdbcType="TIMESTAMP"/>
+        <result column="shop_close_business_time" property="shopCloseBusinessTime" jdbcType="TIMESTAMP"/>
+        <result column="shop_balance" property="shopBalance" jdbcType="BIG_DECIMAL"/>
+        <result column="shop_title_image" property="shopTitleImage" jdbcType="VARCHAR"/>
+        <result column="shop_logo" property="shopLogo" jdbcType="VARCHAR"/>
+        <result column="shop_indoor_photo" property="shopIndoorPhoto" jdbcType="VARCHAR"/>
+        <result column="shop_qrcode" property="shopQrcode" jdbcType="VARCHAR"/>
+        <result column="shop_get_order_auto_flag" property="shopGetOrderAutoFlag" jdbcType="VARCHAR"/>
+        <result column="shop_paywater_prefix" property="shopPaywaterPrefix" jdbcType="VARCHAR"/>
+        <result column="order_cancel_time_unit" property="orderCancelTimeUnit" jdbcType="VARCHAR"/>
+        <result column="order_cancel_maxtime" property="orderCancelMaxtime" jdbcType="INTEGER"/>
+        <result column="business_license_image" property="businessLicenseImage" jdbcType="VARCHAR"/>
+        <result column="social_credit_code" property="socialCreditCode" jdbcType="VARCHAR"/>
+        <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
+        <result column="found_dt" property="foundDt" jdbcType="TIMESTAMP"/>
+        <result column="period_of_validity" property="periodOfValidity" jdbcType="VARCHAR"/>
+        <result column="company_class" property="companyClass" jdbcType="INTEGER"/>
+        <result column="business_scope" property="businessScope" jdbcType="VARCHAR"/>
+        <result column="business_class" property="businessClass" jdbcType="INTEGER"/>
+        <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
+        <result column="company_email" property="companyEmail" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_name" property="legalPersonCardName" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_num" property="legalPersonCardNum" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_time" property="legalPersonCardTime" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_z" property="legalPersonCardZ" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_f" property="legalPersonCardF" jdbcType="VARCHAR"/>
+        <result column="legal_person_bank_card" property="legalPersonBankCard" jdbcType="VARCHAR"/>
+        <result column="legal_person_card_p" property="legalPersonCardP" jdbcType="VARCHAR"/>
+        <result column="legal_person_bank_card_l" property="legalPersonBankCardL" jdbcType="VARCHAR"/>
+        <result column="legal_person_bank_image" property="legalPersonBankImage" jdbcType="VARCHAR"/>
+        <result column="legal_person_bank_hand_image" property="legalPersonBankHandImage" jdbcType="VARCHAR"/>
+        <result column="ywq_code" property="ywqCode" jdbcType="VARCHAR"/>
+        <result column="apply_state" property="applyState" jdbcType="INTEGER"/>
+        <result column="apply_flag" property="applyFlag" jdbcType="VARCHAR"/>
+        <result column="apply_return_msg" property="applyReturnMsg" jdbcType="VARCHAR"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="del_flag" property="delFlag" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, shop_home_code, shop_home_name, shop_grop_code, shop_user_id, community_code, shop_province, shop_city, shop_district, shop_address, shop_flag, shop_open_business_time, shop_close_business_time, shop_balance, shop_title_image, shop_logo, shop_indoor_photo, shop_qrcode, shop_get_order_auto_flag, shop_paywater_prefix, order_cancel_time_unit, order_cancel_maxtime, business_license_image, social_credit_code, company_name, found_dt, period_of_validity, company_class, business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num, legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p, legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag, apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopHomeBaseInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_home_base_info
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

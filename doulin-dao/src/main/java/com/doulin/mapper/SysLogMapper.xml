@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.SysLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.SysLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+        <result column="opeaion" property="opeaion" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="INTEGER"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="params" property="params" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, user_id, user_type, opeaion, time, method, params, ip, del_flag, add_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.SysLog">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

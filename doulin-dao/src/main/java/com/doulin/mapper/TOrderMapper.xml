@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TOrder">
+        <id column="order_id" property="orderId" jdbcType="INTEGER"/>
+        <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
+        <result column="order_money" property="orderMoney" jdbcType="BIG_DECIMAL"/>
+        <result column="order_type" property="orderType" jdbcType="INTEGER"/>
+        <result column="order_user_state" property="orderUserState" jdbcType="INTEGER"/>
+        <result column="order_shop_state" property="orderShopState" jdbcType="INTEGER"/>
+        <result column="order_user_remark" property="orderUserRemark" jdbcType="VARCHAR"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="order_pay_type" property="orderPayType" jdbcType="INTEGER"/>
+        <result column="to_user_home_money" property="toUserHomeMoney" jdbcType="BIG_DECIMAL"/>
+        <result column="to_user_home_type" property="toUserHomeType" jdbcType="INTEGER"/>
+        <result column="order_pay_qrcode" property="orderPayQrcode" jdbcType="VARCHAR"/>
+        <result column="order_warter_no" property="orderWarterNo" jdbcType="VARCHAR"/>
+        <result column="order_qrcode" property="orderQrcode" jdbcType="VARCHAR"/>
+        <result column="shop_git_order_flag" property="shopGitOrderFlag" jdbcType="VARCHAR"/>
+        <result column="shop_git_order_time" property="shopGitOrderTime" jdbcType="TIMESTAMP"/>
+        <result column="order_cancel_type_id" property="orderCancelTypeId" jdbcType="INTEGER"/>
+        <result column="order_cancel_cause_id" property="orderCancelCauseId" jdbcType="INTEGER"/>
+        <result column="order_cancel_remark" property="orderCancelRemark" jdbcType="VARCHAR"/>
+        <result column="shop_refund_flag" property="shopRefundFlag" jdbcType="VARCHAR"/>
+        <result column="shop_agree_cancel" property="shopAgreeCancel" jdbcType="VARCHAR"/>
+        <result column="order_cancelapply_flag" property="orderCancelapplyFlag" jdbcType="VARCHAR"/>
+        <result column="order_aftersale_apply_flag" property="orderAftersaleApplyFlag" jdbcType="VARCHAR"/>
+        <result column="order_aftersale_apply_count" property="orderAftersaleApplyCount" jdbcType="INTEGER"/>
+        <result column="order_aftersale_apply_last_time" property="orderAftersaleApplyLastTime" jdbcType="TIMESTAMP"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="edit_time" property="editTime" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        order_id, order_code, order_money, order_type, order_user_state, order_shop_state, order_user_remark, shop_home_code, user_id, order_pay_type, to_user_home_money, to_user_home_type, order_pay_qrcode, order_warter_no, order_qrcode, shop_git_order_flag, shop_git_order_time, order_cancel_type_id, order_cancel_cause_id, order_cancel_remark, shop_refund_flag, shop_agree_cancel, order_cancelapply_flag, order_aftersale_apply_flag, order_aftersale_apply_count, order_aftersale_apply_last_time, del_flag, add_time, edit_time, edit_by
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TOrder">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

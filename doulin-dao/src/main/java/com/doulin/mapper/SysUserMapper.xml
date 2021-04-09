@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.SysUser">
+        <id column="id" property="id" jdbcType="LONG"/>
+        <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="dept_id" property="deptId" jdbcType="LONG"/>
+        <result column="photo" property="photo" jdbcType="VARCHAR"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP"/>
+        <result column="login_flag" property="loginFlag" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, tele_phone, real_name, email, dept_id, photo, last_login_ip, last_login_date, login_flag, del_flag, add_by, add_dt, edit_by, edit_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.SysUser">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>
