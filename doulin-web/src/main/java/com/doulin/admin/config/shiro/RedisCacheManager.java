@@ -1,8 +1,7 @@
 package com.doulin.admin.config.shiro;
 
 /**
- * @author bootdo 1992lcg@163.com
- * @version V1.0
+ * @author
  */
 
 import org.apache.shiro.cache.Cache;
