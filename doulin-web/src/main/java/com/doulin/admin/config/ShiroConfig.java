@@ -2,6 +2,7 @@ package com.doulin.admin.config;
 
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+
 import com.doulin.admin.config.shiro.RedisCacheManager;
 import com.doulin.admin.config.shiro.RedisManager;
 import com.doulin.admin.config.shiro.RedisSessionDAO;
@@ -20,13 +21,12 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
 /**
- * @author bootdo 1992lcg@163.com
+ * @author
  */
 @Configuration
 public class ShiroConfig {
@@ -105,7 +105,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    UserRealm userRealm() {
+    public UserRealm userRealm() {
         UserRealm userRealm = new UserRealm();
         return userRealm;
     }
@@ -195,7 +195,7 @@ public class ShiroConfig {
     }
 
     @Bean("cacheManager2")
-    CacheManager cacheManager() {
+    public CacheManager cacheManager() {
         return CacheManager.create();
     }
 
