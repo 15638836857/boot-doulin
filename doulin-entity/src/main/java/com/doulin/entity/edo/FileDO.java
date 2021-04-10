@@ -1,4 +1,4 @@
-package com.bootdo.common.domain;
+package com.doulin.entity.edo;
 
 import lombok.Data;
 

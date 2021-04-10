@@ -35,13 +35,12 @@ public class SysLog implements Serializable {
     @ApiModelProperty(value = "用户类型 ")
     @TableField("user_type")
     private String userType;
-
     /**
      * 操作
      */
     @ApiModelProperty(value = "操作")
-    @TableField("opeaion")
-    private String opeaion;
+    @TableField("operation")
+    private String operation;
 
     /**
      * 响应时间

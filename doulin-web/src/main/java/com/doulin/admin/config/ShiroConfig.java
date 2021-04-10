@@ -1,8 +1,6 @@
 package com.doulin.admin.config;
 
-
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-
 import com.doulin.admin.config.shiro.RedisCacheManager;
 import com.doulin.admin.config.shiro.RedisManager;
 import com.doulin.admin.config.shiro.RedisSessionDAO;
@@ -21,9 +19,12 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+
+//import org.apache.shiro.cache.CacheManager;
 
 /**
  * @author
@@ -40,14 +41,13 @@ public class ShiroConfig {
     private int timeout;
 
     @Value("${spring.cache.type}")
-    private String cacheType;
+    private String cacheType ;
 
     @Value("${server.session-timeout}")
     private int tomcatTimeout;
 
     @Bean
     public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-
         return new LifecycleBeanPostProcessor();
     }
 
@@ -69,8 +69,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/getVerify", "anon");
+        filterChainDefinitionMap.put("/login","anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
@@ -79,6 +78,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/upload/**", "anon");
         filterChainDefinitionMap.put("/files/**", "anon");
+        filterChainDefinitionMap.put("/swagger**", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/webjars/**", "anon");
+        filterChainDefinitionMap.put("/csrf/**", "anon");
+        filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/blog", "anon");
@@ -105,7 +109,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public UserRealm userRealm() {
+    UserRealm userRealm() {
         UserRealm userRealm = new UserRealm();
         return userRealm;
     }
@@ -195,7 +199,7 @@ public class ShiroConfig {
     }
 
     @Bean("cacheManager2")
-    public CacheManager cacheManager() {
+    CacheManager cacheManager(){
         return CacheManager.create();
     }
 

@@ -10,6 +10,9 @@ import com.doulin.service.SysLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+
 
 /**
  * SysLogServiceImpl
@@ -29,6 +32,19 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
         page.setCurrent(pageNum == null ? 1 : pageNum);
         page.setSize(pageSize == null ? 10 : pageSize);
         return baseMapper.findByQuery(page, query);
+    }
+
+    @Override
+    public void initSchedule() {
+        // 这里获取任务信息数据
+//        List<TaskDO> jobList = taskScheduleJobMapper.list(new HashMap<String, Object>(16));
+//        for (TaskDO scheduleJob : jobList) {
+//            if ("1".equals(scheduleJob.getJobStatus())) {
+//                ScheduleJob job = ScheduleJobUtils.entityToData(scheduleJob);
+//                quartzManager.addJob(job);
+//            }
+//
+//        }
     }
 
 }

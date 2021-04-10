@@ -15,4 +15,5 @@ public interface SysLogService extends IService<SysLog> {
 
     IPage<SysLog> page(VQuery query);
 
+    void initSchedule();
 }
