@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysSalesman Controller")
+@Api(tags = "业务员控制器类")
 @RestController
 @RequestMapping("/sysSalesman")
 public class SysSalesmanController {

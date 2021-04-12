@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysDept Controller")
+@Api(description = "部门控制器类")
 @RestController
 @RequestMapping("/sysDept")
 public class SysDeptController {

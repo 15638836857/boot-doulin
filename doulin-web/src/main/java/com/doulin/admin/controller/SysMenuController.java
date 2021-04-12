@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysMenu Controller")
+@Api(tags = "系统菜单控制器类")
 @RestController
 @RequestMapping("/sysMenu")
 public class SysMenuController {

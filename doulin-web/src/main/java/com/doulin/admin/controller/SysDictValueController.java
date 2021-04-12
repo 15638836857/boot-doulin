@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysDictValue Controller")
+@Api(description = "字典值控制器类")
 @RestController
 @RequestMapping("/sysDictValue")
 public class SysDictValueController {

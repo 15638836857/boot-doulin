@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "TUser Controller")
+@Api(tags = "用户控制器类")
 @RestController
 @RequestMapping("/tUser")
 public class TUserController {

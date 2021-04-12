@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysUser Controller")
+@Api(tags = "系统用户控制器类")
 @RestController
 @RequestMapping("/sysUser")
 public class SysUserController {

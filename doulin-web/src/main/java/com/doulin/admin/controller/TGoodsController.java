@@ -17,9 +17,9 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "TGoods Controller")
+@Api(tags = "商品控制器类")
 @RestController
-@RequestMapping("/tGoods")
+@RequestMapping("/tgoods")
 public class TGoodsController {
 
     @Autowired

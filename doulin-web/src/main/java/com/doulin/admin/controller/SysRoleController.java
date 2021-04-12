@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysRole Controller")
+@Api(tags = "系统控制器类")
 @RestController
 @RequestMapping("/sysRole")
 public class SysRoleController {

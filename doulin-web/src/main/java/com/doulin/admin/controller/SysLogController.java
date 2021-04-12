@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "SysLog Controller")
+@Api(tags = "系统请求日志控制器类")
 @RestController
 @RequestMapping("/sysLog")
 public class SysLogController {

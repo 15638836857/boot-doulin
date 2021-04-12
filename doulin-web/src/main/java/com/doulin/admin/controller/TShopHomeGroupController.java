@@ -17,9 +17,9 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "TShopHomeGroup Controller")
+@Api(tags = "商家分组控制器类")
 @RestController
-@RequestMapping("/tShopHomeGroup")
+@RequestMapping("/tshopHomeGroup")
 public class TShopHomeGroupController {
 
     @Autowired
