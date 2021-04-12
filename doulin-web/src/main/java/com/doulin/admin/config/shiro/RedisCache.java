@@ -1,21 +1,17 @@
 package com.doulin.admin.config.shiro;
 
 /**
- * @author bootdo 1992lcg@163.com
- * @version V1.0
+ * @author malingbing
  */
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
-
+@Slf4j
 public class RedisCache<K, V> implements Cache<K, V> {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * The wrapped Jedis instance.
@@ -90,7 +86,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public V get(K key) throws CacheException {
-        logger.debug("根据key从Redis中获取对象 key [" + key + "]");
+        log.debug("根据key从Redis中获取对象 key [" + key + "]");
         try {
             if (key == null) {
                 return null;
@@ -108,7 +104,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public V put(K key, V value) throws CacheException {
-        logger.debug("根据key从存储 key [" + key + "]");
+        log.debug("根据key从存储 key [" + key + "]");
         try {
             cache.set(getByteKey(key), SerializeUtils.serialize(value));
             return value;
@@ -119,7 +115,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public V remove(K key) throws CacheException {
-        logger.debug("从redis中删除 key [" + key + "]");
+        log.debug("从redis中删除 key [" + key + "]");
         try {
             V previous = get(key);
             cache.del(getByteKey(key));
@@ -131,7 +127,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public void clear() throws CacheException {
-        logger.debug("从redis中删除所有元素");
+        log.debug("从redis中删除所有元素");
         try {
             cache.flushDB();
         } catch (Throwable t) {

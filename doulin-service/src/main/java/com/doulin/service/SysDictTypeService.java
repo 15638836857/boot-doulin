@@ -8,6 +8,7 @@ import com.doulin.entity.vo.VQuery;
 import io.swagger.models.auth.In;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * SysDictTypeService
@@ -53,4 +54,13 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * @return
      */
     SysDictType getOneById(Integer id);
+
+    /**
+     * 根据分页 page rows 获取信息
+     * @param vmap
+     * @return
+     */
+    List<SysDictType> pageInfo(Map<String, Object> vmap);
+
+    Integer countByMap(Map<String, Object> vmap);
 }

@@ -8,6 +8,7 @@ import com.doulin.entity.SysDictType;
 import com.doulin.entity.vo.VQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * SysDictTypeMapper
@@ -23,4 +24,13 @@ public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
     void deleteByids(@Param("ids")List<Integer> ids);
 
     SysDictType selectOneById(@Param("id")Integer id);
+
+    /**
+     * 获取分页数据
+     * @param map
+     * @return
+     */
+    List<SysDictType> selectPageInfo(Map<String, Object> map);
+
+    Integer countByMap(Map<String, Object> map);
 }

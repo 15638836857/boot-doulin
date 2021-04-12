@@ -1,5 +1,6 @@
 package com.doulin.admin.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -9,10 +10,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author gaoyuzhe
- * @date 2017/12/14.
+ * @author malingbing
  */
 @Configuration
+@Slf4j
 public class DateConverConfig {
     @Bean
     public Converter<String, Date> stringDateConvert() {
@@ -28,7 +29,7 @@ public class DateConverConfig {
                     try {
                         date = sdfday.parse((String) source);
                     } catch (ParseException e1) {
-                        e1.printStackTrace();
+                       log.error(e1.getMessage());
                     }
                 }
                 return date;

@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 /**
- * @author bootdo 1992lcg@163.com
- * @version V1.0
+ * @author malingbing
  */
 public class SerializeUtils {
 

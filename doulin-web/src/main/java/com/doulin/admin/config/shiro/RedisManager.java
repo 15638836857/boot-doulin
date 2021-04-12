@@ -1,8 +1,7 @@
 package com.doulin.admin.config.shiro;
 
 /**
- * @author bootdo 1992lcg@163.com
- * @version V1.0
+ * @author malingbing
  */
 
 import org.springframework.beans.factory.annotation.Value;

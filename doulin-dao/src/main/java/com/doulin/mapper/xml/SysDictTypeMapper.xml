@@ -71,5 +71,35 @@
         AND t.id =#{id}
         ORDER BY t1.sort ASC
     </select>
+    <select id="selectPageInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+        SELECT <include refid="TBase_Column_List"/>,item FROM (
+         SELECT
+            (@i:=@i+1) as item,
+            <include refid="Base_Column_List"/>
+        FROM
+            sys_dict_type d,
+         (select @i:=0) as it
+        WHERE
+            d.del_flag = 0
+            <if test="typeCode!='' and typeCode!=null">AND d.type_code=#{typeCode}</if>
+            <if test="typeName!='' and typeName!=null">AND d.type_name like  #{typeName}'%'</if>
+        ) t
+        limit (#{page}-1)*#{rows},#{page}
+
+
+    </select>
+    <select id="countByMap" parameterType="java.util.Map" resultType="Integer">
+
+         SELECT
+            count(*)
+        FROM
+            sys_dict_type d
+        WHERE
+            d.del_flag = 0
+            <if test="typeCode!='' and typeCode!=null">AND d.type_code=#{typeCode}</if>
+            <if test="typeName!='' and typeName!=null">AND d.type_name like  #{typeName}'%'</if>
+
+    </select>
 
 </mapper>

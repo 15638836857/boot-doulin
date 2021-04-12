@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -117,6 +118,18 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         } else {
             return new SysDictType();
         }
+    }
+
+    @Override
+    public List<SysDictType> pageInfo(Map<String, Object> map) {
+
+        return sysDictTypeMapper.selectPageInfo(map);
+    }
+
+    @Override
+    public Integer countByMap(Map<String, Object> map) {
+
+        return sysDictTypeMapper.countByMap(map);
     }
 
 }

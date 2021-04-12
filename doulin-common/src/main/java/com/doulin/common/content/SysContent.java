@@ -32,4 +32,6 @@ public class SysContent extends ErrorContent{
     public static final String ID_STR ="id" ;
 
     public static final String EN_D ="," ;
+    public static final String PAGE ="page" ;
+    public static final String ROWS = "rows";
 }

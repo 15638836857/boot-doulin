@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.doulin.admin.controller.common.BaseWebController;
 import com.doulin.common.MyException;
 import com.doulin.common.R;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -186,12 +188,17 @@ public class SysDictTypeController extends BaseWebController {
             "}")
     @PostMapping("/page")
     public IPage<SysDictType> userList(@RequestBody Map<String,Object> requestMap) {
-         Map<String,Object> smap=getVvalue(requestMap);
-         Map<String,Object> vmap=getVvalue(requestMap);
-
-
-//        return sysDictTypeService.page(query);
-        return null;
+        Map<String, Object> smap = getVvalue(requestMap);
+        Map<String, Object> vmap = getVvalue(requestMap);
+        vmap.putAll(smap);
+        List<SysDictType> list = sysDictTypeService.pageInfo(vmap);
+        Integer count = sysDictTypeService.countByMap(vmap);
+        IPage<SysDictType> pageInfo;
+        Page<SysDictType> page = new Page<SysDictType>(Long.valueOf(smap.get(SysContent.PAGE).toString()),
+                Long.valueOf(smap.get(SysContent.ROWS).toString()));
+        page.setTotal(Long.valueOf(count.toString()));
+        page.setRecords(list);
+        return page;
     }
 
 }

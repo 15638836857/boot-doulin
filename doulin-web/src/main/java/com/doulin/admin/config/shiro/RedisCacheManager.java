@@ -4,6 +4,7 @@ package com.doulin.admin.config.shiro;
  * @author
  */
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.cache.CacheManager;
@@ -12,11 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
+@Slf4j
 public class RedisCacheManager implements CacheManager {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(RedisCacheManager.class);
 
     // fast lookup by name map
     private final ConcurrentMap<String, Cache> caches = new ConcurrentHashMap<String, Cache>();
@@ -50,7 +49,7 @@ public class RedisCacheManager implements CacheManager {
 
     @Override
     public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-        logger.debug("获取名称为: " + name + " 的RedisCache实例");
+        log.debug("获取名称为: " + name + " 的RedisCache实例");
 
         Cache c = caches.get(name);
 
