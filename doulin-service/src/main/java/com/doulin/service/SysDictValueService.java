@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.SysDictValue;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+
 /**
  * SysDictValueService
  *
@@ -14,5 +16,12 @@ import com.doulin.entity.vo.VQuery;
 public interface SysDictValueService extends IService<SysDictValue> {
 
     IPage<SysDictValue> page(VQuery query);
+
+    /**
+     * 根据类型code获取值
+     * @param typeCodes
+     * @return
+     */
+    List<SysDictValue> getByTypeCods(List<String> typeCodes);
 
 }

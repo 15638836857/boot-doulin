@@ -17,7 +17,7 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "产品规格控制器类")
+@Api(tags = "产品规格控制器类")
 @RestController
 @RequestMapping("/tgoodsSku")
 public class TGoodsSkuController {

@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import com.doulin.entity.SysDictType;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+
 /**
  * SysDictTypeMapper
  *
@@ -18,4 +20,7 @@ public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
 
     IPage<SysDictType> findByQuery(IPage<SysDictType> page, @Param("query") VQuery query);
 
+    void deleteByids(@Param("ids")List<Integer> ids);
+
+    SysDictType selectOneById(@Param("id")Integer id);
 }

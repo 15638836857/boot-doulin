@@ -20,6 +20,9 @@
     <sql id="Base_Column_List">
         id, type_code, label, value, sort, remark, del_flag, add_by, add_dt, edit_by, edit_dt
     </sql>
+    <sql id="Base_tColumn_List">
+            t.id, t.type_code, t.label, t.value, t.sort, t.remark, t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
+    </sql>
 
 
     <select id="findByQuery" resultType="com.doulin.entity.SysDictValue">
@@ -31,6 +34,32 @@
 
             </if>
         </where>
+    </select>
+    <select id="selectByTypeCodes" parameterType="java.util.List" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from sys_dict_value where
+        del_flag=0
+        AND type_code
+        in
+        <foreach collection="typeCodes" index="code" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        ORDER BY sort asc
+    </select>
+    <select id="selectByTypeIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select <include refid="Base_tColumn_List"/>  FROM
+        ( SELECT b.type_code
+            FROM  sys_dict_type b
+           WHERE
+            EXISTS ( SELECT c.type_code  FROM sys_dict_type c
+                     WHERE c.id IN
+                     <foreach collection="typeIds" index="id" open="(" separator="," close=")">
+                        #{id}
+                    </foreach>
+                   )
+           ) d
+        LEFT JOIN sys_dict_value t ON d.type_code = t.type_code
+        WHERE  t.del_flag = 0
+        ORDER BY t.sort asc
     </select>
 
 </mapper>

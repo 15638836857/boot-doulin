@@ -1,6 +1,9 @@
 package com.doulin.common;
 
-public class ExceptionUtils {
+/**
+ * 异常工具类型
+ */
+public class ExceptionUtils extends  Exception{
     public static String getExceptionAllinformation(Exception ex) {
         String sOut = "";
         StackTraceElement[] trace = ex.getStackTrace();

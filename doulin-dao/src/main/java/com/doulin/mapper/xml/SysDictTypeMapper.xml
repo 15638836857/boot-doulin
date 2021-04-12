@@ -13,11 +13,24 @@
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <association property="chidlist" javaType="com.doulin.entity.SysDictValue">
+            <id column="type_code_parent" property="typeCode"/>
+            <result column="value_id" property="id" jdbcType="INTEGER"/>
+            <result column="type_code_parent" property="typeCode" jdbcType="VARCHAR"/>
+            <result column="label" property="label" jdbcType="VARCHAR"/>
+            <result column="value" property="value" jdbcType="VARCHAR"/>
+            <result column="value_sort" property="sort" jdbcType="INTEGER"/>
+            <result column="value_remark" property="remark" jdbcType="VARCHAR"/>
+        </association>
     </resultMap>
+
 
 
     <sql id="Base_Column_List">
         id, type_code, type_name, remark, sort, del_flag, add_by, add_dt, edit_by, edit_dt
+    </sql>
+    <sql id="TBase_Column_List">
+        t.d, t.type_code, t.type_name, t.remark, t.sort, t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
     </sql>
 
 
@@ -30,6 +43,33 @@
 
             </if>
         </where>
+    </select>
+    <update id="deleteByids" parameterType="java.util.List">
+        UPDATE sys_dict_type t set t.del_flag=1 where
+         t.del_flag=0
+         and
+          t.id in
+        <foreach collection="ids" index="index" open="(" separator="," close=")">
+            #{index}
+        </foreach>
+    </update>
+    <select id="selectOneById" parameterType="Integer" resultMap="BaseResultMap">
+        SELECT
+            <include refid="TBase_Column_List"/>,
+            t1.id AS value_id,
+            t1.type_code AS type_code_parent,
+            t1.label ,
+            t1.`value`e,
+            t1.sort AS value_sort,
+            t1.remark AS value_remark
+        FROM
+            sys_dict_type t,
+            sys_dict_value t1
+        WHERE
+            t1.del_flag = 0
+        AND t1.type_code = t.type_code
+        AND t.id =#{id}
+        ORDER BY t1.sort ASC
     </select>
 
 </mapper>

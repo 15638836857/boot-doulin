@@ -7,8 +7,11 @@ import com.doulin.entity.SysDictValue;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysDictValueMapper;
 import com.doulin.service.SysDictValueService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -21,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class SysDictValueServiceImpl extends ServiceImpl<SysDictValueMapper, SysDictValue> implements SysDictValueService {
 
+    @Autowired
+    private SysDictValueMapper sysDictValueMapper;
+
     @Override
     public IPage<SysDictValue> page(VQuery query) {
         IPage<SysDictValue> page = new Page<>();
@@ -29,6 +35,13 @@ public class SysDictValueServiceImpl extends ServiceImpl<SysDictValueMapper, Sys
         page.setCurrent(pageNum == null ? 1 : pageNum);
         page.setSize(pageSize == null ? 10 : pageSize);
         return baseMapper.findByQuery(page, query);
+    }
+
+    @Override
+    public List<SysDictValue> getByTypeCods(List<String> typeCodes) {
+
+        List<SysDictValue>  list=sysDictValueMapper.selectByTypeCodes(typeCodes);
+        return list;
     }
 
 }

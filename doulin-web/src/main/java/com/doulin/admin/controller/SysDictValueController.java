@@ -1,6 +1,7 @@
 package com.doulin.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.doulin.admin.controller.common.BaseWebController;
 import com.doulin.entity.SysDictValue;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysDictValueService;
@@ -17,10 +18,10 @@ import java.util.Arrays;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(description = "字典值控制器类")
+@Api(tags = "字典值控制器类")
 @RestController
 @RequestMapping("/sysDictValue")
-public class SysDictValueController {
+public class SysDictValueController extends BaseWebController {
 
     @Autowired
     private SysDictValueService sysDictValueService;

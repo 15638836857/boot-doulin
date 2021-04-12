@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * SysDictType Entity
@@ -23,8 +24,8 @@ import java.util.Date;
 public class SysDictType implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private Integer id;
 
     /**
      * 字典类型编码
@@ -76,5 +77,10 @@ public class SysDictType implements Serializable {
 
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 关联的值
+     */
+    @TableField(exist = false)
+    List<SysDictValue> chidlist;
 
 }

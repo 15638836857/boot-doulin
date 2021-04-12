@@ -19,7 +19,7 @@ import java.util.Arrays;
  **/
 @Api(tags = "用户控制器类")
 @RestController
-@RequestMapping("/tUser")
+@RequestMapping("/tuser")
 public class TUserController {
 
     @Autowired
