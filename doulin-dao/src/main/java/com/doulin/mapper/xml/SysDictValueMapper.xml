@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysDictValue">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="label" property="label" jdbcType="VARCHAR"/>
         <result column="value" property="value" jdbcType="VARCHAR"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
@@ -61,5 +62,39 @@
         WHERE  t.del_flag = 0
         ORDER BY t.sort asc
     </select>
-
+    <select id="selectListByTypeCodeOrValue" resultMap="BaseResultMap">
+           SELECT
+                <include refid="Base_tColumn_List"/>
+            FROM
+                sys_dict_value t
+            WHERE
+                t.del_flag = 0
+            <if test="typeCode!='' and typeCode!=null">AND t.type_code=#{typeCode}</if>
+            <if test="value!='' and value!=null">AND t.`value`=#{value}</if>
+           order  by t.type_code asc,t.`value` asc
+    </select>
+    <select id="selectListByIds" parameterType="java.util.Arrays" resultMap="BaseResultMap">
+        SELECT
+            t.id,
+            t.type_code,
+           (SELECT b.type_name from sys_dict_type b where b.del_flag=0 and b.type_code=t.type_code) type_name,
+            t.label,
+            t.`value`,
+            t.sort,
+            t.remark,
+            t.del_flag,
+            t.add_by,
+            t.add_dt,
+            t.edit_by,
+            t.edit_dt
+        FROM
+            sys_dict_value t
+        WHERE
+            t.del_flag = 0
+           AND t.id in
+           <foreach collection="ids" index="id" open="(" separator="," close=")" item="id">
+               #{id}
+           </foreach>
+        ORDER BY t.type_code asc,t.sort asc
+    </select>
 </mapper>

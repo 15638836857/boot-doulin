@@ -21,4 +21,9 @@ public class ErrorContent {
     public static final String ERROR_DICT_TYPE_CODE_EXSIS = "字典类型code已存在";
     public static final String ERROR_PARAM_ID = "参数id有误";
     public static final String ERROR_DICT_TYPE_DELETE = "删除失败，有子集";
+    public static final String ERROR_DICT_TYPE_VALUE_NAME ="字典值名称不能为空" ;
+    public static final String ERROR_DICT_TYPE_VALUE ="字典值称不能为空" ;
+    public static final String ERROR_DICT_SORT = "字典排序不能为空";
+
+    public static final String ERROR_EMPTY_DICT_VALUE = "字典值已存在";
 }

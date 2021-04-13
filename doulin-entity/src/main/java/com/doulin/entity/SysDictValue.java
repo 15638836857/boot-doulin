@@ -23,7 +23,7 @@ import java.util.Date;
 public class SysDictValue implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     /**
@@ -32,7 +32,11 @@ public class SysDictValue implements Serializable {
     @ApiModelProperty(value = "类型编码")
     @TableField("type_code")
     private String typeCode;
-
+    /**
+     * 字典类型名称
+     */
+    @TableField(exist = false)
+    private String typeName;
     /**
      * 字典关联的值名称
      */

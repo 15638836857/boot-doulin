@@ -23,4 +23,8 @@ public interface SysDictValueMapper extends BaseMapper<SysDictValue> {
     List<SysDictValue> selectByTypeCodes(@Param("typeCodes")List<String> typeCodes);
 
     List<SysDictValue> selectByTypeIds(@Param("typeIds")List<Integer> typeIds);
+
+    List<SysDictValue> selectListByTypeCodeOrValue(@Param("typeCode") String typeCode,@Param("value") String value);
+
+    List<SysDictValue> selectListByIds(@Param("ids") List<Integer> ids);
 }
