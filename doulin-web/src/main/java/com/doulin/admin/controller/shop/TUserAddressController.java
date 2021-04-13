@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TShopHomeGroup;
+import com.doulin.entity.TUserAddress;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TShopHomeGroupService;
+import com.doulin.service.TUserAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TShopHomeGroupController
+ * TUserAddressController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "商家分组控制器类")
+@Api(tags = "用户购物地址控制器类")
 @RestController
-@RequestMapping("/tshopHomeGroup")
-public class TShopHomeGroupController {
+@RequestMapping("/tuserAddress")
+public class TUserAddressController {
 
     @Autowired
-    private TShopHomeGroupService tShopHomeGroupService;
+    private TUserAddressService tUserAddressService;
 
     /**
      * 新增
      *
-     * @param tShopHomeGroup
+     * @param tUserAddress
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TShopHomeGroup tShopHomeGroup) {
-        tShopHomeGroupService.save(tShopHomeGroup);
+    public void add(@RequestBody TUserAddress tUserAddress) {
+        tUserAddressService.save(tUserAddress);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TShopHomeGroupController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tShopHomeGroupService.removeByIds(Arrays.asList(ids));
+        tUserAddressService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tShopHomeGroup
+     * @param tUserAddress
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TShopHomeGroup tShopHomeGroup) {
-        tShopHomeGroupService.updateById(tShopHomeGroup);
+    public void update(@RequestBody TUserAddress tUserAddress) {
+        tUserAddressService.updateById(tUserAddress);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TShopHomeGroupController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TShopHomeGroup detail(@RequestParam("id") Long id) {
-        return tShopHomeGroupService.getById(id);
+    public TUserAddress detail(@RequestParam("id") Long id) {
+        return tUserAddressService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TShopHomeGroupController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TShopHomeGroup> userList(@RequestBody(required = false) VQuery query) {
-        return tShopHomeGroupService.page(query);
+    public IPage<TUserAddress> userList(@RequestBody(required = false) VQuery query) {
+        return tUserAddressService.page(query);
     }
 
 }

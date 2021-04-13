@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TOrderAfterDetail;
+import com.doulin.entity.SysUser;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TOrderAfterDetailService;
+import com.doulin.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TOrderAfterDetailController
+ * SysUserController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "用户订单售后控制器类")
+@Api(tags = "系统用户控制器类")
 @RestController
-@RequestMapping("/torderAfterDetail")
-public class TOrderAfterDetailController {
+@RequestMapping("/sysUser")
+public class SysUserController {
 
     @Autowired
-    private TOrderAfterDetailService tOrderAfterDetailService;
+    private SysUserService sysUserService;
 
     /**
      * 新增
      *
-     * @param tOrderAfterDetail
+     * @param sysUser
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TOrderAfterDetail tOrderAfterDetail) {
-        tOrderAfterDetailService.save(tOrderAfterDetail);
+    public void add(@RequestBody SysUser sysUser) {
+        sysUserService.save(sysUser);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TOrderAfterDetailController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tOrderAfterDetailService.removeByIds(Arrays.asList(ids));
+        sysUserService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tOrderAfterDetail
+     * @param sysUser
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TOrderAfterDetail tOrderAfterDetail) {
-        tOrderAfterDetailService.updateById(tOrderAfterDetail);
+    public void update(@RequestBody SysUser sysUser) {
+        sysUserService.updateById(sysUser);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TOrderAfterDetailController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TOrderAfterDetail detail(@RequestParam("id") Long id) {
-        return tOrderAfterDetailService.getById(id);
+    public SysUser detail(@RequestParam("id") Long id) {
+        return sysUserService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TOrderAfterDetailController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TOrderAfterDetail> userList(@RequestBody(required = false) VQuery query) {
-        return tOrderAfterDetailService.page(query);
+    public IPage<SysUser> userList(@RequestBody(required = false) VQuery query) {
+        return sysUserService.page(query);
     }
 
 }

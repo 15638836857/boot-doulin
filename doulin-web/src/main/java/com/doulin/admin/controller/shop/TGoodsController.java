@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysRoleMenu;
+import com.doulin.entity.TGoods;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysRoleMenuService;
+import com.doulin.service.TGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysRoleMenuController
+ * TGoodsController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统登录角色控制器类")
+@Api(tags = "商品控制器类")
 @RestController
-@RequestMapping("/sysRoleMenu")
-public class SysRoleMenuController {
+@RequestMapping("/tgoods")
+public class TGoodsController {
 
     @Autowired
-    private SysRoleMenuService sysRoleMenuService;
+    private TGoodsService tGoodsService;
 
     /**
      * 新增
      *
-     * @param sysRoleMenu
+     * @param tGoods
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysRoleMenu sysRoleMenu) {
-        sysRoleMenuService.save(sysRoleMenu);
+    public void add(@RequestBody TGoods tGoods) {
+        tGoodsService.save(tGoods);
     }
 
     /**
@@ -44,18 +44,18 @@ public class SysRoleMenuController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysRoleMenuService.removeByIds(Arrays.asList(ids));
+        tGoodsService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysRoleMenu
+     * @param tGoods
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysRoleMenu sysRoleMenu) {
-        sysRoleMenuService.updateById(sysRoleMenu);
+    public void update(@RequestBody TGoods tGoods) {
+        tGoodsService.updateById(tGoods);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SysRoleMenuController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysRoleMenu detail(@RequestParam("id") Long id) {
-        return sysRoleMenuService.getById(id);
+    public TGoods detail(@RequestParam("id") Long id) {
+        return tGoodsService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysRoleMenuController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysRoleMenu> userList(@RequestBody(required = false) VQuery query) {
-        return sysRoleMenuService.page(query);
+    public IPage<TGoods> userList(@RequestBody(required = false) VQuery query) {
+        return tGoodsService.page(query);
     }
 
 }

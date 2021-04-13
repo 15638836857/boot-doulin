@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TCar;
+import com.doulin.entity.SysRole;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TCarService;
+import com.doulin.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TCarController
+ * SysRoleController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "用户购物车控制器类")
+@Api(tags = "系统控制器类")
 @RestController
-@RequestMapping("/tcar")
-public class TCarController {
+@RequestMapping("/sysRole")
+public class SysRoleController {
 
     @Autowired
-    private TCarService tCarService;
+    private SysRoleService sysRoleService;
 
     /**
      * 新增
      *
-     * @param tCar
+     * @param sysRole
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TCar tCar) {
-        tCarService.save(tCar);
+    public void add(@RequestBody SysRole sysRole) {
+        sysRoleService.save(sysRole);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TCarController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tCarService.removeByIds(Arrays.asList(ids));
+        sysRoleService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tCar
+     * @param sysRole
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TCar tCar) {
-        tCarService.updateById(tCar);
+    public void update(@RequestBody SysRole sysRole) {
+        sysRoleService.updateById(sysRole);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TCarController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TCar detail(@RequestParam("id") Long id) {
-        return tCarService.getById(id);
+    public SysRole detail(@RequestParam("id") Long id) {
+        return sysRoleService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TCarController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TCar> userList(@RequestBody(required = false) VQuery query) {
-        return tCarService.page(query);
+    public IPage<SysRole> userList(@RequestBody(required = false) VQuery query) {
+        return sysRoleService.page(query);
     }
 
 }

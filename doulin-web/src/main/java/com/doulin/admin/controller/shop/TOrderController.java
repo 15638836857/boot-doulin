@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysUser;
+import com.doulin.entity.TOrder;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysUserService;
+import com.doulin.service.TOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysUserController
+ * TOrderController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统用户控制器类")
+@Api(tags = "用户订单控制器类")
 @RestController
-@RequestMapping("/sysUser")
-public class SysUserController {
+@RequestMapping("/torder")
+public class TOrderController {
 
     @Autowired
-    private SysUserService sysUserService;
+    private TOrderService tOrderService;
 
     /**
      * 新增
      *
-     * @param sysUser
+     * @param tOrder
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysUser sysUser) {
-        sysUserService.save(sysUser);
+    public void add(@RequestBody TOrder tOrder) {
+        tOrderService.save(tOrder);
     }
 
     /**
@@ -44,18 +44,18 @@ public class SysUserController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysUserService.removeByIds(Arrays.asList(ids));
+        tOrderService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysUser
+     * @param tOrder
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysUser sysUser) {
-        sysUserService.updateById(sysUser);
+    public void update(@RequestBody TOrder tOrder) {
+        tOrderService.updateById(tOrder);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SysUserController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysUser detail(@RequestParam("id") Long id) {
-        return sysUserService.getById(id);
+    public TOrder detail(@RequestParam("id") Long id) {
+        return tOrderService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysUserController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysUser> userList(@RequestBody(required = false) VQuery query) {
-        return sysUserService.page(query);
+    public IPage<TOrder> userList(@RequestBody(required = false) VQuery query) {
+        return tOrderService.page(query);
     }
 
 }

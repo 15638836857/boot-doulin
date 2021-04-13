@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TGoods;
+import com.doulin.entity.SysMenu;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TGoodsService;
+import com.doulin.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TGoodsController
+ * SysMenuController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "商品控制器类")
+@Api(tags = "系统菜单控制器类")
 @RestController
-@RequestMapping("/tgoods")
-public class TGoodsController {
+@RequestMapping("/sysMenu")
+public class SysMenuController {
 
     @Autowired
-    private TGoodsService tGoodsService;
+    private SysMenuService sysMenuService;
 
     /**
      * 新增
      *
-     * @param tGoods
+     * @param sysMenu
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TGoods tGoods) {
-        tGoodsService.save(tGoods);
+    public void add(@RequestBody SysMenu sysMenu) {
+        sysMenuService.save(sysMenu);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TGoodsController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tGoodsService.removeByIds(Arrays.asList(ids));
+        sysMenuService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tGoods
+     * @param sysMenu
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TGoods tGoods) {
-        tGoodsService.updateById(tGoods);
+    public void update(@RequestBody SysMenu sysMenu) {
+        sysMenuService.updateById(sysMenu);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TGoodsController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TGoods detail(@RequestParam("id") Long id) {
-        return tGoodsService.getById(id);
+    public SysMenu detail(@RequestParam("id") Long id) {
+        return sysMenuService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TGoodsController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TGoods> userList(@RequestBody(required = false) VQuery query) {
-        return tGoodsService.page(query);
+    public IPage<SysMenu> userList(@RequestBody(required = false) VQuery query) {
+        return sysMenuService.page(query);
     }
 
 }

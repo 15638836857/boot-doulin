@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysSalesman;
+import com.doulin.entity.SysLog;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysSalesmanService;
+import com.doulin.service.SysLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysSalesmanController
+ * SysLogController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "业务员控制器类")
+@Api(tags = "系统请求日志控制器类")
 @RestController
-@RequestMapping("/sysSalesman")
-public class SysSalesmanController {
+@RequestMapping("/sysLog")
+public class SysLogController {
 
     @Autowired
-    private SysSalesmanService sysSalesmanService;
+    private SysLogService sysLogService;
 
     /**
      * 新增
      *
-     * @param sysSalesman
+     * @param sysLog
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysSalesman sysSalesman) {
-        sysSalesmanService.save(sysSalesman);
+    public void add(@RequestBody SysLog sysLog) {
+        sysLogService.save(sysLog);
     }
 
     /**
@@ -44,18 +44,18 @@ public class SysSalesmanController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysSalesmanService.removeByIds(Arrays.asList(ids));
+        sysLogService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysSalesman
+     * @param sysLog
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysSalesman sysSalesman) {
-        sysSalesmanService.updateById(sysSalesman);
+    public void update(@RequestBody SysLog sysLog) {
+        sysLogService.updateById(sysLog);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SysSalesmanController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysSalesman detail(@RequestParam("id") Long id) {
-        return sysSalesmanService.getById(id);
+    public SysLog detail(@RequestParam("id") Long id) {
+        return sysLogService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysSalesmanController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysSalesman> userList(@RequestBody(required = false) VQuery query) {
-        return sysSalesmanService.page(query);
+    public IPage<SysLog> userList(@RequestBody(required = false) VQuery query) {
+        return sysLogService.page(query);
     }
 
 }

@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysDept;
+import com.doulin.entity.TShopHomeGroup;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysDeptService;
+import com.doulin.service.TShopHomeGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysDeptController
+ * TShopHomeGroupController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "部门控制器类")
+@Api(tags = "商家分组控制器类")
 @RestController
-@RequestMapping("/sysDept")
-public class SysDeptController {
+@RequestMapping("/tshopHomeGroup")
+public class TShopHomeGroupController {
 
     @Autowired
-    private SysDeptService sysDeptService;
+    private TShopHomeGroupService tShopHomeGroupService;
 
     /**
      * 新增
      *
-     * @param sysDept
+     * @param tShopHomeGroup
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysDept sysDept) {
-        sysDeptService.save(sysDept);
+    public void add(@RequestBody TShopHomeGroup tShopHomeGroup) {
+        tShopHomeGroupService.save(tShopHomeGroup);
     }
 
     /**
@@ -44,18 +44,18 @@ public class SysDeptController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysDeptService.removeByIds(Arrays.asList(ids));
+        tShopHomeGroupService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysDept
+     * @param tShopHomeGroup
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysDept sysDept) {
-        sysDeptService.updateById(sysDept);
+    public void update(@RequestBody TShopHomeGroup tShopHomeGroup) {
+        tShopHomeGroupService.updateById(tShopHomeGroup);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SysDeptController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysDept detail(@RequestParam("id") Long id) {
-        return sysDeptService.getById(id);
+    public TShopHomeGroup detail(@RequestParam("id") Long id) {
+        return tShopHomeGroupService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysDeptController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysDept> userList(@RequestBody(required = false) VQuery query) {
-        return sysDeptService.page(query);
+    public IPage<TShopHomeGroup> userList(@RequestBody(required = false) VQuery query) {
+        return tShopHomeGroupService.page(query);
     }
 
 }

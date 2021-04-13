@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TUser;
+import com.doulin.entity.TOrderAfterDetail;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TUserService;
+import com.doulin.service.TOrderAfterDetailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TUserController
+ * TOrderAfterDetailController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "用户控制器类")
+@Api(tags = "用户订单售后控制器类")
 @RestController
-@RequestMapping("/tuser")
-public class TUserController {
+@RequestMapping("/torderAfterDetail")
+public class TOrderAfterDetailController {
 
     @Autowired
-    private TUserService tUserService;
+    private TOrderAfterDetailService tOrderAfterDetailService;
 
     /**
      * 新增
      *
-     * @param tUser
+     * @param tOrderAfterDetail
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TUser tUser) {
-        tUserService.save(tUser);
+    public void add(@RequestBody TOrderAfterDetail tOrderAfterDetail) {
+        tOrderAfterDetailService.save(tOrderAfterDetail);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TUserController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tUserService.removeByIds(Arrays.asList(ids));
+        tOrderAfterDetailService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tUser
+     * @param tOrderAfterDetail
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TUser tUser) {
-        tUserService.updateById(tUser);
+    public void update(@RequestBody TOrderAfterDetail tOrderAfterDetail) {
+        tOrderAfterDetailService.updateById(tOrderAfterDetail);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TUserController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TUser detail(@RequestParam("id") Long id) {
-        return tUserService.getById(id);
+    public TOrderAfterDetail detail(@RequestParam("id") Long id) {
+        return tOrderAfterDetailService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TUserController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TUser> userList(@RequestBody(required = false) VQuery query) {
-        return tUserService.page(query);
+    public IPage<TOrderAfterDetail> userList(@RequestBody(required = false) VQuery query) {
+        return tOrderAfterDetailService.page(query);
     }
 
 }

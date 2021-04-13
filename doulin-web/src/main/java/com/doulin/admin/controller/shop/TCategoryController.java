@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TGoodsSku;
+import com.doulin.entity.TCategory;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TGoodsSkuService;
+import com.doulin.service.TCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TGoodsSkuController
+ * TCategoryController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "产品规格控制器类")
+@Api(tags = "商品分类控制器类")
 @RestController
-@RequestMapping("/tgoodsSku")
-public class TGoodsSkuController {
+@RequestMapping("/tcategory")
+public class TCategoryController {
 
     @Autowired
-    private TGoodsSkuService tGoodsSkuService;
+    private TCategoryService tCategoryService;
 
     /**
      * 新增
      *
-     * @param tGoodsSku
+     * @param tCategory
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TGoodsSku tGoodsSku) {
-        tGoodsSkuService.save(tGoodsSku);
+    public void add(@RequestBody TCategory tCategory) {
+        tCategoryService.save(tCategory);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TGoodsSkuController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tGoodsSkuService.removeByIds(Arrays.asList(ids));
+        tCategoryService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tGoodsSku
+     * @param tCategory
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TGoodsSku tGoodsSku) {
-        tGoodsSkuService.updateById(tGoodsSku);
+    public void update(@RequestBody TCategory tCategory) {
+        tCategoryService.updateById(tCategory);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TGoodsSkuController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TGoodsSku detail(@RequestParam("id") Long id) {
-        return tGoodsSkuService.getById(id);
+    public TCategory detail(@RequestParam("id") Long id) {
+        return tCategoryService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TGoodsSkuController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TGoodsSku> userList(@RequestBody(required = false) VQuery query) {
-        return tGoodsSkuService.page(query);
+    public IPage<TCategory> userList(@RequestBody(required = false) VQuery query) {
+        return tCategoryService.page(query);
     }
 
 }

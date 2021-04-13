@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysLog;
+import com.doulin.entity.SysDept;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysLogService;
+import com.doulin.service.SysDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysLogController
+ * SysDeptController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统请求日志控制器类")
+@Api(tags = "部门控制器类")
 @RestController
-@RequestMapping("/sysLog")
-public class SysLogController {
+@RequestMapping("/sysDept")
+public class SysDeptController {
 
     @Autowired
-    private SysLogService sysLogService;
+    private SysDeptService sysDeptService;
 
     /**
      * 新增
      *
-     * @param sysLog
+     * @param sysDept
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysLog sysLog) {
-        sysLogService.save(sysLog);
+    public void add(@RequestBody SysDept sysDept) {
+        sysDeptService.save(sysDept);
     }
 
     /**
@@ -44,18 +44,18 @@ public class SysLogController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysLogService.removeByIds(Arrays.asList(ids));
+        sysDeptService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysLog
+     * @param sysDept
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysLog sysLog) {
-        sysLogService.updateById(sysLog);
+    public void update(@RequestBody SysDept sysDept) {
+        sysDeptService.updateById(sysDept);
     }
 
     /**
@@ -66,8 +66,8 @@ public class SysLogController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysLog detail(@RequestParam("id") Long id) {
-        return sysLogService.getById(id);
+    public SysDept detail(@RequestParam("id") Long id) {
+        return sysDeptService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SysLogController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysLog> userList(@RequestBody(required = false) VQuery query) {
-        return sysLogService.page(query);
+    public IPage<SysDept> userList(@RequestBody(required = false) VQuery query) {
+        return sysDeptService.page(query);
     }
 
 }

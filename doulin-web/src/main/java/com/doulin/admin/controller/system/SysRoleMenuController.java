@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TCategory;
+import com.doulin.entity.SysRoleMenu;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TCategoryService;
+import com.doulin.service.SysRoleMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TCategoryController
+ * SysRoleMenuController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "商品分类控制器类")
+@Api(tags = "系统登录角色控制器类")
 @RestController
-@RequestMapping("/tcategory")
-public class TCategoryController {
+@RequestMapping("/sysRoleMenu")
+public class SysRoleMenuController {
 
     @Autowired
-    private TCategoryService tCategoryService;
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * 新增
      *
-     * @param tCategory
+     * @param sysRoleMenu
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TCategory tCategory) {
-        tCategoryService.save(tCategory);
+    public void add(@RequestBody SysRoleMenu sysRoleMenu) {
+        sysRoleMenuService.save(sysRoleMenu);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TCategoryController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tCategoryService.removeByIds(Arrays.asList(ids));
+        sysRoleMenuService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tCategory
+     * @param sysRoleMenu
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TCategory tCategory) {
-        tCategoryService.updateById(tCategory);
+    public void update(@RequestBody SysRoleMenu sysRoleMenu) {
+        sysRoleMenuService.updateById(sysRoleMenu);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TCategoryController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TCategory detail(@RequestParam("id") Long id) {
-        return tCategoryService.getById(id);
+    public SysRoleMenu detail(@RequestParam("id") Long id) {
+        return sysRoleMenuService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TCategoryController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TCategory> userList(@RequestBody(required = false) VQuery query) {
-        return tCategoryService.page(query);
+    public IPage<SysRoleMenu> userList(@RequestBody(required = false) VQuery query) {
+        return sysRoleMenuService.page(query);
     }
 
 }

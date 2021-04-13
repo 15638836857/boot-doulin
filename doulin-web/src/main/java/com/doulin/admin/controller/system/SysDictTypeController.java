@@ -1,4 +1,4 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;

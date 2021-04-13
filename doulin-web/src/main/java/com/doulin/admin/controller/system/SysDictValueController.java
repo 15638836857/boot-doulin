@@ -1,9 +1,10 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.SysMenu;
+import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.entity.SysDictValue;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysMenuService;
+import com.doulin.service.SysDictValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +13,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysMenuController
+ * SysDictValueController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统菜单控制器类")
+@Api(tags = "字典值控制器类")
 @RestController
-@RequestMapping("/sysMenu")
-public class SysMenuController {
+@RequestMapping("/sysDictValue")
+public class SysDictValueController extends BaseWebController {
 
     @Autowired
-    private SysMenuService sysMenuService;
+    private SysDictValueService sysDictValueService;
 
     /**
      * 新增
      *
-     * @param sysMenu
+     * @param sysDictValue
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysMenu sysMenu) {
-        sysMenuService.save(sysMenu);
+    public void add(@RequestBody SysDictValue sysDictValue) {
+        sysDictValueService.save(sysDictValue);
     }
 
     /**
@@ -44,18 +45,18 @@ public class SysMenuController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysMenuService.removeByIds(Arrays.asList(ids));
+        sysDictValueService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysMenu
+     * @param sysDictValue
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysMenu sysMenu) {
-        sysMenuService.updateById(sysMenu);
+    public void update(@RequestBody SysDictValue sysDictValue) {
+        sysDictValueService.updateById(sysDictValue);
     }
 
     /**
@@ -66,8 +67,8 @@ public class SysMenuController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysMenu detail(@RequestParam("id") Long id) {
-        return sysMenuService.getById(id);
+    public SysDictValue detail(@RequestParam("id") Long id) {
+        return sysDictValueService.getById(id);
     }
 
     /**
@@ -78,8 +79,8 @@ public class SysMenuController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysMenu> userList(@RequestBody(required = false) VQuery query) {
-        return sysMenuService.page(query);
+    public IPage<SysDictValue> userList(@RequestBody(required = false) VQuery query) {
+        return sysDictValueService.page(query);
     }
 
 }

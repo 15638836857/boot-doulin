@@ -1,10 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.admin.controller.common.BaseWebController;
-import com.doulin.entity.SysDictValue;
+import com.doulin.entity.SysSalesman;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.SysDictValueService;
+import com.doulin.service.SysSalesmanService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * SysDictValueController
+ * SysSalesmanController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "字典值控制器类")
+@Api(tags = "业务员控制器类")
 @RestController
-@RequestMapping("/sysDictValue")
-public class SysDictValueController extends BaseWebController {
+@RequestMapping("/sysSalesman")
+public class SysSalesmanController {
 
     @Autowired
-    private SysDictValueService sysDictValueService;
+    private SysSalesmanService sysSalesmanService;
 
     /**
      * 新增
      *
-     * @param sysDictValue
+     * @param sysSalesman
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody SysDictValue sysDictValue) {
-        sysDictValueService.save(sysDictValue);
+    public void add(@RequestBody SysSalesman sysSalesman) {
+        sysSalesmanService.save(sysSalesman);
     }
 
     /**
@@ -45,18 +44,18 @@ public class SysDictValueController extends BaseWebController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        sysDictValueService.removeByIds(Arrays.asList(ids));
+        sysSalesmanService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param sysDictValue
+     * @param sysSalesman
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody SysDictValue sysDictValue) {
-        sysDictValueService.updateById(sysDictValue);
+    public void update(@RequestBody SysSalesman sysSalesman) {
+        sysSalesmanService.updateById(sysSalesman);
     }
 
     /**
@@ -67,8 +66,8 @@ public class SysDictValueController extends BaseWebController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public SysDictValue detail(@RequestParam("id") Long id) {
-        return sysDictValueService.getById(id);
+    public SysSalesman detail(@RequestParam("id") Long id) {
+        return sysSalesmanService.getById(id);
     }
 
     /**
@@ -79,8 +78,8 @@ public class SysDictValueController extends BaseWebController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<SysDictValue> userList(@RequestBody(required = false) VQuery query) {
-        return sysDictValueService.page(query);
+    public IPage<SysSalesman> userList(@RequestBody(required = false) VQuery query) {
+        return sysSalesmanService.page(query);
     }
 
 }

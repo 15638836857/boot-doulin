@@ -1,9 +1,9 @@
-package com.doulin.admin.controller;
+package com.doulin.admin.controller.shop;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.doulin.entity.TOrderOrCarGoods;
+import com.doulin.entity.TCar;
 import com.doulin.entity.vo.VQuery;
-import com.doulin.service.TOrderOrCarGoodsService;
+import com.doulin.service.TCarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * TOrderOrCarGoodsController
+ * TCarController
  *
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "订单或购物车商品控制器类")
+@Api(tags = "用户购物车控制器类")
 @RestController
-@RequestMapping("/torderOrCarGoods")
-public class TOrderOrCarGoodsController {
+@RequestMapping("/tcar")
+public class TCarController {
 
     @Autowired
-    private TOrderOrCarGoodsService tOrderOrCarGoodsService;
+    private TCarService tCarService;
 
     /**
      * 新增
      *
-     * @param tOrderOrCarGoods
+     * @param tCar
      */
     @ApiOperation(value = "add", notes = "")
     @PostMapping("/add")
-    public void add(@RequestBody TOrderOrCarGoods tOrderOrCarGoods) {
-        tOrderOrCarGoodsService.save(tOrderOrCarGoods);
+    public void add(@RequestBody TCar tCar) {
+        tCarService.save(tCar);
     }
 
     /**
@@ -44,18 +44,18 @@ public class TOrderOrCarGoodsController {
     @ApiOperation(value = "delete", notes = "")
     @GetMapping("/delete")
     public void delete(@RequestParam("ids") Long... ids) {
-        tOrderOrCarGoodsService.removeByIds(Arrays.asList(ids));
+        tCarService.removeByIds(Arrays.asList(ids));
     }
 
     /**
      * 更新
      *
-     * @param tOrderOrCarGoods
+     * @param tCar
      */
     @ApiOperation(value = "update", notes = "")
     @PostMapping("/update")
-    public void update(@RequestBody TOrderOrCarGoods tOrderOrCarGoods) {
-        tOrderOrCarGoodsService.updateById(tOrderOrCarGoods);
+    public void update(@RequestBody TCar tCar) {
+        tCarService.updateById(tCar);
     }
 
     /**
@@ -66,8 +66,8 @@ public class TOrderOrCarGoodsController {
      */
     @ApiOperation(value = "detail", notes = "")
     @GetMapping("/detail")
-    public TOrderOrCarGoods detail(@RequestParam("id") Long id) {
-        return tOrderOrCarGoodsService.getById(id);
+    public TCar detail(@RequestParam("id") Long id) {
+        return tCarService.getById(id);
     }
 
     /**
@@ -78,8 +78,8 @@ public class TOrderOrCarGoodsController {
      */
     @ApiOperation(value = "page", notes = "")
     @PostMapping("/page")
-    public IPage<TOrderOrCarGoods> userList(@RequestBody(required = false) VQuery query) {
-        return tOrderOrCarGoodsService.page(query);
+    public IPage<TCar> userList(@RequestBody(required = false) VQuery query) {
+        return tCarService.page(query);
     }
 
 }
