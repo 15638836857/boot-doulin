@@ -1,19 +1,14 @@
 package com.doulin.admin.controller.system;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.map.MapUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.admin.controller.common.BaseWebController;
 import com.doulin.common.MyException;
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
-import com.doulin.entity.SysDictType;
 import com.doulin.entity.SysDictValue;
-import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysDictValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -171,7 +166,7 @@ public class SysDictValueController extends BaseWebController {
             "    \t\"id\":123213\n" +
             "    }\n" +
             "}")
-    @GetMapping("/detail")
+    @PostMapping("/detail")
     public Object detail(@RequestBody  Map<String,Object> requestMap) {
         try {
             Map<String,Object> vmap=getVvalue(requestMap);

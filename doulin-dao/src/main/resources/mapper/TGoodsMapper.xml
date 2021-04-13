@@ -3,7 +3,7 @@
 <mapper namespace="com.doulin.mapper.TGoodsMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TGoods">
-        <id column="id" property="id" jdbcType="LONG"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
         <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
@@ -13,7 +13,7 @@
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="sales_volume" property="salesVolume" jdbcType="BIG_DECIMAL"/>
+        <result column="sales_volume" property="salesVolume" jdbcType="DECIMAL"/>
         <result column="goods_lowerframe" property="goodsLowerframe" jdbcType="VARCHAR"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>

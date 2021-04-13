@@ -1,9 +1,5 @@
 package com.doulin.common.content;
 
-import com.doulin.entity.SysDictType;
-
-import java.util.Map;
-
 /**
  * @className 系统
  * @Description TODO
@@ -35,6 +31,10 @@ public class SysContent extends ErrorContent{
     public static final String PAGE ="page" ;
     public static final String ROWS = "rows";
 
+    public static final String TELE_PHONE ="tele_phone" ;
 
+
+    public static final String Y_STR = "Y";
+    public static final String N_STR = "N";
 
 }

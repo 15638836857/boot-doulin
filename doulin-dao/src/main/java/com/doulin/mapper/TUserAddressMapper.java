@@ -13,7 +13,7 @@ import com.doulin.entity.vo.VQuery;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface TUserAddressMapper extends BaseMapper<TUserAddress> {
 
     IPage<TUserAddress> findByQuery(IPage<TUserAddress> page, @Param("query") VQuery query);

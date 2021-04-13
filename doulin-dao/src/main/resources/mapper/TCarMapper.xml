@@ -3,8 +3,8 @@
 <mapper namespace="com.doulin.mapper.TCarMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TCar">
-        <id column="car_id" property="carId" jdbcType="LONG"/>
-        <result column="user_id" property="userId" jdbcType="LONG"/>
+        <id column="car_id" property="carId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>

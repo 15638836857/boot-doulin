@@ -3,11 +3,11 @@
 <mapper namespace="com.doulin.mapper.TShopHomeBaseInfoMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeBaseInfo">
-        <id column="id" property="id" jdbcType="LONG"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
         <result column="shop_home_name" property="shopHomeName" jdbcType="VARCHAR"/>
         <result column="shop_grop_code" property="shopGropCode" jdbcType="VARCHAR"/>
-        <result column="shop_user_id" property="shopUserId" jdbcType="LONG"/>
+        <result column="shop_user_id" property="shopUserId" jdbcType="INTEGER"/>
         <result column="community_code" property="communityCode" jdbcType="VARCHAR"/>
         <result column="shop_province" property="shopProvince" jdbcType="VARCHAR"/>
         <result column="shop_city" property="shopCity" jdbcType="VARCHAR"/>
@@ -16,7 +16,7 @@
         <result column="shop_flag" property="shopFlag" jdbcType="VARCHAR"/>
         <result column="shop_open_business_time" property="shopOpenBusinessTime" jdbcType="TIMESTAMP"/>
         <result column="shop_close_business_time" property="shopCloseBusinessTime" jdbcType="TIMESTAMP"/>
-        <result column="shop_balance" property="shopBalance" jdbcType="BIG_DECIMAL"/>
+        <result column="shop_balance" property="shopBalance" jdbcType="DECIMAL"/>
         <result column="shop_title_image" property="shopTitleImage" jdbcType="VARCHAR"/>
         <result column="shop_logo" property="shopLogo" jdbcType="VARCHAR"/>
         <result column="shop_indoor_photo" property="shopIndoorPhoto" jdbcType="VARCHAR"/>

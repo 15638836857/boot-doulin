@@ -4,7 +4,6 @@ package com.doulin.admin.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @Version 1.0
  */
 @Configuration
-@MapperScan("com.doulin.mapper")
+@MapperScan(basePackages = {"com.*.mapper"})
 public class MybatisPlusConfig {
 
     /**

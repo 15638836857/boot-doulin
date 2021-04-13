@@ -1,7 +1,5 @@
 package com.doulin.common.content;
 
-import java.util.Map;
-
 /**
  * @className 异常常量信息类
  * @Description TODO
@@ -24,6 +22,15 @@ public class ErrorContent {
     public static final String ERROR_DICT_TYPE_VALUE_NAME ="字典值名称不能为空" ;
     public static final String ERROR_DICT_TYPE_VALUE ="字典值称不能为空" ;
     public static final String ERROR_DICT_SORT = "字典排序不能为空";
-
     public static final String ERROR_EMPTY_DICT_VALUE = "字典值已存在";
+    public static final String ERROR_MOBILE = "手机号有误";
+
+    public static final String ERROR_PSSWORD = "密码有误" ;
+    public static final String ERROR_REAL_NAME ="用户名称有误" ;
+    public static final String ERROR_DEPT = "部门有误";
+    public static final String ERROR_SYS_USER_EXSIS = "系统用户已存在";
+
+    public static final String ERROR_USER = "用户信息有误";
+    public static final String ERROR_EMPTY = "无数据";
+    public static final String ERROR_SELECT = "查询失败";
 }

@@ -1,14 +1,24 @@
 package com.doulin.service.impl;
 
+import cn.hutool.core.util.PhoneUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.doulin.common.MyException;
+import com.doulin.common.content.ErrorContent;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysUser;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysUserMapper;
 import com.doulin.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -18,9 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date 2021-04-09
  **/
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
+    @Autowired
+    private SysUserMapper sysUserMapper;
     @Override
     public IPage<SysUser> page(VQuery query) {
         IPage<SysUser> page = new Page<>();
@@ -28,7 +39,89 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Integer pageSize = query.getPageSize();
         page.setCurrent(pageNum == null ? 1 : pageNum);
         page.setSize(pageSize == null ? 10 : pageSize);
-        return baseMapper.findByQuery(page, query);
+        return sysUserMapper.findByQuery(page, query);
+    }
+
+    @Override
+    public SysUser getOneByTelePhone(String telePhone) {
+        QueryWrapper<SysUser> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq(SysContent.TELE_PHONE,telePhone);
+        queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
+        return getOne(queryWrapper);
+    }
+
+    @Override
+    public void verificationSysUser(String oper,SysUser sysUser) throws MyException {
+        //判断是否符合条件
+        if(StrUtil.isEmpty(sysUser.getTelePhone()) || !PhoneUtil.isMobile(sysUser.getTelePhone())){
+            throw new MyException(SysContent.ERROR_MOBILE);
+        }else if(StrUtil.isEmpty(sysUser.getPassword())){
+            throw new MyException(SysContent.ERROR_PSSWORD);
+        }else if(StrUtil.isEmpty(sysUser.getRealName())){
+            throw new MyException(ErrorContent.ERROR_REAL_NAME);
+        }else if(null==sysUser.getDeptId()){
+            throw new MyException(ErrorContent.ERROR_DEPT);
+        }
+
+        if(SysContent.OPER_ADD.equals(oper)){
+            if(null!=getOneByTelePhone(sysUser.getTelePhone())){
+                throw new MyException(SysContent.ERROR_SYS_USER_EXSIS);
+            }
+        }else if(SysContent.OPER_EDIT.equals(oper)){
+            if(null==sysUser.getId()){
+                throw new MyException(SysContent.ERROR_ID);
+            }else {
+                SysUser use=getOneByTelePhone(sysUser.getTelePhone());
+                if(!use.getId().equals(sysUser.getId())){
+                    throw new MyException(SysContent.ERROR_USER);
+                }
+            }
+        }else if(SysContent.OPER_DELETE.equals(oper)){
+            if(null==sysUser.getId()){
+                throw new MyException(SysContent.ERROR_ID);
+            }
+        }else{
+            throw new MyException(SysContent.ERROR_OPER);
+        }
+
+    }
+    @Transactional(rollbackFor = MyException.class)
+    @Override
+    public boolean addAndUpdate(String oper, SysUser sysUser) throws MyException {
+        verificationSysUser(oper,sysUser);
+        boolean flag=false;
+        if(SysContent.OPER_ADD.equals(oper)){
+            if(save(sysUser)){
+                flag=true;
+            }
+        }else if(SysContent.OPER_EDIT.equals(oper)){
+            if(updateById(sysUser)){
+                flag=true;
+            }
+        }
+        return flag;
+    }
+    @Transactional(rollbackFor = MyException.class)
+    @Override
+    public boolean deleteByIds(List<Integer> ids) throws MyException {
+        try {
+            sysUserMapper.deleteByIds(ids);
+            return true;
+        } catch (Exception e) {
+           throw new MyException(e.getMessage());
+        }
+    }
+
+    @Override
+    public IPage<SysUser> pageInfo(Map<String, Object> map) {
+        List<SysUser> datalist=sysUserMapper.selectPageData(map);
+        Integer count=sysUserMapper.selectPageToTal(map);
+        IPage<SysUser> page=new Page<>();
+        page.setTotal(Long.valueOf(count.toString()));
+        page.setCurrent(Long.valueOf(map.get(SysContent.PAGE).toString()));
+        page.setSize(Long.valueOf(map.get(SysContent.ROWS).toString()));
+        page.setRecords(datalist);
+        return page;
     }
 
 }

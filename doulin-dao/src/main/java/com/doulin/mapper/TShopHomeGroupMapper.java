@@ -13,7 +13,7 @@ import com.doulin.entity.vo.VQuery;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface TShopHomeGroupMapper extends BaseMapper<TShopHomeGroup> {
 
     IPage<TShopHomeGroup> findByQuery(IPage<TShopHomeGroup> page, @Param("query") VQuery query);

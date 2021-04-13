@@ -25,14 +25,14 @@ public class TOrderAfterDetail implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 订单编号
      */
     @ApiModelProperty(value = "订单编号")
     @TableField("order_id")
-    private Long orderId;
+    private Integer orderId;
 
     /**
      * 售后处理 类型  来源字典value
@@ -46,7 +46,7 @@ public class TOrderAfterDetail implements Serializable {
      */
     @ApiModelProperty(value = "客户id")
     @TableField("user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 售后处理描述

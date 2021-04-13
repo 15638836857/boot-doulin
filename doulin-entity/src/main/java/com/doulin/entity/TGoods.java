@@ -28,7 +28,7 @@ public class TGoods implements Serializable {
      */
     @ApiModelProperty(value = "分类id")
     @TableId("id")
-    private Long id;
+    private Integer id;
 
     @TableField("category_id")
     private Integer categoryId;

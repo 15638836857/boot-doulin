@@ -3,7 +3,7 @@
 <mapper namespace="com.doulin.mapper.SysDictTypeMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysDictType">
-        <id column="id" property="id" jdbcType="LONG"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
@@ -85,7 +85,10 @@
             <if test="typeCode!='' and typeCode!=null">AND d.type_code=#{typeCode}</if>
             <if test="typeName!='' and typeName!=null">AND d.type_name like  #{typeName}'%'</if>
         ) t
-        limit (#{page}-1)*#{rows},#{page}
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
 
 
     </select>

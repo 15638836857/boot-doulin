@@ -13,7 +13,7 @@ import com.doulin.entity.vo.VQuery;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface SysLogMapper extends BaseMapper<SysLog> {
 
     IPage<SysLog> findByQuery(IPage<SysLog> page, @Param("query") VQuery query);

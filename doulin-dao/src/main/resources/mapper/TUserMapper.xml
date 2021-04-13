@@ -3,7 +3,7 @@
 <mapper namespace="com.doulin.mapper.TUserMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TUser">
-        <id column="id" property="id" jdbcType="LONG"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -11,7 +11,7 @@
         <result column="shop_flag" property="shopFlag" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="user_logo" property="userLogo" jdbcType="VARCHAR"/>
-        <result column="balance" property="balance" jdbcType="BIG_DECIMAL"/>
+        <result column="balance" property="balance" jdbcType="DECIMAL"/>
         <result column="sex" property="sex" jdbcType="INTEGER"/>
         <result column="job" property="job" jdbcType="VARCHAR"/>
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>

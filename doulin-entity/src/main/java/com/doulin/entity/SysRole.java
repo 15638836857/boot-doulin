@@ -24,7 +24,7 @@ public class SysRole implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 角色名称

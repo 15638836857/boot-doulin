@@ -24,14 +24,14 @@ public class TCar implements Serializable {
 
 
     @TableId(value = "car_id", type = IdType.AUTO)
-    private Long carId;
+    private Integer carId;
 
     /**
      * 用户id
      */
     @ApiModelProperty(value = "用户id")
     @TableField("user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 是否删除  0/1

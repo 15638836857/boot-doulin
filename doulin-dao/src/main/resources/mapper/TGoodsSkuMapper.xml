@@ -3,11 +3,11 @@
 <mapper namespace="com.doulin.mapper.TGoodsSkuMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TGoodsSku">
-        <id column="id" property="id" jdbcType="LONG"/>
-        <result column="goods_id" property="goodsId" jdbcType="LONG"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_id" property="goodsId" jdbcType="INTEGER"/>
         <result column="sku" property="sku" jdbcType="VARCHAR"/>
-        <result column="price" property="price" jdbcType="BIG_DECIMAL"/>
-        <result column="cu_price" property="cuPrice" jdbcType="BIG_DECIMAL"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="cu_price" property="cuPrice" jdbcType="DECIMAL"/>
         <result column="stock" property="stock" jdbcType="INTEGER"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="VARCHAR"/>

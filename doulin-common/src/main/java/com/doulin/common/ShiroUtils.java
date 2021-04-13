@@ -25,7 +25,7 @@ public class ShiroUtils {
     }
 
     public static Long getUserId() {
-        return getUser().getId();
+        return Long.valueOf(getUser().getId().toString());
     }
 
     public static void logout() {

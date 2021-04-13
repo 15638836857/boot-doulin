@@ -15,7 +15,7 @@ import java.util.List;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface SysDictValueMapper extends BaseMapper<SysDictValue> {
 
     IPage<SysDictValue> findByQuery(IPage<SysDictValue> page, @Param("query") VQuery query);

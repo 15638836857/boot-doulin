@@ -5,7 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.TOrder">
         <id column="order_id" property="orderId" jdbcType="INTEGER"/>
         <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
-        <result column="order_money" property="orderMoney" jdbcType="BIG_DECIMAL"/>
+        <result column="order_money" property="orderMoney" jdbcType="DECIMAL"/>
         <result column="order_type" property="orderType" jdbcType="INTEGER"/>
         <result column="order_user_state" property="orderUserState" jdbcType="INTEGER"/>
         <result column="order_shop_state" property="orderShopState" jdbcType="INTEGER"/>
@@ -13,7 +13,7 @@
         <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
         <result column="user_id" property="userId" jdbcType="INTEGER"/>
         <result column="order_pay_type" property="orderPayType" jdbcType="INTEGER"/>
-        <result column="to_user_home_money" property="toUserHomeMoney" jdbcType="BIG_DECIMAL"/>
+        <result column="to_user_home_money" property="toUserHomeMoney" jdbcType="DECIMAL"/>
         <result column="to_user_home_type" property="toUserHomeType" jdbcType="INTEGER"/>
         <result column="order_pay_qrcode" property="orderPayQrcode" jdbcType="VARCHAR"/>
         <result column="order_warter_no" property="orderWarterNo" jdbcType="VARCHAR"/>

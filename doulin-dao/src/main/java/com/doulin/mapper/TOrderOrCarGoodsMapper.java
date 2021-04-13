@@ -13,7 +13,7 @@ import com.doulin.entity.vo.VQuery;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface TOrderOrCarGoodsMapper extends BaseMapper<TOrderOrCarGoods> {
 
     IPage<TOrderOrCarGoods> findByQuery(IPage<TOrderOrCarGoods> page, @Param("query") VQuery query);

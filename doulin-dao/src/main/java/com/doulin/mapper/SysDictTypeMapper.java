@@ -16,7 +16,7 @@ import java.util.Map;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
 
     IPage<SysDictType> findByQuery(IPage<SysDictType> page, @Param("query") VQuery query);

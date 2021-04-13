@@ -1,5 +1,7 @@
 package com.doulin.common;
 
+import cn.hutool.core.bean.BeanUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +40,11 @@ public class R extends HashMap<String, Object> {
         return r;
     }
 
+    public static R ok(Object bean) {
+        R r = new R();
+        r.putAll(BeanUtil.beanToMap(bean));
+        return r;
+    }
     public static R ok() {
         return new R();
     }

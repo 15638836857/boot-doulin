@@ -13,7 +13,7 @@ import com.doulin.entity.vo.VQuery;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     IPage<SysRole> findByQuery(IPage<SysRole> page, @Param("query") VQuery query);

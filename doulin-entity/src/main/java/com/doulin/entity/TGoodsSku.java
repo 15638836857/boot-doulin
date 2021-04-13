@@ -25,10 +25,10 @@ public class TGoodsSku implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     @TableField("goods_id")
-    private Long goodsId;
+    private Integer goodsId;
 
     @TableField("sku")
     private String sku;

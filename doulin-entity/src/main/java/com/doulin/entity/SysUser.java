@@ -17,17 +17,22 @@ import java.util.Date;
  * @Author: malinging
  * @Date: 2021-04-09
  */
-@ApiModel(value = "SysUser Entity", description = "系统用户表")
+@ApiModel(value = "用户实体类", description = "系统用户表")
 @Data
 @TableName("sys_user")
 public class SysUser implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private Integer id;
+    /**
+     * 序号
+     */
+    @TableField(exist = false)
+    private Integer item;
 
     /**
-     * 手机号
+     * 手机号 登录号
      */
     @ApiModelProperty(value = "手机号")
     @TableField("tele_phone")
@@ -64,7 +69,7 @@ public class SysUser implements Serializable {
      */
     @ApiModelProperty(value = "部门id")
     @TableField("dept_id")
-    private Long deptId;
+    private Integer deptId;
 
     /**
      * 头像 base64 字符串

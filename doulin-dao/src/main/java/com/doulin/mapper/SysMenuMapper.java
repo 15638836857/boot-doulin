@@ -15,7 +15,7 @@ import java.util.List;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Mapper
+
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     IPage<SysMenu> findByQuery(IPage<SysMenu> page, @Param("query") VQuery query);

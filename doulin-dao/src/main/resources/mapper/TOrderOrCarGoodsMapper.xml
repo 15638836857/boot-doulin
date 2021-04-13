@@ -3,10 +3,10 @@
 <mapper namespace="com.doulin.mapper.TOrderOrCarGoodsMapper">
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TOrderOrCarGoods">
-        <id column="id" property="id" jdbcType="LONG"/>
-        <result column="goods_sku_id" property="goodsSkuId" jdbcType="LONG"/>
-        <result column="car_id" property="carId" jdbcType="LONG"/>
-        <result column="price" property="price" jdbcType="BIG_DECIMAL"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_sku_id" property="goodsSkuId" jdbcType="INTEGER"/>
+        <result column="car_id" property="carId" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
         <result column="total" property="total" jdbcType="INTEGER"/>
         <result column="create_order_flag" property="createOrderFlag" jdbcType="VARCHAR"/>
         <result column="order_code" property="orderCode" jdbcType="VARCHAR"/>
