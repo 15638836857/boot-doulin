@@ -17,13 +17,13 @@ import java.util.Date;
  * @Author: malinging
  * @Date: 2021-04-09
  */
-@ApiModel(value = "SysDept Entity", description = "部门表")
+@ApiModel(value = "部门实体类", description = "部门表")
 @Data
 @TableName("sys_dept")
 public class SysDept implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     /**

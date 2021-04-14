@@ -36,5 +36,12 @@ public class SysContent extends ErrorContent{
 
     public static final String Y_STR = "Y";
     public static final String N_STR = "N";
+    public static final String ROLE_NAME ="role_name" ;
+    public static final String NAME_STR = "name";
+    public static final String TYPE_STR = "type";
 
+    public static final String USER_ID = "user_id";
+    public static final String DLKJLYD = "DLKJLYD";
+
+    public static final String STATUS ="status" ;
 }

@@ -17,13 +17,13 @@ import java.util.Date;
  * @Author: malinging
  * @Date: 2021-04-09
  */
-@ApiModel(value = "SysRoleMenu Entity", description = "系统角色菜单表")
+@ApiModel(value = "角色和菜单的框架", description = "系统角色菜单表")
 @Data
 @TableName("sys_role_menu")
 public class SysRoleMenu implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     /**
@@ -33,6 +33,9 @@ public class SysRoleMenu implements Serializable {
     @TableField("role_id")
     private Integer roleId;
 
+    @TableField(exist = false)
+    private String roleName;
+
     /**
      * 菜单id
      */
@@ -40,6 +43,8 @@ public class SysRoleMenu implements Serializable {
     @TableField("menu_id")
     private Integer menuId;
 
+    @TableField(exist = false)
+    private String menuName;
     /**
      * 删除标识  0/1
      */

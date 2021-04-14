@@ -1,15 +1,22 @@
 package com.doulin.admin.controller.system;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.common.MyException;
+import com.doulin.common.R;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysRole;
-import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * SysRoleController
@@ -20,7 +27,8 @@ import java.util.Arrays;
 @Api(tags = "系统控制器类")
 @RestController
 @RequestMapping("/sysRole")
-public class SysRoleController {
+@Slf4j
+public class SysRoleController extends BaseWebController {
 
     @Autowired
     private SysRoleService sysRoleService;
@@ -28,12 +36,38 @@ public class SysRoleController {
     /**
      * 新增
      *
-     * @param sysRole
+     * @param requestMap
      */
-    @ApiOperation(value = "add", notes = "")
+    @ApiOperation(value = "角色添加", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 0,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"roleName\": \"角色名称\",\n" +
+            "        \"roleSign\": \"角色标识\",\n" +
+            "        \"remark\": \"角色描述\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/add")
-    public void add(@RequestBody SysRole sysRole) {
-        sysRoleService.save(sysRole);
+    public Object add(@RequestBody Map<String,Object> requestMap) {
+        SysRole sysRole= BeanUtil.toBean(getVvalue(requestMap), SysRole.class);
+        try {
+            sysRole.setAddBy(getLoginUserId(requestMap));
+            sysRole.setAddDt(new Date());
+            sysRole.setDelFlag(SysContent.INTGER_0);
+            sysRoleService.addAndUpdateParam(SysContent.OPER_ADD,sysRole);
+            if(sysRoleService.save(sysRole)){
+              return R.ok(SysContent.OK_OPER);
+            }else{
+                return R.error(SysContent.ERROR_ADD);
+            }
+        } catch (MyException e) {
+            log.error("/sysRole/add" + e.getMessage());
+            return R.error(e.getMessage());
+        }
+
     }
 
     /**
@@ -50,36 +84,92 @@ public class SysRoleController {
     /**
      * 更新
      *
-     * @param sysRole
+     * @param requestMap
      */
-    @ApiOperation(value = "update", notes = "")
+    @ApiOperation(value = "update", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 0,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"角色id\",\n" +
+            "        \"roleName\": \"角色名称\",\n" +
+            "        \"roleSign\": \"角色标识\",\n" +
+            "        \"remark\": \"角色描述\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/update")
-    public void update(@RequestBody SysRole sysRole) {
-        sysRoleService.updateById(sysRole);
+    public Object update(@RequestBody Map<String,Object> requestMap) {
+        SysRole sysRole = BeanUtil.toBean(getVvalue(requestMap), SysRole.class);
+        try {
+            sysRole.setEditBy(getLoginUserId(requestMap));
+            sysRole.setEditDt(new Date());
+            sysRoleService.addAndUpdateParam(SysContent.OPER_EDIT, sysRole);
+            if (sysRoleService.updateById(sysRole)) {
+                return R.ok(SysContent.OK_OPER);
+            } else {
+                return R.error(SysContent.ERROR_EDIT);
+            }
+        } catch (MyException e) {
+            log.error("/sysRole/update" + e.getMessage());
+            return R.error(e.getMessage());
+        }
     }
 
     /**
      * 详情
      *
-     * @param id
+     * @param requestMap
      * @return
      */
-    @ApiOperation(value = "detail", notes = "")
-    @GetMapping("/detail")
-    public SysRole detail(@RequestParam("id") Long id) {
-        return sysRoleService.getById(id);
+    @ApiOperation(value = "detail", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 0,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"角色id\"\n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/detail")
+    public Object detail(@RequestBody Map<String,Object> requestMap) {
+        try {
+            String idstr = getLoginUserId(requestMap);
+            return R.ok(sysRoleService.getById(Integer.valueOf(idstr)));
+        } catch (MyException e) {
+            log.error("/sysRole/detail" + e.getMessage());
+            return R.error(e.getMessage());
+        }
     }
 
     /**
      * 分页
      *
-     * @param query
+     * @param requestMap
      * @return
      */
-    @ApiOperation(value = "page", notes = "")
+    @ApiOperation(value = "角色数据分页", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"roleName\": \"角色名称\",\n" +
+            "        \"roleSign\": \"角色标识\",\n" +
+            "        \"remark\": \"角色描述\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/page")
-    public IPage<SysRole> userList(@RequestBody(required = false) VQuery query) {
-        return sysRoleService.page(query);
+    public Object pageList(@RequestBody Map<String,Object> requestMap) {
+        IPage<SysRole> pagelist = sysRoleService.pageInfo(getPageParm(requestMap));
+        if (SysContent.INTGER_0 < pagelist.getRecords().size()) {
+            return R.ok(pagelist);
+        } else {
+            return R.error(SysContent.ERROR_EMPTY);
+        }
     }
 
 }

@@ -1,9 +1,15 @@
 package com.doulin.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.doulin.common.BuildTree;
+import com.doulin.common.MyException;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysMenu;
+import com.doulin.entity.edo.Tree;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysMenuMapper;
 import com.doulin.service.SysMenuService;
@@ -12,14 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
- * SysMenuServiceImpl
+ * 系统菜单业务事项类
  *
  * @Author malinging
  * @Date 2021-04-09
@@ -51,6 +54,70 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         }
         return permsSet;
+    }
+
+    @Override
+    public void addAndUpdateParam(String oper,SysMenu sysMenu) throws MyException {
+        if(StrUtil.isEmpty(sysMenu.getName())){
+            throw new MyException(SysContent.ERROR_MENU_NAME);
+        }else if(null==sysMenu.getType()){
+            throw new MyException(SysContent.ERROR_MENU_TYPE);
+        }
+        if(SysContent.OPER_ADD.equals(oper)){
+            if(null!=getOneByMenuNameOrId(null,sysMenu.getName(),sysMenu.getType())){
+                throw new MyException(SysContent.ERROR_MENU_EXSIS);
+            }
+        }else if(SysContent.OPER_EDIT.equals(oper)){
+            if(null==sysMenu.getId()){
+                throw new MyException(SysContent.ERROR_ID);
+            }else{
+                SysMenu sm=getOneByMenuNameOrId(null,sysMenu.getName(),sysMenu.getType());
+                if(null!=sm && sysMenu.getId().equals(sm.getId())){
+                    throw new MyException(SysContent.ERROR_MENU_EXSIS);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public SysMenu getOneByMenuNameOrId(Integer id, String menuName,Integer type) {
+        QueryWrapper<SysMenu> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
+        if(null!=id) {
+            queryWrapper.eq(SysContent.ID_STR, id);
+        }
+        if(StrUtil.isNotEmpty(menuName)){
+            queryWrapper.eq(SysContent.NAME_STR, menuName);
+            queryWrapper.eq(SysContent.TYPE_STR, type);
+        }
+        return getOne(queryWrapper);
+    }
+
+    @Override
+    public SysMenu getInfoById(Integer id) {
+        return menuMapper.selectInfoById(id);
+    }
+
+    @Override
+    public List<SysMenu> getListByPid(Integer pid) {
+        return menuMapper.selectByPid(pid);
+    }
+
+    @Override
+    public Tree<SysMenu> getTree(){
+        List<Tree<SysMenu>> trees = new ArrayList<Tree<SysMenu>>();
+        List<SysMenu> menuDOs =list(new QueryWrapper<SysMenu>().eq(SysContent.DEL_FLAG,SysContent.INTGER_0));
+        for (SysMenu sysMenuDO : menuDOs) {
+            Tree<SysMenu> tree = new Tree<SysMenu>();
+            tree.setId(sysMenuDO.getId().toString());
+            tree.setParentId(sysMenuDO.getParentId().toString());
+            tree.setText(sysMenuDO.getName());
+            trees.add(tree);
+        }
+        // 默认顶级菜单为０，根据数据库实际情况调整
+        Tree<SysMenu> t = BuildTree.build(trees);
+        return t;
     }
 
 }

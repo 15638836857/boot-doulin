@@ -10,15 +10,16 @@ import com.doulin.common.MyException;
 import com.doulin.common.content.ErrorContent;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysUser;
+import com.doulin.entity.SysUserRole;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysUserMapper;
+import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -32,6 +33,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
+
     @Override
     public IPage<SysUser> page(VQuery query) {
         IPage<SysUser> page = new Page<>();
@@ -99,6 +103,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 flag=true;
             }
         }
+        String roleIds=sysUser.getRoleId();
+        List<String> roles= Arrays.asList(roleIds);
+        Set<SysUserRole> urlist=new HashSet<>();
+        for (String rid : roles) {
+            SysUserRole sur=new SysUserRole();
+            sur.setRoleId(Integer.valueOf(rid));
+            sur.setUserId(sysUser.getId());
+            urlist.add(sur);
+        }
+        sysUserRoleService.remove(new QueryWrapper<SysUserRole>().eq(SysContent.USER_ID,sysUser.getId()));
+        sysUserRoleService.saveBatch(urlist);
+
+
         return flag;
     }
     @Transactional(rollbackFor = MyException.class)

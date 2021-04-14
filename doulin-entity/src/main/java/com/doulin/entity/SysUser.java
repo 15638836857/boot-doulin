@@ -129,5 +129,10 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "编辑时间")
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 角色id 多个使用英文逗号间隔
+     */
+    @TableField(exist = false)
+    private String roleId;
 
 }

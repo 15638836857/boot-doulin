@@ -2,10 +2,9 @@ package com.doulin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import com.doulin.entity.SysSalesman;
 import com.doulin.entity.vo.VQuery;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * SysSalesmanMapper
@@ -18,4 +17,7 @@ public interface SysSalesmanMapper extends BaseMapper<SysSalesman> {
 
     IPage<SysSalesman> findByQuery(IPage<SysSalesman> page, @Param("query") VQuery query);
 
+    String selectYwyCodeNum();
+
+    SysSalesman selectOneByPhone(String phone);
 }

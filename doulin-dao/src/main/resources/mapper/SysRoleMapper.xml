@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysRole">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="role_sign" property="roleSign" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
@@ -29,6 +30,81 @@
 
             </if>
         </where>
+    </select>
+<!--    Integer selectTotalCount(Map<String, Object> map);-->
+    <select id="selectPageInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT  t3.item,
+                t3.id,
+                t3.role_name,
+                t3.role_sign,
+                t3.remark,
+                t3.del_flag,
+                t3.add_by,
+                t3.add_dt,
+                t3.edit_by,
+                t3.edit_dt
+            FROM(SELECT
+                        (@i :=@i + 1) AS item,
+                        t2.id,
+                        t2.role_name,
+                        t2.role_sign,
+                        t2.remark,
+                        t2.del_flag,
+                        t2.add_by,
+                        t2.add_dt,
+                        t2.edit_by,
+                        t2.edit_dt
+                    FROM
+                        (
+                            SELECT
+                                t1.id,
+                                t1.role_name,
+                                t1.role_sign,
+                                t1.remark,
+                                t1.del_flag,
+                                t1.add_by,
+                                t1.add_dt,
+                                t1.edit_by,
+                                t1.edit_dt
+                            FROM
+                                (
+                                    SELECT
+                                        t.id,
+                                        t.role_name,
+                                        t.role_sign,
+                                        t.remark,
+                                        t.del_flag,
+                                        t.add_by,
+                                        t.add_dt,
+                                        t.edit_by,
+                                        t.edit_dt
+                                    FROM
+                                        sys_role t
+                                    WHERE
+                                        t.del_flag = 0
+                                        <if test="roleName!='' and roleName!=null"> AND t.role_name =#{roleName}</if>
+                                        <if test="roleSign!='' and roleSign!=null"> AND t.role_name =#{roleSign}</if>
+                                        <if test="remark!='' and remark!=null">  AND t.remark LIKE '%${remark}%'</if>
+                                    ORDER BY t.add_dt DESC
+                                ) t1,
+                                (SELECT @i := 0) AS it
+                    ) t2
+            ) t3
+          <if test="page != null and rows != null">
+                <bind name="key_offset" value="(page-1)*rows"></bind>
+                LIMIT #{key_offset},#{rows}
+            </if>
+    </select>
+<select id="selectTotalCount" parameterType="java.util.Map" resultType="Integer">
+            SELECT
+                count(*)
+            FROM
+                sys_role t
+            WHERE
+                t.del_flag = 0
+                <if test="roleName!='' and roleName!=null"> AND t.role_name =#{roleName}</if>
+                <if test="roleSign!='' and roleSign!=null"> AND t.role_name =#{roleSign}</if>
+                <if test="remark!='' and remark!=null">  AND t.remark LIKE '%${remark}%'</if>
     </select>
 
 </mapper>

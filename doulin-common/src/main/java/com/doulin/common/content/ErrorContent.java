@@ -33,4 +33,11 @@ public class ErrorContent {
     public static final String ERROR_USER = "用户信息有误";
     public static final String ERROR_EMPTY = "无数据";
     public static final String ERROR_SELECT = "查询失败";
+
+    public static final String ERROR_ROLE_NAME_EMPTY = "角色名称不能为空";
+    public static final String ERROR_EXISIS = "数据已存在";
+    public static final String ERROR_MENU_NAME = "菜单的名称有误";
+
+    public static final String ERROR_MENU_TYPE = "菜单的类型有误";
+    public static final String ERROR_MENU_EXSIS = "菜单已存在";
 }

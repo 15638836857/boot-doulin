@@ -7,8 +7,12 @@ import com.doulin.entity.SysRoleMenu;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysRoleMenuMapper;
 import com.doulin.service.SysRoleMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -18,9 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date 2021-04-09
  **/
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
     @Override
     public IPage<SysRoleMenu> page(VQuery query) {
         IPage<SysRoleMenu> page = new Page<>();
@@ -29,6 +34,27 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         page.setCurrent(pageNum == null ? 1 : pageNum);
         page.setSize(pageSize == null ? 10 : pageSize);
         return baseMapper.findByQuery(page, query);
+    }
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteByIds(List<String> ids, String loginUserId) {
+        baseMapper.deleteByIds(ids,loginUserId);
+    }
+
+    @Override
+    public SysRoleMenu getOneById(Integer id) {
+
+        return sysRoleMenuMapper.selectOneById(id);
+    }
+
+    @Override
+    public List<SysRoleMenu> pageInfo(Map<String, Object> map) {
+        return sysRoleMenuMapper.pageInfo(map);
+    }
+
+    @Override
+    public Integer countByMap(Map<String, Object> map) {
+        return sysRoleMenuMapper.countByMap(map);
     }
 
 }

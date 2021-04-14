@@ -1,15 +1,24 @@
 package com.doulin.admin.controller.system;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.common.R;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysDept;
+import com.doulin.entity.SysMenu;
+import com.doulin.entity.edo.Tree;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * SysDeptController
@@ -19,8 +28,9 @@ import java.util.Arrays;
  **/
 @Api(tags = "部门控制器类")
 @RestController
-@RequestMapping("/sysDept")
-public class SysDeptController {
+@RequestMapping("/sdept")
+@Slf4j
+public class SysDeptController extends BaseWebController {
 
     @Autowired
     private SysDeptService sysDeptService;
@@ -28,12 +38,36 @@ public class SysDeptController {
     /**
      * 新增
      *
-     * @param sysDept
+     * @param requestMap
      */
-    @ApiOperation(value = "add", notes = "")
+    @ApiOperation(value = "部门添加", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"parentId\": \"父级id 默认传0\",\n" +
+            "        \"name\": \"部门名称\",\n" +
+            "        \"sortNum\": \"排序\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/add")
-    public void add(@RequestBody SysDept sysDept) {
-        sysDeptService.save(sysDept);
+    public Object add(@RequestBody Map<String,Object> requestMap) {
+        SysDept sysDept= BeanUtil.toBean(getVvalue(requestMap),SysDept.class);
+        try {
+            sysDept.setAddBy(getLoginUserId(requestMap));
+            sysDept.setAddDt(new Date());
+            sysDept.setDelFlag(SysContent.INTGER_0);
+            if(sysDeptService.save(sysDept)){
+                return R.ok();
+            }else{
+                return R.error(SysContent.ERROR_ADD);
+            }
+        } catch (Exception e) {
+            log.error("/sdept/add"+e.getMessage());
+            return R.error(e.getMessage());
+        }
     }
 
     /**
@@ -50,36 +84,73 @@ public class SysDeptController {
     /**
      * 更新
      *
-     * @param sysDept
+     * @param requestMap
      */
-    @ApiOperation(value = "update", notes = "")
+    @ApiOperation(value = "update", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"数据id\",\n" +
+            "        \"parentId\": \"父级id 默认传0\",\n" +
+            "        \"name\": \"部门名称\",\n" +
+            "        \"sortNum\": \"排序\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/update")
-    public void update(@RequestBody SysDept sysDept) {
-        sysDeptService.updateById(sysDept);
+    public Object update(@RequestBody  Map<String,Object> requestMap) {
+        SysDept sysDept= BeanUtil.toBean(getVvalue(requestMap),SysDept.class);
+        try {
+            sysDept.setEditBy(getLoginUserId(requestMap));
+            sysDept.setEditDt(new Date());
+            if( sysDeptService.updateById(sysDept)){
+                return R.ok();
+            }else{
+                return R.error(SysContent.ERROR_ADD);
+            }
+        } catch (Exception e) {
+            log.error("/sdept/update"+e.getMessage());
+            return R.error(e.getMessage());
+        }
+
     }
 
     /**
      * 详情
      *
-     * @param id
+     * @param requestMap
      * @return
      */
-    @ApiOperation(value = "detail", notes = "")
+    @ApiOperation(value = "detail", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"数据id\"\n" +
+            "    }\n" +
+            "}")
     @GetMapping("/detail")
-    public SysDept detail(@RequestParam("id") Long id) {
-        return sysDeptService.getById(id);
+    public Object detail(@RequestBody Map<String,Object> requestMap) {
+        Object id=getVvalue(requestMap);
+        SysDept sysDept=sysDeptService.getById(Integer.valueOf(id.toString()));
+        return R.ok(sysDept);
     }
 
     /**
      * 分页
      *
-     * @param query
+     * @param
      * @return
      */
-    @ApiOperation(value = "page", notes = "")
-    @PostMapping("/page")
-    public IPage<SysDept> userList(@RequestBody(required = false) VQuery query) {
-        return sysDeptService.page(query);
+    @ApiOperation(value = "获取部门列表", notes = "无")
+    @PostMapping("/getInfoList")
+    public Object getList() {
+        Tree<SysDept> tree =sysDeptService.getTree();
+        return tree ;
     }
 
 }

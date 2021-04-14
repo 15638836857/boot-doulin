@@ -8,6 +8,8 @@ import com.doulin.common.R;
 import com.doulin.common.content.ErrorContent;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysUser;
+import com.doulin.entity.SysUserRole;
+import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +39,8 @@ public class SysUserController extends BaseWebController {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     /**
      * 新增
@@ -50,6 +54,7 @@ public class SysUserController extends BaseWebController {
             "        \"rows\": 10\n" +
             "    },\n" +
             "    \"v\": {\n" +
+            "        \"roleId\": \"角色id 多个角色使用逗号间隔\",\n" +
             "        \"telePhone\": \"手机号\",\n" +
             "        \"password\": \"用户密码\",\n" +
             "        \"realName\": \"真实姓名\",\n" +
@@ -79,7 +84,28 @@ public class SysUserController extends BaseWebController {
             return R.error(e.getMessage());
         }
     }
-
+    /**
+     * 根据用户的id获取角色
+     *
+     * @param requestMap
+     * @return
+     */
+    @ApiOperation(value = "根据用户的id获取角色", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"用户数据id \"\n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/getRoleByUserId")
+    public Object getRoleByUserId(@RequestBody Map<String,Object> requestMap) {
+        String id=getVvalue(requestMap).get(SysContent.ID_STR).toString();
+        List<SysUserRole> list=sysUserRoleService.getListByUserId(Integer.valueOf(id));
+        return R.ok(list);
+    }
     /**
      * 删除
      *

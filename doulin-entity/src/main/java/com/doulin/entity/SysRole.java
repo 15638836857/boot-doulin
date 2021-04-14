@@ -23,9 +23,13 @@ import java.util.Date;
 public class SysRole implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
-
+    /**
+     * 序号
+     */
+    @TableField(exist = false)
+    private Integer  item;
     /**
      * 角色名称
      */

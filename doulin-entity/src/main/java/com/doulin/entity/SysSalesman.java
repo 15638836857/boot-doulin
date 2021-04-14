@@ -17,13 +17,13 @@ import java.util.Date;
  * @Author: malinging
  * @Date: 2021-04-09
  */
-@ApiModel(value = "SysSalesman Entity", description = "业务员表")
+@ApiModel(value = "业务推广业务员", description = "业务员表")
 @Data
 @TableName("sys_salesman")
 public class SysSalesman implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
     @TableField("name")
@@ -46,7 +46,7 @@ public class SysSalesman implements Serializable {
     /**
      * 业务员 是否禁用
      */
-    @ApiModelProperty(value = "业务员 是否禁用")
+    @ApiModelProperty(value = "业务员 是否禁用 Y/N")
     @TableField("status")
     private String status;
 

@@ -29,7 +29,12 @@ public class BaseWebController {
     public Map<String,Object> getVvalue(Map<String,Object> requestMap){
         return (Map<String, Object>) requestMap.get(SysContent.V_STR);
     }
-
+    public Map<String,Object> getPageParm(Map<String,Object> requestMap){
+        Map<String,Object> smap=getSvalue(requestMap);
+        Map<String,Object> vmap=getVvalue(requestMap);
+        vmap.putAll(smap);
+        return vmap;
+    }
     /**
      * 获取登录用户userId
      * @param requestMap
@@ -40,5 +45,11 @@ public class BaseWebController {
            throw new MyException(SysContent.ERROR_LOGIN_USERID);
         }
         return getSvalue(requestMap).get(SysContent.LOGIN_USERID).toString();
+    }
+    public Integer getLoginUserIdInt(Map<String,Object> requestMap) throws MyException {
+        if(null==getSvalue(requestMap).get(SysContent.LOGIN_USERID)){
+            throw new MyException(SysContent.ERROR_LOGIN_USERID);
+        }
+        return Integer.valueOf(getSvalue(requestMap).get(SysContent.LOGIN_USERID).toString());
     }
 }

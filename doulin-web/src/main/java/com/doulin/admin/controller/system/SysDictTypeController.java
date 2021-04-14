@@ -181,7 +181,7 @@ public class SysDictTypeController extends BaseWebController {
             "    }\n" +
             "}")
     @PostMapping("/page")
-    public Object userList(@RequestBody Map<String,Object> requestMap) {
+    public Object pageList(@RequestBody Map<String,Object> requestMap) {
         Map<String, Object> smap = getVvalue(requestMap);
         Map<String, Object> vmap = getVvalue(requestMap);
         vmap.putAll(smap);

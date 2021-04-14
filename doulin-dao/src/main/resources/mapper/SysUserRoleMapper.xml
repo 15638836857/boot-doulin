@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.SysUserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.SysUserRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, user_id, role_id
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.SysUserRole">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user_role
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectListByUserId" parameterType="INTEGER" resultMap="BaseResultMap">
+        SELECT
+             t.id,
+             t.role_id,
+             t2.role_name,
+             t1.real_name
+        FROM
+            sys_user_role t
+        LEFT JOIN sys_user t1 ON t.user_id = t1.id
+        LEFT JOIN sys_role t2 ON t.role_id = t2.id
+        WHERE t1.id =#{userId}
+    </select>
+
+</mapper>

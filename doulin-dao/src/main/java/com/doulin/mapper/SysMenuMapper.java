@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.entity.SysMenu;
 import com.doulin.entity.vo.VQuery;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,4 +20,8 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     IPage<SysMenu> findByQuery(IPage<SysMenu> page, @Param("query") VQuery query);
 
     List<String> listUserPerms(Long userId);
+
+    SysMenu selectInfoById( @Param("id") Integer id);
+
+    List<SysMenu> selectByPid(@Param("pid")Integer pid);
 }

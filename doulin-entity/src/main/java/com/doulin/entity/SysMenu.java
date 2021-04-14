@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * SysMenu Entity
@@ -17,19 +18,18 @@ import java.util.Date;
  * @Author: malinging
  * @Date: 2021-04-09
  */
-@ApiModel(value = "SysMenu Entity", description = "系统菜单表")
+@ApiModel(value = "系统菜单实体类", description = "系统菜单表")
 @Data
 @TableName("sys_menu")
 public class SysMenu implements Serializable {
-
-
     /**
      * 父级id
      */
-    @ApiModelProperty(value = "父级id")
-    @TableId(value = "id", type = IdType.AUTO)
+
+    @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
 
+    @ApiModelProperty(value = "父级id")
     @TableField("parent_id")
     private Integer parentId;
 
@@ -46,6 +46,8 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "菜单类型 来源字典表")
     @TableField("type")
     private Integer type;
+    @TableField(exist = false)
+    private String typeName;
 
     /**
      * 菜单图标
@@ -95,5 +97,10 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "编辑时间")
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 子集的信息
+     */
+    @TableField(exist = false)
+    List<SysMenu> child;
 
 }

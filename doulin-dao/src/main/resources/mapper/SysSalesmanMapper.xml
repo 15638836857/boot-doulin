@@ -32,4 +32,16 @@
         </where>
     </select>
 
+    <select id="selectYwyCodeNum" resultType="java.lang.String">
+
+          SELECT  max(t.`code`) `code`
+                    FROM
+                        sys_salesman t
+                    WHERE
+                        t.del_flag = 0
+
+    </select>
+    <select id="selectOneByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> from sys_salesman t where t.del_flag=0 and t.phone=#{phone}
+    </select>
 </mapper>

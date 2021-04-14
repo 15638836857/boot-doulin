@@ -5,7 +5,9 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysRoleMenu">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
         <result column="menu_id" property="menuId" jdbcType="INTEGER"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
@@ -29,5 +31,81 @@
             </if>
         </where>
     </select>
-
+    <update id="deleteByIds">
+          UPDATE sys_role_menu t
+             SET t.del_flag = 1,
+                 t.edit_by =#{loginUserId}, t.edit_dt=new()
+           WHERE t.id IN
+           <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
+               (CAST(#{id} AS SIGNED))
+           </foreach>
+    </update>
+    <select id="selectOneById" parameterType="INTEGER" resultMap="BaseResultMap">
+        SELECT
+            t1.role_name,
+            t2.`name` menu_name,
+            t.id,
+            t.role_id,
+            t.menu_id,
+            t.del_flag,
+            t.add_by,
+            t.add_dt,
+            t.edit_by,
+            t.edit_dt
+        FROM
+            sys_role_menu t
+        LEFT JOIN sys_role t1 ON t1.id=t.role_id
+        LEFT JOIN sys_menu t2 ON t2.id=t.menu_id
+        WHERE
+            t.del_flag = 0
+            AND t.id=#{id}
+    </select>
+    <select id="pageInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT tt1.* FROM(
+        SELECT (@i :=@i + 1) AS item,tt.* FROM
+        (
+        SELECT
+                t1.role_name,
+                t2.`name` menu_name,
+                t.id,
+                t.role_id,
+                t.menu_id,
+                t.del_flag,
+                t.add_by,
+                t.add_dt,
+                t.edit_by,
+                t.edit_dt
+        FROM
+                 sys_role_menu t
+        LEFT JOIN sys_role t1 ON t1.id=t.role_id
+        LEFT JOIN sys_menu t2 ON t2.id=t.menu_id
+        WHERE
+                 t.del_flag = 0
+                ORDER BY t.add_dt DESC
+        ) tt,(SELECT @i := 0) AS it
+        ) tt1
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+    <select id="countByMap"  parameterType="java.util.Map" resultType="INTEGER">
+         select count(*) from (SELECT
+                t1.role_name,
+                t2.`name` menu_name,
+                t.id,
+                t.role_id,
+                t.menu_id,
+                t.del_flag,
+                t.add_by,
+                t.add_dt,
+                t.edit_by,
+                t.edit_dt
+        FROM
+                 sys_role_menu t
+        LEFT JOIN sys_role t1 ON t1.id=t.role_id
+        LEFT JOIN sys_menu t2 ON t2.id=t.menu_id
+        WHERE  t.del_flag = 0
+        ) tt
+    </select>
 </mapper>

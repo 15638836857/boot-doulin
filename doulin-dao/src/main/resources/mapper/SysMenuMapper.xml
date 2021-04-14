@@ -7,6 +7,7 @@
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="order_num" property="orderNum" jdbcType="INTEGER"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
@@ -40,4 +41,60 @@
 		on rm.role_id = ur.role_id where ur.user_id
 		= #{id}
 	</select>
+    <select id="selectInfoById" parameterType="INTEGER" resultMap="BaseResultMap">
+         SELECT
+                t.id,
+                t.parent_id,
+                t.`NAME`,
+                t.type,
+               (CASE
+                WHEN t.type = 1 THEN
+                    '菜单'
+                WHEN t.type = 0 THEN
+                    '按钮'
+                ELSE
+                    t.type
+                END
+                ) AS type_name,
+                t.icon,
+                t.order_num,
+                t.del_flag,
+                t.add_by,
+                t.add_dt,
+                t.edit_by,
+                t.edit_dt
+            FROM
+                sys_menu t
+            WHERE
+                t.del_flag = 0
+               AND t.id=#{id}
+    </select>
+    <select id="selectByPid" parameterType="INTEGER" resultMap="BaseResultMap">
+         SELECT
+                t.id,
+                t.parent_id,
+                t.`NAME`,
+                t.type,
+               (CASE
+                WHEN t.type = 1 THEN
+                    '菜单'
+                WHEN t.type = 0 THEN
+                    '按钮'
+                ELSE
+                    t.type
+                END
+                ) AS type_name,
+                t.icon,
+                t.order_num,
+                t.del_flag,
+                t.add_by,
+                t.add_dt,
+                t.edit_by,
+                t.edit_dt
+            FROM
+                sys_menu t
+            WHERE
+                t.del_flag = 0
+               AND t.parent_id=#{pid}
+    </select>
 </mapper>
