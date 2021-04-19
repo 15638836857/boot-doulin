@@ -44,4 +44,18 @@ public class SysContent extends ErrorContent{
     public static final String DLKJLYD = "DLKJLYD";
 
     public static final String STATUS ="status" ;
+    public static final String COMMUNITY_CODE = "YLKJDL";
+
+    public static final String STR_0001 = "0001";
+    public static final String LOGIN_NO ="login_no" ;
+    public static final String CODE_TYPE = "codeType";
+    public static final String PHONE = "phone";
+
+    public static final String AK = "ak";
+    public static final String CT = "ct";
+
+    public static final Integer INTGER_2 = 2;
+
+
+    public static final String TOKEN_STR ="token" ;
 }

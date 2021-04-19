@@ -23,9 +23,15 @@ import java.util.Date;
 public class TShopHomeGroup implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private Integer id;
 
+    /**
+     * 分类图标
+     */
+    @ApiModelProperty(value = "分类图标 base64编码")
+    @TableField("group_img")
+    private String groupImg;
     /**
      * 分类名称
      */
@@ -46,6 +52,10 @@ public class TShopHomeGroup implements Serializable {
     @ApiModelProperty(value = "排序")
     @TableField("sort")
     private Integer sort;
+
+    @ApiModelProperty(value = "是否被禁用 Y/N")
+    @TableField("status")
+    private String  status;
 
     @TableField("add_by")
     private String addBy;

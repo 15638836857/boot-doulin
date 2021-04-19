@@ -37,7 +37,7 @@
                  t.edit_by =#{loginUserId}, t.edit_dt=new()
            WHERE t.id IN
            <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
-               (CAST(#{id} AS SIGNED))
+               CAST(#{id} AS SIGNED)
            </foreach>
     </update>
     <select id="selectOneById" parameterType="INTEGER" resultMap="BaseResultMap">

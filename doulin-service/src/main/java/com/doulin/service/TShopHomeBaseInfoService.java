@@ -15,4 +15,19 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
 
     IPage<TShopHomeBaseInfo> page(VQuery query);
 
+    /**
+     * 商家根据登录注册号  系统默认手机号
+     * @param loginNo
+     * @return
+     */
+    TShopHomeBaseInfo getInfoByLoginNo(String loginNo);
+
+    /**
+     * 根据token获取商家用户信息
+     * @param token
+     * @return
+     */
+    TShopHomeBaseInfo getByToken(String token);
+
+    void updateToken(Integer id, String token);
 }

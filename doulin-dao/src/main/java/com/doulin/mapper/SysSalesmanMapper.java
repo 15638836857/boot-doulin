@@ -6,6 +6,9 @@ import com.doulin.entity.SysSalesman;
 import com.doulin.entity.vo.VQuery;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * SysSalesmanMapper
  *
@@ -20,4 +23,10 @@ public interface SysSalesmanMapper extends BaseMapper<SysSalesman> {
     String selectYwyCodeNum();
 
     SysSalesman selectOneByPhone(String phone);
+
+    void deleteByIds(@Param("loginUserId")String loginUserId,@Param("ids") List<String> ids);
+
+    List<SysSalesman> pageInfo(Map<String, Object> map);
+
+    Integer count(Map<String, Object> map);
 }

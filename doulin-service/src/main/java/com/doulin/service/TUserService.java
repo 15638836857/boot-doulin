@@ -15,4 +15,14 @@ public interface TUserService extends IService<TUser> {
 
     IPage<TUser> page(VQuery query);
 
+    TUser getOneByLoginPhone(String loginPhone);
+
+    /**
+     * 用户id
+     * @param id
+     * @param token
+     */
+    void updateToken(Integer id, String token);
+
+    TUser getByToken(String token);
 }

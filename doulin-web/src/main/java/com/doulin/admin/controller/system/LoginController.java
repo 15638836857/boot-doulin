@@ -1,6 +1,8 @@
 package com.doulin.admin.controller.system;
 
 import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,5 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/login")
 public class LoginController extends BaseWebController {
+
+    @Autowired
+    private SysUserService userService;
+
+
+
 
 }

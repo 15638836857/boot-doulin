@@ -4,18 +4,19 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeBaseInfo">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="login_no" property="loginNo" jdbcType="VARCHAR"/>
         <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
         <result column="shop_home_name" property="shopHomeName" jdbcType="VARCHAR"/>
         <result column="shop_grop_code" property="shopGropCode" jdbcType="VARCHAR"/>
         <result column="shop_user_id" property="shopUserId" jdbcType="INTEGER"/>
         <result column="community_code" property="communityCode" jdbcType="VARCHAR"/>
-        <result column="shop_province" property="shopProvince" jdbcType="VARCHAR"/>
-        <result column="shop_city" property="shopCity" jdbcType="VARCHAR"/>
-        <result column="shop_district" property="shopDistrict" jdbcType="VARCHAR"/>
+        <result column="shop_province_id" property="shopProvinceId" jdbcType="INTEGER"/>
+        <result column="shop_city_id" property="shopCityId" jdbcType="INTEGER"/>
+        <result column="shop_district_id" property="shopDistrictId" jdbcType="INTEGER"/>
         <result column="shop_address" property="shopAddress" jdbcType="VARCHAR"/>
         <result column="shop_flag" property="shopFlag" jdbcType="VARCHAR"/>
-        <result column="shop_open_business_time" property="shopOpenBusinessTime" jdbcType="TIMESTAMP"/>
-        <result column="shop_close_business_time" property="shopCloseBusinessTime" jdbcType="TIMESTAMP"/>
+        <result column="shop_open_business_time" property="shopOpenBusinessTime" jdbcType="VARCHAR"/>
+        <result column="shop_close_business_time" property="shopCloseBusinessTime" jdbcType="VARCHAR"/>
         <result column="shop_balance" property="shopBalance" jdbcType="DECIMAL"/>
         <result column="shop_title_image" property="shopTitleImage" jdbcType="VARCHAR"/>
         <result column="shop_logo" property="shopLogo" jdbcType="VARCHAR"/>
@@ -53,12 +54,13 @@
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
-        <result column="del_flag" property="delFlag" jdbcType="BOOLEAN"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, shop_home_code, shop_home_name, shop_grop_code, shop_user_id, community_code, shop_province, shop_city, shop_district, shop_address, shop_flag, shop_open_business_time, shop_close_business_time, shop_balance, shop_title_image, shop_logo, shop_indoor_photo, shop_qrcode, shop_get_order_auto_flag, shop_paywater_prefix, order_cancel_time_unit, order_cancel_maxtime, business_license_image, social_credit_code, company_name, found_dt, period_of_validity, company_class, business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num, legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p, legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag, apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag
+        id, login_no,shop_home_code, shop_home_name, shop_grop_code, shop_user_id, community_code,
+        shop_province_id, shop_city_id, shop_district_id, shop_address, shop_flag, shop_open_business_time, shop_close_business_time, shop_balance, shop_title_image, shop_logo, shop_indoor_photo, shop_qrcode, shop_get_order_auto_flag, shop_paywater_prefix, order_cancel_time_unit, order_cancel_maxtime, business_license_image, social_credit_code, company_name, found_dt, period_of_validity, company_class, business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num, legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p, legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag, apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag
     </sql>
 
 

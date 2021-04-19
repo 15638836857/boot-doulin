@@ -7,7 +7,6 @@ import com.doulin.common.MyException;
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysSalesman;
-import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysSalesmanService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -71,12 +70,30 @@ public class SysSalesmanController extends BaseWebController {
     /**
      * 删除
      *
-     * @param ids
+     * @param requestMap
      */
-    @ApiOperation(value = "delete", notes = "")
-    @GetMapping("/delete")
-    public void delete(@RequestParam("ids") Long... ids) {
-        sysSalesmanService.removeByIds(Arrays.asList(ids));
+    @ApiOperation(value = "delete", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"数据id多个使用英文逗号间隔\"\n" +
+            "       \n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/delete")
+    public Object delete(@RequestBody Map<String,Object> requestMap) {
+        try {
+            String loginUserId = getLoginUserId(requestMap);
+            String ids = getVvalue(requestMap).get(SysContent.ID_STR).toString();
+            sysSalesmanService.deleteByIds(loginUserId, Arrays.asList(ids));
+        } catch (MyException e) {
+            log.error("ssman/delete" + e.getMessage());
+            return R.error(e.getMessage());
+        }
+        return R.ok();
     }
 
     /**
@@ -103,6 +120,7 @@ public class SysSalesmanController extends BaseWebController {
             sysSalesman.setId(Integer.valueOf(getVvalue(requestMap).get(SysContent.ID_STR).toString()));
             sysSalesman.setEditBy(getLoginUserId(requestMap));
             sysSalesman.setEditDt(new Date());
+            sysSalesman.setStatus(status);
             sysSalesmanService.updateById(sysSalesman);
         } catch (MyException e) {
             log.error("ssman/update"+e.getMessage());
@@ -125,13 +143,29 @@ public class SysSalesmanController extends BaseWebController {
     /**
      * 分页
      *
-     * @param query
+     * @param requestMap
      * @return
      */
-    @ApiOperation(value = "page", notes = "")
+    @ApiOperation(value = "page", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"value\": \"姓名或手机号\"\n" +
+            "    }\n" +
+            "}")
     @PostMapping("/page")
-    public IPage<SysSalesman> userList(@RequestBody(required = false) VQuery query) {
-        return sysSalesmanService.page(query);
+    public Object userList(@RequestBody Map<String,Object> requestMap) {
+        Map<String,Object> smap=getSvalue(requestMap);
+        Map<String,Object> vmap=getVvalue(requestMap);
+        vmap.putAll(smap);
+        IPage<SysSalesman> page=sysSalesmanService.pageInfo(vmap);
+        if(page.getRecords().size()>0){
+            return R.ok(page);
+        }
+        return R.error(SysContent.ERROR_EMPTY);
     }
 
 }

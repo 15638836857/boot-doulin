@@ -24,8 +24,8 @@ import java.util.Date;
 public class TShopHomeBaseInfo implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private Integer id;
 
     /**
      * 商家编号
@@ -33,6 +33,15 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "商家编号")
     @TableField("shop_home_code")
     private String shopHomeCode;
+
+    @ApiModelProperty(value = "登录号  目前指定手机号")
+    @TableField("login_no")
+    private String loginNo;
+
+    private String token;
+    private String ryToken;			// rytoken
+    private String password;
+
 
     /**
      * 商家名称
@@ -53,7 +62,7 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "商家和用户关联id")
     @TableField("shop_user_id")
-    private Long shopUserId;
+    private Integer shopUserId;
 
     /**
      * 社区编码
@@ -66,22 +75,22 @@ public class TShopHomeBaseInfo implements Serializable {
      * 省份
      */
     @ApiModelProperty(value = "省份")
-    @TableField("shop_province")
-    private String shopProvince;
+    @TableField("shop_province_id")
+    private Integer shopProvinceId;
 
     /**
      * 商家所在的城市
      */
     @ApiModelProperty(value = "商家所在的城市")
-    @TableField("shop_city")
-    private String shopCity;
+    @TableField("shop_city_id")
+    private String shopCityId;
 
     /**
      * 县区
      */
     @ApiModelProperty(value = "县区")
-    @TableField("shop_district")
-    private String shopDistrict;
+    @TableField("shop_district_id")
+    private String shopDistrictId;
 
     /**
      * 商家详细地址
@@ -102,14 +111,14 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "商家上班时间")
     @TableField("shop_open_business_time")
-    private Date shopOpenBusinessTime;
+    private String shopOpenBusinessTime;
 
     /**
      * 商家下班时间
      */
     @ApiModelProperty(value = "商家下班时间")
     @TableField("shop_close_business_time")
-    private Date shopCloseBusinessTime;
+    private String  shopCloseBusinessTime;
 
     /**
      * 商家余额
@@ -375,6 +384,10 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "删除标识  0、正常  1、删除")
     @TableField("del_flag")
-    private Boolean delFlag;
+    private Integer delFlag;
+    /**
+     * 有效状态 0/有效  1/无效
+     */
+    private Integer status;
 
 }

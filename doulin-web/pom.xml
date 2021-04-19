@@ -21,6 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>com.youlan</groupId>
+            <artifactId>doulin-config</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.youlan</groupId>
             <artifactId>doulin-entity</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

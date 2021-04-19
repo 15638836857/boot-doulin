@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TShopHomeGroup;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * TShopHomeGroupService
  *
@@ -15,4 +18,7 @@ public interface TShopHomeGroupService extends IService<TShopHomeGroup> {
 
     IPage<TShopHomeGroup> page(VQuery query);
 
+    void removeBatchByIds(String loginUserId, List<String> ids);
+
+    IPage<TShopHomeGroup> pageInfo(Map<String, Object> map);
 }

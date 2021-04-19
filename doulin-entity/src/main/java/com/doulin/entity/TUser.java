@@ -24,8 +24,8 @@ import java.util.Date;
 public class TUser implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "id", type = IdType.INPUT)
+    private Integer id;
 
     /**
      * 用户名称
@@ -134,5 +134,16 @@ public class TUser implements Serializable {
     @ApiModelProperty(value = "删除标识 0/1")
     @TableField("del_flag")
     private Integer delFlag;
+    /**
+     *  用户是否 禁用 0/1
+     */
+    @ApiModelProperty(value = "用户是否 禁用 0/1")
+    @TableField("status")
+    private Integer status;
+    /**
+     *   极光推送
+     */
+    @TableField("token")
+    private String token;
 
 }

@@ -17,4 +17,5 @@ public interface TUserMapper extends BaseMapper<TUser> {
 
     IPage<TUser> findByQuery(IPage<TUser> page, @Param("query") VQuery query);
 
+    void updateToken(@Param("id")Integer id, @Param("token")String token);
 }

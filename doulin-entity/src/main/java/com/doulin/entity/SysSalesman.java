@@ -80,5 +80,23 @@ public class SysSalesman implements Serializable {
     @ApiModelProperty(value = "编辑时间")
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 上次推广时间
+     */
+    @ApiModelProperty(value = "上次推广时间")
+    @TableField("extension_dt")
+    private Date extensionDt;
 
+    /**
+     * 推广数
+     */
+    @ApiModelProperty(value = "推广数")
+    @TableField(exist = false)
+    private Integer extensionCount;
+
+    @TableField(exist = false)
+    private String statusStr;
+    public String getStatusStr(){
+        return "Y".equals(status)?"禁用中":"正常";
+    }
 }

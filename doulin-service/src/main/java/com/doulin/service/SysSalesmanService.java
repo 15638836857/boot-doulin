@@ -6,6 +6,9 @@ import com.doulin.common.MyException;
 import com.doulin.entity.SysSalesman;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * SysSalesmanService
  *
@@ -25,4 +28,17 @@ public interface SysSalesmanService extends IService<SysSalesman> {
     void addAndUpdateParam(String oper,SysSalesman sysSalesman) throws MyException;
 
     SysSalesman  getOneByPhone(String phone);
+
+    /**
+     * 根据id删除 业务员
+     * @param ids
+     */
+    void deleteByIds(String loginUserId,List<String> ids);
+
+    /**
+     * 分页获取业务员信息
+     * @param vmap
+     * @return
+     */
+    IPage<SysSalesman> pageInfo(Map<String, Object> vmap);
 }

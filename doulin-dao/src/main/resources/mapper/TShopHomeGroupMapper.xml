@@ -4,8 +4,10 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeGroup">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="group_img" property="groupImg" jdbcType="VARCHAR"/>
         <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
         <result column="group_code" property="groupCode" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
@@ -16,7 +18,7 @@
 
 
     <sql id="Base_Column_List">
-        id, group_name, group_code, sort, add_by, add_dt, edit_by, edit_dt, del_flag
+        id, group_img,group_name, group_code,status, sort, add_by, add_dt, edit_by, edit_dt, del_flag
     </sql>
 
 
@@ -29,6 +31,79 @@
 
             </if>
         </where>
+    </select>
+    <update id="deleteInfoBatchIds">
+        UPDATE t_shop_home_group t  SET t.del_flag = 1, t.edit_by =#{loginUserId}, t.edit_dt=new()
+         WHERE  t.id IN
+        <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
+            CAST(#{id} AS SIGNED)
+        </foreach>
+
+    </update>
+    <select id="pageInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+            t2.*
+        FROM
+            (
+                SELECT
+                    (@i :=@i + 1) item,
+                    t1.*
+                FROM
+                    (
+                        SELECT
+                            t.id,
+                            t.group_img,
+                            t.group_name,
+                            t.group_code,
+                            t.`STATUS`,
+                            t.sort,
+                            t.add_by,
+                            t.add_dt,
+                            t.edit_by,
+                            t.edit_dt,
+                            t.del_flag
+                        FROM
+                            t_shop_home_group t
+                        WHERE
+                            t.del_flag = 0
+                        <if test="value!='' and value!=null">
+                            and  t.group_name like '%${value}%'
+                        </if>
+                        ORDER BY
+                            t.sort
+                    ) t1,
+                    (SELECT @i := 0) it
+            ) t2
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+    <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+             COUNT(*)
+        FROM
+             (
+                SELECT
+                    t.id,
+                    t.group_img,
+                    t.group_name,
+                    t.group_code,
+                    t.`STATUS`,
+                    t.sort,
+                    t.add_by,
+                    t.add_dt,
+                    t.edit_by,
+                    t.edit_dt,
+                    t.del_flag
+                FROM
+                t_shop_home_group t
+                WHERE
+                t.del_flag = 0
+                <if test="value!='' and value!=null">
+                    and  t.group_name like '%${value}%'
+                </if>
+        ) t1
     </select>
 
 </mapper>

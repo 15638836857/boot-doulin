@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.doulin.common.MyException;
+import com.doulin.common.StringUtils;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysSalesman;
 import com.doulin.entity.vo.VQuery;
@@ -14,6 +15,9 @@ import com.doulin.service.SysSalesmanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -50,11 +54,11 @@ public class SysSalesmanServiceImpl extends ServiceImpl<SysSalesmanMapper, SysSa
            code=StrUtil.sub(code,code.length()-2,code.length());
            num=Integer.valueOf(code)+ SysContent.INTGER_1;
        }
-       String phonestr=StrUtil.sub(code,phone.length()-4,phone.length());
+       String phonestr=StrUtil.sub(phone,phone.length()-4,phone.length());
        StringBuilder stringBuilder=new StringBuilder();
        stringBuilder.append(SysContent.DLKJLYD);
        stringBuilder.append(phonestr);
-       stringBuilder.append(num);
+       stringBuilder.append(StringUtils.autoGenericCode(num.toString(),2));
         return stringBuilder.toString();
     }
 
@@ -80,6 +84,23 @@ public class SysSalesmanServiceImpl extends ServiceImpl<SysSalesmanMapper, SysSa
     public SysSalesman getOneByPhone(String phone) {
 
         return sysSalesmanMapper.selectOneByPhone(phone);
+    }
+
+    @Override
+    public void deleteByIds(String loginUserId,List<String> ids) {
+        sysSalesmanMapper.deleteByIds(loginUserId,ids);
+    }
+
+    @Override
+    public IPage<SysSalesman> pageInfo(Map<String, Object> map) {
+        List<SysSalesman> list=sysSalesmanMapper.pageInfo(map);
+        Integer count=sysSalesmanMapper.count(map);
+        IPage<SysSalesman> page=new Page<>();
+        page.setCurrent(Long.valueOf(map.get(SysContent.PAGE).toString()));
+        page.setSize(Long.valueOf(map.get(SysContent.ROWS).toString()));
+        page.setTotal(Long.valueOf(count.toString()));
+        page.setRecords(list);
+        return page;
     }
 
 
