@@ -2,6 +2,7 @@ package com.doulin.service.impl;
 
 import cn.hutool.core.util.PhoneUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -84,6 +85,15 @@ public class SysSalesmanServiceImpl extends ServiceImpl<SysSalesmanMapper, SysSa
     public SysSalesman getOneByPhone(String phone) {
 
         return sysSalesmanMapper.selectOneByPhone(phone);
+    }
+
+    @Override
+    public SysSalesman getOneByCode(String code) {
+        QueryWrapper<SysSalesman> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq(SysContent.STATUS,SysContent.Y_STR);
+        queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
+        queryWrapper.eq(SysContent.CODE_STR,code);
+        return getOne(queryWrapper);
     }
 
     @Override

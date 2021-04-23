@@ -57,4 +57,10 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         return sysRoleMenuMapper.countByMap(map);
     }
 
+    @Override
+    public List<Integer> getLoginUserMenu(String loginNo) {
+
+        return null;
+    }
+
 }

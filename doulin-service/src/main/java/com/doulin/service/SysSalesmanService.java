@@ -30,6 +30,13 @@ public interface SysSalesmanService extends IService<SysSalesman> {
     SysSalesman  getOneByPhone(String phone);
 
     /**
+     * 根据凑得 业务员是否 有效 或不存字在
+     * @param code
+     * @return
+     */
+    SysSalesman getOneByCode(String code);
+
+    /**
      * 根据id删除 业务员
      * @param ids
      */

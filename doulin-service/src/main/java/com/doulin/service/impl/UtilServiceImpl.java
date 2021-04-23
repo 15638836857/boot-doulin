@@ -61,6 +61,8 @@ public class UtilServiceImpl implements UtilService {
     private TBankInfoService tBankInfoService;
     @Autowired
     private TAboutService tAboutService;
+    @Autowired
+    private SysSalesmanService sysSalesmanService;
     @Override
     public void shortMassge(String phone, String type, String ip) throws Exception {
         try {
@@ -434,6 +436,7 @@ public class UtilServiceImpl implements UtilService {
                 vo.setType(getWords(SysContent.LX_STR,json));
                 vo.setValidTime(getWords(SysContent.YXQ_STR,json));
                 vo.setBusinessScope(getWords(SysContent.JYFW_STR,json));
+                vo.setLegalPerson(getWords(SysContent.FR_NAME,json));
                 return ResJson.Ok(vo);
             }else{
                 return ResJson.error(SysContent.ERROR_ZJLX);
@@ -447,7 +450,9 @@ public class UtilServiceImpl implements UtilService {
     public ResJson getBankIfo(String btype,String province,String city,String bank) throws Exception {
         List<Tree<TBankInfo>> trees = new ArrayList<Tree<TBankInfo>>();
         List<TBankInfo> data = tBankInfoService.getInfoByType(Integer.valueOf(btype), province, city, bank);
-
+        if(null==data){
+            throw new Exception(SysContent.ERROR_WUSHUJU);
+        }
         Set<SelectVo> selectPVos = new HashSet<>();
         if (SysContent.INTGER_1.toString().equals(btype)) {
             for (TBankInfo tb : data) {
@@ -502,11 +507,21 @@ public class UtilServiceImpl implements UtilService {
 
     @Override
     public ResJson geAboutById(String id) {
-        TAbout tAbout=tAboutService.geAboutById(id);
-        if(null!=tAbout){
-            ResJson.Ok(tAbout.getContent());
+        TAbout tAbout = tAboutService.geAboutById(id);
+        if (null != tAbout) {
+            Object object = tAbout.getContent();
+            return ResJson.Ok(object);
         }
         return ResJson.error(SysContent.ERROR_WUSHUJU);
+    }
+
+    @Override
+    public ResJson getYwyByCode(String code) {
+        SysSalesman sysSalesman = sysSalesmanService.getOneByCode(code);
+        if (null != sysSalesman) {
+            return ResJson.Ok(SysContent.YWY_OK);
+        }
+        return ResJson.error(SysContent.ERROR_YWY);
     }
 
     public String getWords(String key,String json){

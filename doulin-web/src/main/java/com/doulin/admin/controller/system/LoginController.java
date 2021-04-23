@@ -1,10 +1,13 @@
 package com.doulin.admin.controller.system;
 
 import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.common.IPUtils;
 import com.doulin.common.R;
 import com.doulin.common.RandomValidateCodeUtil;
 import com.doulin.common.content.SysContent;
+import com.doulin.entity.SysUser;
 import com.doulin.service.SysUserService;
+import com.doulin.service.SystemService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +48,16 @@ public class LoginController extends BaseWebController {
     @PostMapping("/in")
     public Object login(HttpServletRequest request,@RequestBody Map<String,Object> requestMap) {
         Map<String, Object> map = getVvalue(requestMap);
-        Object loginNo=map.get(SysContent.LOGINNO_STR);
-        Object password=map.get(SysContent.PASSWORD);
-        Object randomCode=map.get(SysContent.RANDOMCODE);
-        if(null==loginNo||null==password){
+        Object loginNo = map.get(SysContent.LOGINNO_STR);
+        Object password = map.get(SysContent.PASSWORD);
+        Object randomCode = map.get(SysContent.RANDOMCODE);
+        if (null == loginNo || null == password) {
             return R.error("登录的账号或密码不能为空");
         }
         //从session中获取随机数
-
-        String random = (String) request.getSession().getAttribute(RandomValidateCodeUtil.RANDOMCODEKEY);
         try {
+            String ip = IPUtils.getIpAddr(request);
+            String random = (String) request.getSession().getAttribute(ip + RandomValidateCodeUtil.RANDOMCODEKEY);
             if (random.equals(randomCode)) {
             } else {
                 return R.error("请输入正确的验证码");
@@ -62,7 +65,19 @@ public class LoginController extends BaseWebController {
         } catch (Exception e) {
             return R.error("验证码已失效");
         }
+        try {
+            SysUser sysUser=userService.getOneByLoginNo(loginNo.toString());
 
+            boolean flag=SystemService.validatePassword(password.toString(),sysUser.getPassword());
+            if(!flag){
+                return R.error("登录账户或密码有误");
+            }else if(sysUser.getStatus().equals(SysContent.INTGER_1)){
+                return R.error("用户已锁定");
+            }
+
+        } catch (Exception e) {
+            return R.error("登录异常");
+        }
 
 
 
@@ -81,7 +96,8 @@ public class LoginController extends BaseWebController {
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expire", 0);
             RandomValidateCodeUtil randomValidateCode = new RandomValidateCodeUtil();
-            randomValidateCode.getRandcode(request, response);//输出验证码图片方法
+            String ip= IPUtils.getIpAddr(request);
+            randomValidateCode.getRandcode(request, response,ip);//输出验证码图片方法
         } catch (Exception e) {
             log.error("获取验证码失败>>>> ", e);
         }

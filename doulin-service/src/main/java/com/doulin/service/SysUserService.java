@@ -24,7 +24,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param telePhone 手机号
      * @return 系统用户实体对象
      */
-    SysUser getOneByTelePhone(String telePhone);
+    SysUser getOneByLoginNo(String telePhone);
 
     /**
      * 系统用户校验

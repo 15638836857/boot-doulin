@@ -2,6 +2,7 @@ package com.doulin.entity.common;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,5 +18,5 @@ public class SelectVo {
     private String value;
     private String code;
     private String parent;
-    List<SelectVo> childList;
+    List<SelectVo> childList=new ArrayList<>();
 }

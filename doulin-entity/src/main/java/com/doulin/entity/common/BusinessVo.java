@@ -23,4 +23,7 @@ public class BusinessVo {
     private String type;
     //经营范围
     private String businessScope;
+    //法人
+    private String  legalPerson;
+
 }

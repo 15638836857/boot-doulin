@@ -9,6 +9,7 @@ import com.doulin.common.encrymlbgo.HttpEncryptUtil;
 import com.doulin.common.encrymlbgo.KeyUtil;
 import com.doulin.entity.SysDictValue;
 import com.doulin.entity.common.ResJson;
+import com.doulin.entity.common.SelectVo;
 import com.doulin.service.SysDictValueService;
 import com.doulin.service.SysUserService;
 import com.doulin.service.TShopHomeBaseInfoService;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -168,7 +170,8 @@ public class CommonController extends BaseAppController {
             }
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
-            return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
+            List<SelectVo> list=new ArrayList<>();
+            return responseAppRes(ResJson.error(list,"请求处理异常"+e.getMessage()));
         }
     }
 

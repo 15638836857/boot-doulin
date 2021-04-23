@@ -47,9 +47,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser getOneByTelePhone(String telePhone) {
+    public SysUser getOneByLoginNo(String telePhone) {
         QueryWrapper<SysUser> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq(SysContent.TELE_PHONE,telePhone);
+        queryWrapper.eq(SysContent.LOGIN_NO,telePhone);
         queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
         return getOne(queryWrapper);
     }
@@ -68,14 +68,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         if(SysContent.OPER_ADD.equals(oper)){
-            if(null!=getOneByTelePhone(sysUser.getTelePhone())){
+            if(null!=getOneByLoginNo(sysUser.getTelePhone())){
                 throw new MyException(SysContent.ERROR_SYS_USER_EXSIS);
             }
         }else if(SysContent.OPER_EDIT.equals(oper)){
             if(null==sysUser.getId()){
                 throw new MyException(SysContent.ERROR_ID);
             }else {
-                SysUser use=getOneByTelePhone(sysUser.getTelePhone());
+                SysUser use=getOneByLoginNo(sysUser.getTelePhone());
                 if(!use.getId().equals(sysUser.getId())){
                     throw new MyException(SysContent.ERROR_USER);
                 }

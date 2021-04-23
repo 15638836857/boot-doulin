@@ -84,4 +84,11 @@ public interface UtilService {
      * @return
      */
     ResJson geAboutById(String id);
+
+    /**
+     * 验证业务员是否有效
+     * @param code
+     * @return
+     */
+    ResJson getYwyByCode(String code);
 }

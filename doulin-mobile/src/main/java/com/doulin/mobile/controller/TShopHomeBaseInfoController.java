@@ -1,6 +1,7 @@
 package com.doulin.mobile.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.TShopHomeBaseInfo;
@@ -8,6 +9,7 @@ import com.doulin.entity.common.ResJson;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mobile.common.BaseAppController;
 import com.doulin.service.TShopHomeBaseInfoService;
+import com.doulin.service.UtilService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
 
     @Autowired
     private TShopHomeBaseInfoService tShopHomeBaseInfoService;
+    @Autowired
+    private UtilService utilService;
 
     /**
      * 新增
@@ -40,7 +44,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
      * @param json
      */
     @ApiOperation(value = "入驻", notes = "{\n" +
-            "    \"loginNo\": \"登录人 手机号\",\n" +
+            "    \"loginNo\": \"登录人 手机号必传\",\n" +
             "    \"loginName\": \"登录人 名称\",\n" +
             "    \"shopHomeName\": \"商家名称\",\n" +
             "    \"shopGropCode\": \"商家分类编码\",\n" +
@@ -99,6 +103,13 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             TShopHomeBaseInfo tsbio=tShopHomeBaseInfoService.getInfoByLoginNo(tsb.getLoginNo());
             if(null==tsbio){
                return responseAppRes(ResJson.error(SysContent.ERROR_PHONE));
+            }
+            //验证业务码是否有效
+            if(!StrUtil.isEmpty(tsb.getYwqCode())){
+                ResJson resJson=utilService.getYwyByCode(tsb.getYwqCode());
+                if(SysContent.INTGER_1.toString().equals(resJson.getResult())){
+                    throw new Exception(resJson.getResultNote());
+                }
             }
             tsb.setDelFlag(SysContent.INTGER_0);
             tsb.setEditDt(new Date());

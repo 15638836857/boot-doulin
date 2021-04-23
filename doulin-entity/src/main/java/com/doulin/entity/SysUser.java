@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * SysUser Entity
@@ -137,5 +138,10 @@ public class SysUser implements Serializable {
      */
     @TableField(exist = false)
     private String roleId;
+    /**
+     * 用户关联的菜单
+     */
+    @TableField(exist = false)
+    private List<Integer> menuIds;
 
 }

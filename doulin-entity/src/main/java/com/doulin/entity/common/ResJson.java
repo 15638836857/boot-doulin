@@ -60,6 +60,15 @@ public class ResJson implements Serializable {
 		r.setCode(1);
 		return r;
 	}
+	public static ResJson error(Object list, String msg) {
+		ResJson r = new ResJson();
+		r.setResult("1");
+		r.setMsg(msg);
+		r.setResultNote(msg);
+		r.setCode(1);
+		r.setObjects(list);
+		return r;
+	}
 	public static ResJson ZC(String zcState, String msg) {
 		ResJson r = new ResJson();
 		r.setResult("0");

@@ -105,4 +105,7 @@ public class SysContent extends ErrorContent{
     public static final String RANDOMCODE = "randomCode";
 
     public static final String ERROR_REQUEST = "请求处理异常";
+    public static final String ERROR_YWY ="业务员编码无效或禁用" ;
+    public static final String YWY_OK = "业务员编码有效";
+    public static final String FR_NAME ="法人" ;
 }

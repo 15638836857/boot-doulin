@@ -56,7 +56,7 @@ public class RandomValidateCodeUtil {
     /**
      * 生成随机图片
      */
-    public void getRandcode(HttpServletRequest request, HttpServletResponse response) {
+    public void getRandcode(HttpServletRequest request, HttpServletResponse response,String ip) {
         HttpSession session = request.getSession();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
@@ -75,8 +75,10 @@ public class RandomValidateCodeUtil {
         }
         logger.info(randomString);
         //将生成的随机字符串保存到session中
-        session.removeAttribute(RANDOMCODEKEY);
-        session.setAttribute(RANDOMCODEKEY, randomString);
+        session.removeAttribute(ip+RANDOMCODEKEY);
+        session.setAttribute(ip+RANDOMCODEKEY, randomString);
+        //2分钟后失效
+        session.setMaxInactiveInterval(2*60);
         g.dispose();
         try {
             // 将内存中的图片通过流动形式输出到客户端

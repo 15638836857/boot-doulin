@@ -35,4 +35,11 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
     List<SysRoleMenu> pageInfo(Map<String, Object> vmap);
 
     Integer countByMap(Map<String, Object> vmap);
+
+    /**
+     * 获取登录用户的菜单
+     * @param loginNo
+     * @return
+     */
+    List<Integer> getLoginUserMenu(String loginNo);
 }
