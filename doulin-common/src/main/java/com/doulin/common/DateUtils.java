@@ -1,5 +1,6 @@
 package com.doulin.common;
 
+import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -34,7 +35,17 @@ public class DateUtils extends  org.apache.commons.lang3.time.DateUtils {
         }
         return null;
     }
-
+	/**
+	 *
+	 * @param date 时间字符串
+	 * @param oldFormat 旧的时间格式
+	 * @param newFormat 新的时间格式
+	 * @return
+	 */
+	public static String dateFormat(String date,String oldFormat,String newFormat){
+		Date old= DateUtil.parse(date,oldFormat);
+		return DateUtil.format(old,newFormat);
+	}
     /**
      * 计算距离现在多久，非精确
      *

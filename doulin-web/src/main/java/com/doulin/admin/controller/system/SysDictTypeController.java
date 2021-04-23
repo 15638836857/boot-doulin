@@ -1,6 +1,7 @@
 package com.doulin.admin.controller.system;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.http.server.HttpServerResponse;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.doulin.admin.controller.common.BaseWebController;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "字典类型控制器")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysDictType")
 @Slf4j
@@ -125,10 +128,8 @@ public class SysDictTypeController extends BaseWebController {
         try {
             Map<String, Object> map = getVvalue(requestMap);
             if (null != map.get(SysContent.ID_STR)) {
-                String ids = map.get(SysContent.ID_STR).toString();
-                SysDictType sysDictType = new SysDictType();
-                sysDictType.setTypeCode(ids);
-                sysDictTypeService.addOrUpdate(SysContent.OPER_DELETE, sysDictType);
+                String[] ids = map.get(SysContent.ID_STR).toString().split(SysContent.EN_D);
+                sysDictTypeService.deleteByids(Arrays.asList(ids), getLoginUserId(requestMap));
             } else {
                 throw new MyException(SysContent.ERROR_ID);
             }
@@ -181,8 +182,8 @@ public class SysDictTypeController extends BaseWebController {
             "    }\n" +
             "}")
     @PostMapping("/page")
-    public Object pageList(@RequestBody Map<String,Object> requestMap) {
-        Map<String, Object> smap = getVvalue(requestMap);
+    public Object pageList(HttpServerResponse response, @RequestBody Map<String, Object> requestMap) {
+        Map<String, Object> smap = getSvalue(requestMap);
         Map<String, Object> vmap = getVvalue(requestMap);
         vmap.putAll(smap);
         List<SysDictType> list = sysDictTypeService.pageInfo(vmap);

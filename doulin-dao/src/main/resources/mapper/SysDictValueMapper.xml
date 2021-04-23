@@ -71,7 +71,7 @@
                 t.del_flag = 0
             <if test="typeCode!='' and typeCode!=null">AND t.type_code=#{typeCode}</if>
             <if test="value!='' and value!=null">AND t.`value`=#{value}</if>
-           order  by t.type_code asc,t.`value` asc
+        ORDER BY t.sort asc
     </select>
     <select id="selectListByIds" parameterType="java.util.Arrays" resultMap="BaseResultMap">
         SELECT

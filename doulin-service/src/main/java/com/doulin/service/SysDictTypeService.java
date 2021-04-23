@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.common.MyException;
 import com.doulin.entity.SysDictType;
 import com.doulin.entity.vo.VQuery;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * @param ids
      * @return
      */
-    boolean deleteByids(List<Integer> ids) throws MyException;
+    boolean deleteByids(List<String> ids,String loginId) throws MyException;
 
     /**
      * 根据id获取信息

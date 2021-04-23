@@ -1,23 +1,22 @@
 package com.doulin.mobile.code;
 
+import cn.hutool.core.util.StrUtil;
 import com.doulin.common.content.SysContent;
-import com.doulin.common.token.JwtToken;
-import com.doulin.entity.TCommunnityToken;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.TUser;
 import com.doulin.entity.common.ResJson;
 import com.doulin.entity.common.UserLoginReq;
 import com.doulin.entity.common.UserLoginRes;
+import com.doulin.entity.shop.ShopApplicyStatus;
 import com.doulin.service.TCommunnityTokenService;
 import com.doulin.service.TShopHomeBaseInfoService;
+import com.doulin.service.UtilService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
 @Service
 @Slf4j
 public class ShopServiceCode{
@@ -28,6 +27,8 @@ public class ShopServiceCode{
 //	protected String filePath;
 	@Autowired
 	private TCommunnityTokenService communnityTokenService;
+	@Autowired
+	private UtilService utilService;
 
 //	@Autowired
 //	private TuserService tuserService;
@@ -73,7 +74,8 @@ public class ShopServiceCode{
 //	private UserVisitorService us;
 //	@Autowired
 //	private GoodsCommunityMapper gm;
-	
+
+
 	/**
 	 * 4.1商家登录
 	 * 
@@ -85,50 +87,58 @@ public class ShopServiceCode{
 		UserLoginRes res = new UserLoginRes();
 		res.setResultNote("登录失败");
 		if (StringUtils.isBlank(req.getPhone())) {
-			res.setResultNote("手机号不能为空");
-			return res;
+			return UserLoginRes.error(SysContent.ERROR_PHONE);
 		}
+		boolean flag=(SysContent.INTGER_2.toString().equals(req.getLoginType()) || SysContent.INTGER_1.toString().equals(req.getLoginType()));
+		//loginType 1,2
+		if(StrUtil.isEmpty(req.getLoginType()) || !flag){
+			return UserLoginRes.error(SysContent.ERROR_LOGIN_USERID);
+		}
+		if(SysContent.INTGER_2.toString().equals(req.getLoginType()) &&
+				!req.getRandomCode().equals(utilService.getRandomCodesByPhone(req.getPhone(),req.getCodeType()))){
+			return UserLoginRes.error(SysContent.ERROR_REDOMCODE);
+		}
+
 		TShopHomeBaseInfo c = shopHomeBaseInfoService.getInfoByLoginNo(req.getPhone());
-		if (StringUtils.isBlank(req.getPassword())) {
-			res.setResultNote("密码不能为空");
+		if (null == c ) {
+			res.setObjects(new TShopHomeBaseInfo());
+			res.setResultNote(SysContent.SHOP_NO);
+			res.setZcState(ShopApplicyStatus.STATUS_6.getCode().toString());
 			return res;
 		}
-		if (null == c || !req.getPassword().equals(c.getPassword())) {
-			res.setResultNote("手机号或密码错误");
-			return res;
-		} else if (!SysContent.INTGER_1.equals(c.getStatus())) {
-			res.setResultNote("该账号已被冻结");
-			return res;
+		if (SysContent.INTGER_1.toString().equals(req.getLoginType())) {
+			if (StringUtils.isBlank(req.getPassword())) {
+				return UserLoginRes.error(SysContent.ERROR_PASSORD_EMPTY);
+			} else {
+				if (!req.getPassword().equals(c.getPassword())) {
+					return UserLoginRes.error(SysContent.ERROR_ACCOUNT_OR_PASSWORD);
+				}
+
+			}
+		}
+
+		 if (SysContent.INTGER_1.equals(c.getStatus())) {
+			return  UserLoginRes.error(SysContent.EORROR_ACCOUNT_DJ);
 		} else {
-			res.setResult("0");
-			res.setResultNote("登录成功");
-			res.setUid(c.getId().toString());
-			res.setRytoken(c.getRyToken());
+			res=UserLoginRes.Ok(SysContent.LOGIN_SUCCESS,c.getId().toString(),c.getRyToken());
+
 		}
 		try {
 			// 登录成功后修改token
-			if (StringUtils.isNotBlank(req.getToken()) &&
-					SysContent.INTGER_0.toString().equals(res.getResult())) {
-				shopHomeBaseInfoService.updateToken(c.getId(), req.getToken());
-				List<TCommunnityToken> listTokens = communnityTokenService.getByToken(req.getToken());
-				if (null == listTokens || listTokens.size() == 0) {
-					TCommunnityToken tt = new TCommunnityToken();
-					tt.setAdtime(new Date());
-					tt.setDelFlag(SysContent.INTGER_0.toString());
-					tt.setShopId(c.getId());
-					tt.setToken(req.getToken());
-					communnityTokenService.save(tt);
-				}
-			}
+			String token=utilService.getShopLoginSucessToken(request,req,res ,c);
 			TUser user = new TUser();
 			user.setId(c.getId());
 			user.setPassword(c.getPassword());
-			res.setToken(JwtToken.createToken(request, user));
+			res.setToken(token);
+			res.setObjects(c);
+			res.setZcState(c.getApplyState().toString());
 		} catch (Exception e) {
 			log.error("请求处理异常：12234" + e.getMessage());
 		}
 		return res;
 	}
+
+
 
 //	/**
 //	 * 4.2 商家忘记密码

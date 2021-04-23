@@ -6,7 +6,7 @@ import com.doulin.common.MyException;
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysMenu;
-import com.doulin.entity.edo.Tree;
+import com.doulin.entity.edo.MenuTree;
 import com.doulin.service.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +25,7 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "系统菜单控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysMenu")
 @Slf4j
@@ -49,6 +50,8 @@ public class SysMenuController extends BaseWebController {
             "        \"name\": \"菜单名称\",\n" +
             "        \"type\": \"菜单类型 1菜单 2 按钮\",\n" +
             "        \"icon\": \"图标名称\",\n" +
+            "        \"view\": \"view\",\n" +
+            "        \"info\": \"info\",\n" +
             "        \"orderNum\": \"排序\"\n" +
             "    }\n" +
             "}")
@@ -121,6 +124,8 @@ public class SysMenuController extends BaseWebController {
             "        \"name\": \"菜单名称\",\n" +
             "        \"type\": \"菜单类型 1菜单 2 按钮\",\n" +
             "        \"icon\": \"图标名称\",\n" +
+            "        \"view\": \"view\",\n" +
+            "        \"info\": \"info\",\n" +
             "        \"orderNum\": \"排序\"\n" +
             "    }\n" +
             "}")
@@ -209,8 +214,8 @@ public class SysMenuController extends BaseWebController {
      */
     @ApiOperation(value = "获取列表信息接口", notes = "无")
     @PostMapping("/getMenuList")
-    public Tree<SysMenu> menuList() {
-        Tree<SysMenu> tree = sysMenuService.getTree();
+    public MenuTree<SysMenu> menuList() {
+        MenuTree<SysMenu> tree = sysMenuService.getTree();
         return tree;
     }
 

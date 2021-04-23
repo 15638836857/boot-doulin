@@ -1,15 +1,28 @@
 package com.doulin.common;
 
-import cn.hutool.core.bean.BeanUtil;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
+     private Object data;
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 
     public R() {
         put("code", 0);
+        put("data", getData());
+        put("msg", "操作成功");
+    }
+    public R(Object data) {
+        put("code", 0);
+        put("data", data);
         put("msg", "操作成功");
     }
 
@@ -41,10 +54,12 @@ public class R extends HashMap<String, Object> {
     }
 
     public static R ok(Object bean) {
-        R r = new R();
-        r.putAll(BeanUtil.beanToMap(bean));
+        R r = new R(bean);
+        r.setData(bean);
         return r;
     }
+
+
     public static R ok() {
         return new R();
     }

@@ -24,6 +24,7 @@ import java.util.Map;
 * @Date 2021-04-15
 **/
 @Api(description = "TCommunity Controller",tags = "社区管理控制器")
+@CrossOrigin
 @RestController
 @RequestMapping("/tccy")
 @Slf4j
@@ -54,7 +55,7 @@ public class TCommunityController extends BaseWebController {
             "}")
     @PostMapping("/add")
     public Object add(@RequestBody Map<String,Object> requestMap) {
-        TCommunity tCommunity = BeanUtil.toBean(requestMap, TCommunity.class);
+        TCommunity tCommunity = BeanUtil.toBean(getVvalue(requestMap), TCommunity.class);
         try {
             tCommunity.setAddBy(getLoginUserId(requestMap));
             tCommunity.setAddDt(new Date());
@@ -119,7 +120,7 @@ public class TCommunityController extends BaseWebController {
             "}")
     @PostMapping("/update")
     public Object update(@RequestBody Map<String,Object> requestMap) {
-        TCommunity tCommunity = BeanUtil.toBean(requestMap, TCommunity.class);
+        TCommunity tCommunity = BeanUtil.toBean(getVvalue(requestMap), TCommunity.class);
         try {
             tCommunity.setEditBy(getLoginUserId(requestMap));
             tCommunity.setEditDt(new Date());

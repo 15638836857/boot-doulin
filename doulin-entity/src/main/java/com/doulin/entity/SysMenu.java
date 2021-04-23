@@ -39,6 +39,10 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "菜单名称")
     @TableField("name")
     private String name;
+    /**
+     * 菜单介绍
+     */
+    private String info;
 
     /**
      * 菜单类型 来源字典表
@@ -76,6 +80,8 @@ public class SysMenu implements Serializable {
     @ApiModelProperty(value = "添加人")
     @TableField("add_by")
     private String addBy;
+    private String perms;
+    private String view;
 
     /**
      * 添加时间
@@ -101,6 +107,6 @@ public class SysMenu implements Serializable {
      * 子集的信息
      */
     @TableField(exist = false)
-    List<SysMenu> child;
+    List<SysMenu> childList;
 
 }

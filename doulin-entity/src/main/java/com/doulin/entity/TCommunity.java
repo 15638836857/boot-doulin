@@ -125,5 +125,15 @@ public class TCommunity implements Serializable {
     @ApiModelProperty(value = "编辑时间")
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 商铺数
+     */
+    @TableField(exist = false)
+    private Integer shopCount=0;
+    /**
+     * 订单量
+     */
+    @TableField(exist = false)
+    private Integer orderCount=0;
 
 }

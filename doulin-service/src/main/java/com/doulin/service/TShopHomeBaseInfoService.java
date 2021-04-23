@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.vo.VQuery;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * TShopHomeBaseInfoService
  *
@@ -30,4 +32,11 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
     TShopHomeBaseInfo getByToken(String token);
 
     void updateToken(Integer id, String token);
+
+    /**
+     * 根据登录手机号 修改 密码
+     * @param tShopHomeBaseInfo loginNo 登录手机号
+     * @param  tShopHomeBaseInfo password 密码
+     */
+    TShopHomeBaseInfo addPassByPhone(HttpServletRequest request,TShopHomeBaseInfo tShopHomeBaseInfo) throws Exception;
 }

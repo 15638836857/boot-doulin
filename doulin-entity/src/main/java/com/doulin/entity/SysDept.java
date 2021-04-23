@@ -56,6 +56,12 @@ public class SysDept implements Serializable {
 
     @TableField("add_by")
     private String addBy;
+ /**
+     * 删除标识  0/1
+     */
+    @ApiModelProperty(value = "是否正常  0/1")
+    @TableField("status")
+    private Integer status;
 
     /**
      * 添加时间

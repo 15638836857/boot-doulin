@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysUser">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="item" property="item" jdbcType="INTEGER"/>
+        <result column="login_no" property="loginNo" jdbcType="VARCHAR"/>
         <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
         <result column="real_name" property="realName" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
@@ -71,6 +72,7 @@
              (select @i:=0) as it
             WHERE
                 t.del_flag = 0
+             <if test="loginNo!='' and loginNo!=null"> AND t.login_no=#{loginNo}</if>
              <if test="telePhone!='' and telePhone!=null"> AND t.tele_phone=#{telePhone}</if>
              <if test="realName!='' and realName!=null"> AND t.real_name=#{realName}</if>
              <if test="status!=null"> AND t.`status`=#{status}</if>
@@ -90,6 +92,7 @@
                 sys_user t
             WHERE
                 t.del_flag = 0
+            <if test="loginNo!='' and loginNo!=null"> AND t.login_no=#{loginNo}</if>
              <if test="telePhone!='' and telePhone!=null"> AND t.tele_phone=#{telePhone}</if>
              <if test="realName!='' and realName!=null"> AND t.real_name=#{realName}</if>
              <if test="status!=null"> AND t.`status`=#{status}</if>

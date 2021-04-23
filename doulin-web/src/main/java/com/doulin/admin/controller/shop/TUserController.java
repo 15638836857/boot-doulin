@@ -18,6 +18,7 @@ import java.util.Arrays;
  * @Date 2021-04-09
  **/
 @Api(tags = "用户控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/tuser")
 public class TUserController {

@@ -18,6 +18,7 @@ import java.util.Arrays;
  * @Date 2021-04-09
  **/
 @Api(tags = "商品分类控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/tcategory")
 public class TCategoryController {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TBankInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TBankInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="bank_num" property="bankNum" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bank_child" property="bankChild" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, bank_num, bank_name, bank_child, city, province
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TBankInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from t_bank_info
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectInfoByType"  resultMap="BaseResultMap">
+        <if test="type==1"> SELECT DISTINCT t.province ,t.city from t_bank_info t  </if>
+        <if test="type==2">
+             SELECT DISTINCT t.bank_num,t.bank_name,  t.bank_child from t_bank_info t where
+                 t.province=#{province} and t.city=#{city} and t.bank_name=#{bank}
+        </if>
+
+
+    </select>
+
+</mapper>

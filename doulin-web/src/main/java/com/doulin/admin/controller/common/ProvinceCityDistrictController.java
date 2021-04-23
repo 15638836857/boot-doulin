@@ -1,11 +1,13 @@
 package com.doulin.admin.controller.common;
 
+import com.doulin.common.R;
 import com.doulin.entity.ProvinceCityDistrict;
 import com.doulin.entity.edo.Tree;
 import com.doulin.service.ProvinceCityDistrictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 * @Date 2021-04-15
 **/
 @Api(description = "ProvinceCityDistrict Controller",tags = "省市区")
+@CrossOrigin
 @RestController
 @RequestMapping("/pcd")
 public class ProvinceCityDistrictController {
@@ -26,7 +29,7 @@ public class ProvinceCityDistrictController {
     @PostMapping("/getTree")
     public Object getTree() {
         Tree<ProvinceCityDistrict> tree =provinceCityDistrictService.getTree();
-        return tree ;
+        return R.ok(tree) ;
     }
 
 

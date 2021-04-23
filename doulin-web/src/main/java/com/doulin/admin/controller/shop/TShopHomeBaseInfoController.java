@@ -18,6 +18,7 @@ import java.util.Arrays;
  * @Date 2021-04-09
  **/
 @Api(tags = "商家基本信息控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/tshopHomeBaseInfo")
 public class TShopHomeBaseInfoController {

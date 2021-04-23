@@ -6,6 +6,7 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
@@ -47,7 +48,7 @@
     <select id="deleteByIds" >
         UPDATE sys_salesman t
         SET t.del_flag = 1,
-        t.edit_by =#{loginUserId}, t.edit_dt=new()
+        t.edit_by =#{loginUserId}, t.edit_dt=now()
         WHERE t.id IN
         <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
             CAST(#{id} AS SIGNED)

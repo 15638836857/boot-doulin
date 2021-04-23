@@ -11,14 +11,12 @@ import com.doulin.entity.SysUser;
 import com.doulin.entity.SysUserRole;
 import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
+import com.doulin.service.SystemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +30,7 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "系统用户控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysUser")
 @Slf4j
@@ -67,19 +66,21 @@ public class SysUserController extends BaseWebController {
     public Object add(@RequestBody Map<String,Object> requestMap) {
         SysUser sysUser= BeanUtil.toBean(getVvalue(requestMap),SysUser.class);
         try {
+
             String loginuserid=getLoginUserId(requestMap);
             sysUser.setAddBy(loginuserid);
             sysUser.setAddDt(new Date());
             sysUser.setDelFlag(SysContent.INTGER_0);
             sysUser.setStatus(SysContent.INTGER_0);
             sysUser.setLoginFlag(SysContent.Y_STR);
+            sysUser.setPassword(SystemService.entryptPassword(sysUser.getPassword()));
             boolean flag=sysUserService.addAndUpdate(SysContent.OPER_ADD,sysUser);
             if(flag){
                 return R.ok();
             }else{
                 return R.error(SysContent.ERROR_ADD);
             }
-        } catch (MyException e) {
+        } catch (Exception e) {
             log.error("sysUser/add"+e.getMessage());
             return R.error(e.getMessage());
         }

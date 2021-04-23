@@ -2,16 +2,20 @@ package com.doulin.mobile.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.TShopHomeBaseInfo;
+import com.doulin.entity.common.ResJson;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mobile.common.BaseAppController;
 import com.doulin.service.TShopHomeBaseInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -21,32 +25,23 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "商家基本信息控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("app/tbbf")
+@Slf4j
 public class TShopHomeBaseInfoController  extends BaseAppController {
 
     @Autowired
     private TShopHomeBaseInfoService tShopHomeBaseInfoService;
 
-
-
     /**
      * 新增
      *
-     * @param tShopHomeBaseInfo
-     */
-    @ApiOperation(value = "商家密码设置", notes = "")
-    @PostMapping("/addPassword")
-    public void addPassword(@RequestBody TShopHomeBaseInfo tShopHomeBaseInfo) {
-        tShopHomeBaseInfoService.save(tShopHomeBaseInfo);
-    }
-    /**
-     * 新增
-     *
-     * @param data
+     * @param json
      */
     @ApiOperation(value = "入驻", notes = "{\n" +
             "    \"loginNo\": \"登录人 手机号\",\n" +
+            "    \"loginName\": \"登录人 名称\",\n" +
             "    \"shopHomeName\": \"商家名称\",\n" +
             "    \"shopGropCode\": \"商家分类编码\",\n" +
             "    \"shopUserId\": \"商家和用户关联id\",\n" +
@@ -73,37 +68,48 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"periodOfValidity\": \"有效期yyyymmdd-yyyymmdd\",\n" +
             "    \"companyClass\": \"商户类型 字典表\",\n" +
             "    \"businessScope\": \"经营范围\",\n" +
-            "    \"businessClass\": \"经营类型 字典表\",\n" +
+            "    \"businessClass\": \"经营类型\",\n" +
             "    \"telePhone\": \"联系方式\",\n" +
             "    \"companyEmail\": \"公司邮箱\",\n" +
             "    \"legalPersonCardName\": \"法人身份证上名字\",\n" +
             "    \"legalPersonCardNum\": \"法人身份证号\",\n" +
             "    \"legalPersonCardTime\": \"法人身份证有效期\",\n" +
-            "    \"legalPersonCardZ\": \"身份证正面图片base64字符串\",\n" +
-            "    \"legalPersonCardF\": \"身份证反面图片base64字符串\",\n" +
+            "    \"legalPersonCardZ\": \"身份证正面图\",\n" +
+            "    \"legalPersonCardF\": \"身份证反面图\",\n" +
             "    \"legalPersonBankCard\": \"银行卡号\",\n" +
-            "    \"legalPersonCardP\": \"法人手持身份证图 base64 字符串\",\n" +
+            "    \"legalPersonCardP\": \"法人手持身份证图 \",\n" +
             "    \"legalPersonBankCardL\": \"银行卡联号\",\n" +
-            "    \"legalPersonBankImage\": \"银行卡图片存base64图片\",\n" +
-            "    \"legalPersonBankHandImage\": \"法人手持银行卡图片存base64字符串\",\n" +
+            "    \"legalPersonBankImage\": \"银行卡图片\",\n" +
+            "    \"legalPersonBankHandImage\": \"法人手持银行卡图片\",\n" +
             "    \"ywqCode\": \"平台业务员编码\",\n" +
-            "    \"applyState\": \"商家申请状态 字典表\",\n" +
+            "    \"applyState\": \"商家申请状态 设置完密码商家入驻状态 0:未入驻、 1:已填写基本资料 2:待业务上门开店、3:待支付三方审核 4:开户失败需更改资料 5：成功入驻  ，6：未注册\",\n" +
             "    \"applyFlag\": \"申请是否通过 Y/N\",\n" +
             "    \"applyReturnMsg\": \"申请结果描述\",\n" +
+            "    \"bankName\": \"银行名称\",\n" +
+            "    \"bankChildName\": \"支行名称\",\n" +
+            "    \"bankProvince\": \"银行省份\",\n" +
+            "    \"bankCity\": \"银行城市\",\n" +
             "    \"shopHomeCode\": \"商家 后台生成的编码\"\n" +
             "}")
     @PostMapping("/add")
-    public void add(@RequestBody String data) {
+    public String add(String json) {
         try {
-            Map<String,Object>  map=getRequestCk(data);
-            TShopHomeBaseInfo tShopHomeBaseInfo= BeanUtil.toBean(map,TShopHomeBaseInfo.class);
-
+            Map<String,Object>  map=getRequestCk(json);
+            TShopHomeBaseInfo tsb= BeanUtil.toBean(map,TShopHomeBaseInfo.class);
+            TShopHomeBaseInfo tsbio=tShopHomeBaseInfoService.getInfoByLoginNo(tsb.getLoginNo());
+            if(null==tsbio){
+               return responseAppRes(ResJson.error(SysContent.ERROR_PHONE));
+            }
+            tsb.setDelFlag(SysContent.INTGER_0);
+            tsb.setEditDt(new Date());
+            tsb.setId(tsbio.getId());
+            tShopHomeBaseInfoService.updateById(tsb);
+            return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("app/tbbf/add**********"+e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
         }
 
-
-//        tShopHomeBaseInfoService.save(tShopHomeBaseInfo);
     }
 
     /**
@@ -131,13 +137,23 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
     /**
      * 详情
      *
-     * @param id
+     * @param json
      * @return
      */
-    @ApiOperation(value = "detail", notes = "")
-    @GetMapping("/detail")
-    public TShopHomeBaseInfo detail(@RequestParam("id") Long id) {
-        return tShopHomeBaseInfoService.getById(id);
+    @ApiOperation(value = "detail", notes = "{\n" +
+            "    \"loginNo\": \"商家登录的手机号\"\n" +
+            "}")
+    @PostMapping("/detail")
+    public String detail(String json) {
+        try {
+            Map<String,Object>  map=getRequestCk(json);
+            String loginNo=map.get(SysContent.LOGINNO_STR).toString();
+            TShopHomeBaseInfo e=  tShopHomeBaseInfoService.getInfoByLoginNo(loginNo);
+         return   responseAppRes( ResJson.Ok(e));
+        } catch (Exception e) {
+            log.error("商家获取详情失败***"+e.getMessage());
+            return   responseAppRes( ResJson.Ok(e));
+        }
     }
 
     /**

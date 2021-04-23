@@ -18,6 +18,7 @@ import java.util.Arrays;
  * @Date 2021-04-09
  **/
 @Api(tags = "系统请求日志控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysLog")
 public class SysLogController {

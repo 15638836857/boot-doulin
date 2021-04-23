@@ -12,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +25,8 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "商家分组控制器类")
+
+@CrossOrigin
 @RestController
 @RequestMapping("/tshg")
 @Slf4j

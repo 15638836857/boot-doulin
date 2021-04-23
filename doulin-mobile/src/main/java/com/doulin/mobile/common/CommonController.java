@@ -7,6 +7,9 @@ import com.doulin.common.Base64Utils;
 import com.doulin.common.content.SysContent;
 import com.doulin.common.encrymlbgo.HttpEncryptUtil;
 import com.doulin.common.encrymlbgo.KeyUtil;
+import com.doulin.entity.SysDictValue;
+import com.doulin.entity.common.ResJson;
+import com.doulin.service.SysDictValueService;
 import com.doulin.service.SysUserService;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
@@ -30,6 +33,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Api(tags = "移动端公共接口类")
+@CrossOrigin
 @RestController
 @RequestMapping("app/tool/api")
 @Slf4j
@@ -44,6 +48,8 @@ public class CommonController extends BaseAppController {
 
     @Autowired
     private UtilService utilService;
+    @Autowired
+    private SysDictValueService dictValueService;
 
 
     /**
@@ -71,7 +77,6 @@ public class CommonController extends BaseAppController {
                 r = R.ok("验证码获取成功");
             }
         } catch (Exception e) {
-//            e.printStackTrace();
             log.error("app/tool/getSMSCode" + e.getMessage());
             r = R.failed("获取验证码异常");
         }
@@ -89,18 +94,99 @@ public class CommonController extends BaseAppController {
      * @param request
      * @return
      */
-    @ApiOperation(value ="上传图片返回路径(单多张都可)" ,notes = "file:文件图片，shopcode:商家编码，type: 1/商家的店铺图   2/商家的商品图")
+    @ApiOperation(value ="上传图片返回路径(单多张都可)" ,notes = "file:文件图片，type: 1/商家  2/用户")
     @PostMapping(value = "/addimgs",headers = "content-type=multipart/form-data")
-    public String addimgs(HttpServletRequest request, @RequestParam("file") MultipartFile[] file,String shopCode,String type) {
+    public Object addimgs(HttpServletRequest request, @RequestParam("file") MultipartFile[] file,String type) {
         try {
-            List<String> fileUrl = utilService.uploadImg(file,shopCode,type);
-            r=R.ok(fileUrl);
+            List<String> fileUrl = utilService.uploadImg(file,type);
+            return  responseAppNoMi(R.ok(fileUrl));
         } catch (Exception e) {
             log.error("请求处理异常"+e.getMessage() );
-            r=R.failed("请求处理异常");
+            return  responseAppNoMi(R.failed("请求处理异常"));
         }
-        return responseApp(r);
     }
+    @ApiOperation(value ="删除图片" ,notes = "{url:图片路径}")
+    @PostMapping(value = "/deleteImg")
+    public String addimgs(  String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String url = map.get(SysContent.URL_STR).toString();
+            utilService.deleteImag(url);
+            return responseAppRes(ResJson.Ok());
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return responseAppRes(ResJson.error("请求处理异常"));
+        }
+    }
+    @ApiOperation(value ="根据字典code获取字典值" ,notes = "{\n" +
+            "    \"code\": \"字典code\"\n" +
+            "}")
+    @PostMapping(value = "/getValueByCode")
+    public String getValueByCode(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String code = map.get(SysContent.CODE_STR).toString();
+            List<SysDictValue> list=dictValueService.getListByTypeCodeOrValue(code,null);
+            return responseAppRes(ResJson.Ok(list));
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return responseAppRes(ResJson.error("请求处理异常"));
+        }
+    }
+    @ApiOperation(value ="读取证件信息" ,notes = "{\n" +
+            "    \"zjType\": \"cardz/身份证正面  cardf/身份证反面  bankcard/银行卡  shopshiro/店面资质\",\n" +
+            "    \"url\": \"图片路径 不带http和端口\"\n" +
+            "}")
+    @PostMapping(value = "/zjInfo")
+    public String getZjInfo(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            return responseAppRes(utilService.getZjInfo(map));
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
+        }
+    }
+    @ApiOperation(value ="获取银联号" ,notes = "{\n" +
+            "    \"btype\": \"查询类型  1/获取 省、市，2/获取支行 和 联号\",\n" +
+            "    \"province\": \"省\",\n" +
+            "    \"city\": \"市\",\n" +
+            "    \"bank\": \"银行\"\n" +
+            "}")
+    @PostMapping(value = "/getBankInfo")
+    public String getBankInfo(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String btype=map.get(SysContent.BTYPE).toString();
+            if(SysContent.INTGER_1.toString().equals(btype)) {
+                return responseAppRes(utilService.getBankIfo(btype, null, null, null));
+            }else{
+                String province = map.get(SysContent.PROVICE).toString();
+                String city = map.get(SysContent.CITY).toString();
+                String bank = map.get(SysContent.BANK).toString();
+                return responseAppRes(utilService.getBankIfo(btype, province, city, bank));
+            }
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
+        }
+    }
+
+     @ApiOperation(value ="获取协议" ,notes = "{\n" +
+             "    \"id\": \"id\"\n" +
+             "}")
+    @PostMapping(value = "/about/displayContent")
+    public String aboutDisplayContent(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String id=map.get(SysContent.ID_STR).toString();
+            return responseAppRes(utilService.geAboutById(id));
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
+        }
+    }
+
 
 
 

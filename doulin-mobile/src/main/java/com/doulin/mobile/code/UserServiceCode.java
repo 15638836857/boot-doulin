@@ -1,268 +1,38 @@
-//package com.doulin.mobile.code;
-//
-//import java.io.File;
-//import java.math.BigDecimal;
-//import java.text.DecimalFormat;
-//import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.Map.Entry;
-//import java.util.Set;
-//
-//import javax.servlet.http.HttpServletRequest;
-//
-//import org.apache.commons.codec.digest.DigestUtils;
-//import org.apache.commons.lang.RandomStringUtils;
-//import org.apache.commons.lang3.StringUtils;
-//import org.dom4j.Document;
-//import org.dom4j.DocumentException;
-//import org.dom4j.DocumentHelper;
-//import org.dom4j.Element;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.stereotype.Service;
-//
-//import com.alibaba.fastjson.JSONObject;
-//import com.alipay.api.AlipayClient;
-//import com.alipay.api.DefaultAlipayClient;
-//import com.alipay.api.domain.AlipayTradeAppPayModel;
-//import com.alipay.api.domain.AlipayTradeCreateModel;
-//import com.alipay.api.domain.AlipayTradeQueryModel;
-//import com.alipay.api.request.AlipayTradeAppPayRequest;
-//import com.alipay.api.request.AlipayTradeCreateRequest;
-//import com.alipay.api.request.AlipayTradeQueryRequest;
-//import com.alipay.api.response.AlipayTradeAppPayResponse;
-//import com.alipay.api.response.AlipayTradeCreateResponse;
-//import com.alipay.api.response.AlipayTradeQueryResponse;
-//import com.google.common.collect.Lists;
-//import com.google.common.collect.Maps;
-//import com.google.common.collect.Sets;
-//import com.jeeplus.SMSCode.SMSVerificationCode;
-//import com.jeeplus.common.config.Global;
-//import com.jeeplus.common.segmenter.MMSegmentUtils;
-//import com.jeeplus.common.utils.CacheUtils;
-//import com.jeeplus.common.utils.Chinese2PYUtils;
-//import com.jeeplus.common.utils.DateUtils;
-//import com.jeeplus.common.utils.IPUtil;
-//import com.jeeplus.common.utils.IdGen;
-//import com.jeeplus.common.utils.WeixinUtils;
-//import com.jeeplus.common.utils.encryalgo.AESUtils;
-//import com.jeeplus.common.utils.encryalgo.Base64Utils;
-//import com.jeeplus.common.utils.encryalgo.KeyUtil;
-//import com.jeeplus.common.utils.time.DateFormatUtil;
-//import com.jeeplus.common.websocket.service.onchat.IMSocketHandler;
-//import com.jeeplus.common.websocket.utils.Constants;
-//import com.jeeplus.core.persistence.Page;
-//import com.jeeplus.core.search.SearchBase;
-//import com.jeeplus.core.security.token.JwtToken;
-//import com.jeeplus.modules.activity.entity.Activity;
-//import com.jeeplus.modules.activity.service.ActivityService;
-//import com.jeeplus.modules.activitylist.entity.ActivityGoods;
-//import com.jeeplus.modules.activitylist.entity.ActivityListTime;
-//import com.jeeplus.modules.activitylist.entity.Activitylist;
-//import com.jeeplus.modules.activitylist.mapper.ActivitylistMapper;
-//import com.jeeplus.modules.activitylist.mapper.ActivitylistgoodsMapper;
-//import com.jeeplus.modules.activitylist.service.ActivitylistgoodsService;
-//import com.jeeplus.modules.activitymember.entity.ActivityMember;
-//import com.jeeplus.modules.activitymember.service.ActivityMemberService;
-//import com.jeeplus.modules.address.entity.Address;
-//import com.jeeplus.modules.address.service.AddressService;
-//import com.jeeplus.modules.bank.entity.Bank;
-//import com.jeeplus.modules.bank.service.BankService;
-//import com.jeeplus.modules.banner.entity.Banner;
-//import com.jeeplus.modules.banner.service.BannerService;
-//import com.jeeplus.modules.bannerservice.entity.BannerServices;
-//import com.jeeplus.modules.bannerservice.service.BannerServiceService;
-//import com.jeeplus.modules.category.entity.Category;
-//import com.jeeplus.modules.category.service.CategoryService;
-//import com.jeeplus.modules.collect.entity.Collect;
-//import com.jeeplus.modules.collect.service.CollectService;
-//import com.jeeplus.modules.comment.entity.Comment;
-//import com.jeeplus.modules.comment.service.CommentService;
-//import com.jeeplus.modules.commentimage.entity.CommentImage;
-//import com.jeeplus.modules.commentimage.service.CommentImageService;
-//import com.jeeplus.modules.community.entity.Community;
-//import com.jeeplus.modules.community.entity.CommunityMenu;
-//import com.jeeplus.modules.community.mapper.CommunityMenuMapper;
-//import com.jeeplus.modules.community.service.CommunityService;
-//import com.jeeplus.modules.communitycontact.entity.CommunityContact;
-//import com.jeeplus.modules.communitycontact.service.CommunityContactService;
-//import com.jeeplus.modules.communityman.entity.CommunityMan;
-//import com.jeeplus.modules.communityman.service.CommunityManService;
-//import com.jeeplus.modules.communitymanexperience.entity.CommunityManExperience;
-//import com.jeeplus.modules.communitymanexperience.service.CommunityManExperienceService;
-//import com.jeeplus.modules.communitymanlabel.entity.CommunityManLabel;
-//import com.jeeplus.modules.communitymanlabel.service.CommunityManLabelService;
-//import com.jeeplus.modules.communityshop.entity.CommunityShop;
-//import com.jeeplus.modules.communityshop.entity.CommunityShopGoods;
-//import com.jeeplus.modules.communityshop.service.CommunityShopService;
-//import com.jeeplus.modules.computerIcon.entity.Icon;
-//import com.jeeplus.modules.computerIcon.service.IconService;
-//import com.jeeplus.modules.coupon.entity.Coupon;
-//import com.jeeplus.modules.coupon.service.CouponService;
-//import com.jeeplus.modules.customer.entity.Customer;
-//import com.jeeplus.modules.customer.service.CustomerService;
-//import com.jeeplus.modules.dynamic.entity.Dynamic;
-//import com.jeeplus.modules.dynamic.entity.DynamicUnion;
-//import com.jeeplus.modules.dynamic.service.DynamicService;
-//import com.jeeplus.modules.dynamiczan.entity.DynamicZan;
-//import com.jeeplus.modules.dynamiczan.service.DynamicZanService;
-//import com.jeeplus.modules.feedback.entity.Feedback;
-//import com.jeeplus.modules.feedback.service.FeedbackService;
-//import com.jeeplus.modules.goods.entity.Goods;
-//import com.jeeplus.modules.goods.service.GoodsService;
-//import com.jeeplus.modules.goodsactivity.service.GoodsActivityService;
-//import com.jeeplus.modules.goodscommunity.entity.GoodsCommunity;
-//import com.jeeplus.modules.goodscommunity.service.GoodsCommunityService;
-//import com.jeeplus.modules.help.entity.Help;
-//import com.jeeplus.modules.help.service.HelpService;
-//import com.jeeplus.modules.iim.entity.ChatHistory;
-//import com.jeeplus.modules.iim.entity.LayGroup;
-//import com.jeeplus.modules.iim.entity.LayGroupUser;
-//import com.jeeplus.modules.iim.mapper.LayGroupUserMapper;
-//import com.jeeplus.modules.iim.service.ChatHistoryService;
-//import com.jeeplus.modules.iim.service.LayGroupService;
-//import com.jeeplus.modules.label.entity.Label;
-//import com.jeeplus.modules.label.service.LabelService;
-//import com.jeeplus.modules.labeluser.entity.Labeluser;
-//import com.jeeplus.modules.labeluser.service.LabeluserService;
-//import com.jeeplus.modules.msg.entity.Msg;
-//import com.jeeplus.modules.msg.service.MsgService;
-//import com.jeeplus.modules.optimization.entity.Optimization;
-//import com.jeeplus.modules.optimization.service.OptimizationService;
-//import com.jeeplus.modules.ordertype.entity.OrderType;
-//import com.jeeplus.modules.ordertype.mapper.OrderTypeMapper;
-//import com.jeeplus.modules.report.entity.Report;
-//import com.jeeplus.modules.report.service.ReportService;
-//import com.jeeplus.modules.req.ActivityListReq;
-//import com.jeeplus.modules.req.AddCartGoodsOrderNewReq;
-//import com.jeeplus.modules.req.AddCartGoodsOrderReq;
-//import com.jeeplus.modules.req.AddCommunityMessageReq;
-//import com.jeeplus.modules.req.AddLabelReq;
-//import com.jeeplus.modules.req.AddSettleAccountsReq;
-//import com.jeeplus.modules.req.AddUserAddressReq;
-//import com.jeeplus.modules.req.AddUserCartReq;
-//import com.jeeplus.modules.req.AddUserRechargeReq;
-//import com.jeeplus.modules.req.CancelUserOrderReq;
-//import com.jeeplus.modules.req.DelUserAddressReq;
-//import com.jeeplus.modules.req.DelUserCartReq;
-//import com.jeeplus.modules.req.DeleteMessageReq;
-//import com.jeeplus.modules.req.EditUserAddressReq;
-//import com.jeeplus.modules.req.EditUserIconReq;
-//import com.jeeplus.modules.req.EditUserNicknameReq;
-//import com.jeeplus.modules.req.EditUserPasswordReq;
-//import com.jeeplus.modules.req.EvaluateOrder1Req;
-//import com.jeeplus.modules.req.FindListReq;
-//import com.jeeplus.modules.req.FindUserPasswordReq;
-//import com.jeeplus.modules.req.GetCommunityReq;
-//import com.jeeplus.modules.req.GetDictTypeReq;
-//import com.jeeplus.modules.req.GetDistance;
-//import com.jeeplus.modules.req.GetHelpReq;
-//import com.jeeplus.modules.req.GetMerchantRestReq;
-//import com.jeeplus.modules.req.GetMessageReq;
-//import com.jeeplus.modules.req.GetPayDetailReq;
-//import com.jeeplus.modules.req.GetServicePageIcon;
-//import com.jeeplus.modules.req.GetUserCartReq;
-//import com.jeeplus.modules.req.GetVillageShopReq;
-//import com.jeeplus.modules.req.GoodsListBean;
-//import com.jeeplus.modules.req.PayByBalanceReq;
-//import com.jeeplus.modules.req.SecuritiesListReq;
-//import com.jeeplus.modules.req.ThirdLoginReq;
-//import com.jeeplus.modules.req.UserAddressListReq;
-//import com.jeeplus.modules.req.UserInfoReq;
-//import com.jeeplus.modules.req.UserLoginReq;
-//import com.jeeplus.modules.req.UserOrderDetailReq;
-//import com.jeeplus.modules.req.UserOrderListReq;
-//import com.jeeplus.modules.req.UserRefundReq;
-//import com.jeeplus.modules.req.UserRegisterReq;
-//import com.jeeplus.modules.req.UserScoreListReq;
-//import com.jeeplus.modules.req.UserSignReq;
-//import com.jeeplus.modules.req.UserTixianReq;
-//import com.jeeplus.modules.res.AddGoodsOrderRes;
-//import com.jeeplus.modules.res.AddUserRechargeRes;
-//import com.jeeplus.modules.res.ContactUsRes;
-//import com.jeeplus.modules.res.FindListeRes;
-//import com.jeeplus.modules.res.GetDictTypeRes;
-//import com.jeeplus.modules.res.GetLabelListRes;
-//import com.jeeplus.modules.res.GetManDetailRes;
-//import com.jeeplus.modules.res.GetSignRewardRes;
-//import com.jeeplus.modules.res.GetversionRes;
-//import com.jeeplus.modules.res.MyShopCarRes;
-//import com.jeeplus.modules.res.ResJson;
-//import com.jeeplus.modules.res.RestRes;
-//import com.jeeplus.modules.res.UserInfoRes;
-//import com.jeeplus.modules.res.UserLoginRes;
-//import com.jeeplus.modules.res.UserOrderDetailRes;
-//import com.jeeplus.modules.res.UserScoreListRes;
-//import com.jeeplus.modules.res.UserSignRes;
-//import com.jeeplus.modules.scoredetail.entity.ScoreDetail;
-//import com.jeeplus.modules.scoredetail.service.ScoreDetailService;
-//import com.jeeplus.modules.shoporder.entity.ShopOrder;
-//import com.jeeplus.modules.shoporder.entity.ShopOrderlist;
-//import com.jeeplus.modules.shoporder.service.ShopOrderService;
-//import com.jeeplus.modules.sign.entity.Sign;
-//import com.jeeplus.modules.sign.service.SignService;
-//import com.jeeplus.modules.sys.entity.Keyword;
-//import com.jeeplus.modules.sys.entity.Role;
-//import com.jeeplus.modules.sys.entity.User;
-//import com.jeeplus.modules.sys.mapper.UserMapper;
-//import com.jeeplus.modules.sys.service.SystemConfigService;
-//import com.jeeplus.modules.task.entity.Task;
-//import com.jeeplus.modules.task.service.TaskService;
-//import com.jeeplus.modules.theme.entity.Theme;
-//import com.jeeplus.modules.theme.service.ThemeService;
-//import com.jeeplus.modules.user.entity.Tuser;
-//import com.jeeplus.modules.user.service.TuserService;
-//import com.jeeplus.modules.userVisitor.entity.UserVisitor;
-//import com.jeeplus.modules.userVisitor.service.UserVisitorService;
-//import com.jeeplus.modules.userattention.entity.UserAttention;
-//import com.jeeplus.modules.userattention.service.UserAttentionService;
-//import com.jeeplus.modules.usercard.entity.UserCard;
-//import com.jeeplus.modules.usercard.service.UserCardService;
-//import com.jeeplus.modules.usercart.entity.UserCart;
-//import com.jeeplus.modules.usercart.service.UserCartService;
-//import com.jeeplus.modules.usercommunity.entity.UserCommunity;
-//import com.jeeplus.modules.usercommunity.service.UserCommunityService;
-//import com.jeeplus.modules.usercoupon.entity.UserCoupon;
-//import com.jeeplus.modules.usercoupon.service.UserCouponService;
-//import com.jeeplus.modules.usermoney.entity.UserMoney;
-//import com.jeeplus.modules.usermoney.service.UserMoneyService;
-//import com.jeeplus.modules.userorder.entity.UserOrder;
-//import com.jeeplus.modules.userorder.service.UserOrderService;
-//import com.jeeplus.modules.userorderlist.entity.UserOrderlist;
-//import com.jeeplus.modules.userorderlist.service.UserOrderlistService;
-//import com.jeeplus.modules.userrecharge.entity.UserRecharge;
-//import com.jeeplus.modules.userrecharge.service.UserRechargeService;
-//import com.jeeplus.modules.userremarks.entity.UserRemarks;
-//import com.jeeplus.modules.userremarks.service.UserRemarksService;
-//import com.jeeplus.modules.version.entity.Version;
-//import com.jeeplus.modules.version.service.VersionService;
-//import com.jeeplus.modules.webhook.AlipayCg;
-//import com.jeeplus.modules.webhook.HttpPostXML;
-//import com.jeeplus.modules.webhook.WXpayCg;
-//import com.jeeplus.push.PushExample;
-//import com.jeeplus.push.XiaoMiPush;
-//import com.jeeplus.utils.Base64ToImageUtil;
-//import com.jeeplus.utils.DateTimeUtil;
-//import com.jeeplus.utils.StringUtil;
-//import com.jeeplus.utils.Year;
-//
-//import cn.beecloud.MD5;
-//@Service
-//public class UserServiceCode{
-//
-//	/**
-//	 * 日志对象
-//	 */
-//	protected Logger logger = LoggerFactory.getLogger(getClass());
-//	/**
-//	 * 项目路径
-//	 */
+package com.doulin.mobile.code;
+
+import cn.hutool.core.util.StrUtil;
+import com.doulin.common.content.SysContent;
+import com.doulin.common.j2cache.CacheUtils;
+import com.doulin.entity.TShopHomeBaseInfo;
+import com.doulin.entity.TUser;
+import com.doulin.entity.common.EditUserPasswordReq;
+import com.doulin.entity.common.FindUserPasswordReq;
+import com.doulin.entity.common.ResJson;
+import com.doulin.entity.common.UserRegisterReq;
+import com.doulin.service.TShopHomeBaseInfoService;
+import com.doulin.service.TUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Service
+public class UserServiceCode{
+
+	/**
+	 * 日志对象
+	 */
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private TShopHomeBaseInfoService shopHomeBaseInfoService;
+	@Autowired
+	private TUserService tUserService;
+
+	/**
+	 * 项目路径
+	 */
 //	@Value("${filePath}")
 //	protected String filePath;
 //	@Autowired
@@ -369,8 +139,8 @@
 //	private CommunityContactService communityContactService;
 //	@Autowired
 //	private ShopOrderService shopOrderService;
-//	@Autowired
-//	private CommonServiceCode csc;
+	@Autowired
+	private CommonServiceCode csc;
 //	@Autowired
 //	private ActivitylistMapper activitylistMapper;
 //	@Autowired
@@ -385,20 +155,21 @@
 //	private ChatHistoryService chatHistoryService;
 //	@Autowired
 //	private UserVisitorService userVisitorService;
-//	/**
-//	 * 1.0 验证手机号
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
-//	public ResJson codec1(UserRegisterReq req) throws Exception {
-//		ResJson res = new ResJson();
-//		res.setResultNote("验证失败");
+	/**
+	 * 1.0 验证手机号
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	public ResJson codec1(UserRegisterReq req, String type) throws Exception {
+		ResJson res = new ResJson();
+		res.setResultNote("验证失败");
+		if (StrUtil.isBlank(req.getPhone())) {
+			return ResJson.error(SysContent.ERROR_PHONE);
+		}
+//		if(SysContent.INTGER_1.toString().equals(type)){
 //
-//		if (StringUtils.isBlank(req.getPhone())) {
-//			res.setResultNote("手机号不能为空");
-//			return res;
 //		}
 //		// 判断手机号是否已存在
 //		Tuser tuser = tuserService.getUserByPhone(req.getPhone());
@@ -412,16 +183,16 @@
 //			res.setResult("0");
 //			res.setResultNote("未注册");
 //		}
-//		return res;
-//	}
-//
-//	/**
-//	 * 1.10 验证用户是否已注册（验证码）
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
+		return res;
+	}
+
+	/**
+	 * 1.10 验证用户是否已注册（验证码）
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 //	public ResJson codec1(HttpServletRequest request,UserRegisterReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("验证失败");
@@ -532,14 +303,14 @@
 //		}
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.1用户注册
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
+
+	/**
+	 * 1.1用户注册
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 //	public ResJson codec(HttpServletRequest request, UserRegisterReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("注册失败");
@@ -629,14 +400,14 @@
 //		res.setResultNote("注册成功");
 //		return res;
 //	}
-//
-//	/**
-//	 * 验证登录
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
+
+	/**
+	 * 验证登录
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 //	public ResJson codec(HttpServletRequest request) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResult("0");
@@ -711,14 +482,14 @@
 //		}
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.2用户登录
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
+
+	/**
+	 * 1.2用户登录
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 //	public ResJson codec(HttpServletRequest request, UserLoginReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("登录失败");
@@ -755,14 +526,14 @@
 //		}
 //		return res;
 //	}
-//
-//	/**
-//	 * JSAPI公众号获取验证码
-//	 *
-//	 * @param request
-//	 * @param req
-//	 * @return
-//	 */
+
+	/**
+	 * JSAPI公众号获取验证码
+	 *
+	 * @param request
+	 * @param req
+	 * @return
+	 */
 //	public ResJson codeVerification(HttpServletRequest request, UserLoginReq req) {
 //		ResJson res = new ResJson();
 //		res.setResultNote("验证码获取失败");
@@ -798,14 +569,14 @@
 //		}
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.21微信公众号登陆
-//	 *
-//	 * @param req
-//	 * @return
-//	 * @throws Exception
-//	 */
+
+	/**
+	 * 1.21微信公众号登陆
+	 *
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
 //	public ResJson codecOfficialAccounts(HttpServletRequest request, UserRegisterReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("登录失败");
@@ -917,22 +688,22 @@
 //			res.setResultNote("验证码不正确");
 //			return res;
 //		}
-//
-//		/*
-//		 * try { // 登录成功后修改token if (StringUtils.isNotBlank(req.getToken()) &&
-//		 * "0".equals(res.getResult())) { tuserService.updateToken(tuser.getId(),
-//		 * req.getToken()); } } catch (Exception e) { logger.error(e.getMessage()); }
-//		 */
-//
+
+		/*
+		 * try { // 登录成功后修改token if (StringUtils.isNotBlank(req.getToken()) &&
+		 * "0".equals(res.getResult())) { tuserService.updateToken(tuser.getId(),
+		 * req.getToken()); } } catch (Exception e) { logger.error(e.getMessage()); }
+		 */
+
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.3 短信登录
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
+
+	/**
+	 * 1.3 短信登录
+	 *
+	 * @param req
+	 * @return
+	 */
 //	public ResJson codec(HttpServletRequest request, ThirdLoginReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("登录失败");
@@ -1018,13 +789,13 @@
 //		res.setResultNote("登录成功");
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.31短信登录 验证升级
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
+
+	/**
+	 * 1.31短信登录 验证升级
+	 *
+	 * @param req
+	 * @return
+	 */
 //	public ResJson codecVerify(HttpServletRequest request, ThirdLoginReq req) throws Exception {
 //		UserLoginRes res = new UserLoginRes();
 //		res.setResultNote("登录失败");
@@ -1135,13 +906,13 @@
 //		res.setResultNote("登录成功");
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.4用户找回密码
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
+
+	/**
+	 * 1.4用户找回密码
+	 *
+	 * @param req
+	 * @return
+	 */
 //	public ResJson codec(FindUserPasswordReq req, HttpServletRequest request) {
 //		ResJson res = new ResJson();
 //		res.setResultNote("设置失败");
@@ -1170,131 +941,187 @@
 //		}
 //		return res;
 //	}
-//
-//	/**
-//	 * 1.41用户找回密码 验证码升级
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
-//	public ResJson codecVerify(FindUserPasswordReq req, HttpServletRequest request) {
-//		ResJson res = new ResJson();
-//		res.setResultNote("设置失败");
-//		try {
-//			if (StringUtils.isBlank(req.getPhone())) {
-//				res.setResultNote("手机号不能为空");
-//				return res;
-//			}
-//			if (StringUtils.isBlank(req.getPassword())) {
-//				res.setResultNote("密码不能为空");
-//				return res;
-//			}
-//			if (StringUtils.isBlank(req.getCodeType())) {
-//				res.setResultNote("验证码类型不能为空");
-//				return res;
-//			}
-//			String ip = request.getRemoteAddr();
-//
-//			String authCode = csc.codeBoolean(req.getPhone(), req.getCodeType(), req.getCode(), ip);
-//			if ("1".equals(authCode)) {
-//				res.setResultNote("验证码不正确");
-//				return res;
-//			} else if ("2".equals(authCode)) {
-//				res.setResultNote("验证码过期");
-//				return res;
-//			}
-//			Tuser user = tuserService.getUserByPhone(req.getPhone());
-//			if (null == user) {
-//				res.setResultNote("该手机号不存在");
-//			} else if (!"0".equals(user.getStatus())) {
-//				res.setResultNote("该手机号被禁用");
-//			} else {
-//				user.setPassword(req.getPassword());
-//				tuserService.updateUser(user);
-//				res.setResult("0");
-//				res.setResultNote("设置成功");
-//				CacheUtils.remove("code" + req.getPhone(), req.getCodeType());
-//				CacheUtils.remove("ip" + ip, req.getCodeType());
-//				CacheUtils.remove("dateTime" + ip, req.getCodeType());
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return res;
-//	}
-//
-//	/**
-//	 * 1.5用户修改登录密码
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
-//	public ResJson codec(EditUserPasswordReq req, HttpServletRequest request) {
-//		ResJson res = new ResJson();
-//		res.setResultNote("修改失败");
-//		try {
-//			if (StringUtils.isBlank(req.getUid())) {
-//				res.setResultNote("系统开小车");
-//				return res;
-//			}
-//			if (StringUtils.isBlank(req.getOldPassword())) {
-//				res.setResultNote("原密码不能为空");
-//				return res;
-//			}
-//			if (StringUtils.isBlank(req.getNewPassword())) {
-//				res.setResultNote("新密码不能为空");
-//				return res;
-//			}
-//
-//			Tuser tuser = tuserService.get(req.getUid());
-//			if (null == tuser) {
-//				res.setResultNote("系统开小车");
-//			} else {
-//				if (!req.getOldPassword().equals(tuser.getPassword())) {
-//					res.setResultNote("原密码错误");
-//				} else {
-//					tuser.setPassword(req.getNewPassword());
-//					tuserService.updateUser(tuser);
-//					res.setResult("0");
-//					res.setResultNote("修改成功");
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return res;
-//	}
-//
-//	/**
-//	 * 1.51用户修改登录密码 验证升级
-//	 *
-//	 * @param req
-//	 * @return
-//	 */
+
+	/**
+	 * 1.41用户找回密码 验证码升级
+	 *
+	 * @param req
+	 * @return
+	 */
+	public ResJson codecVerify(FindUserPasswordReq req, HttpServletRequest request) {
+
+		try {
+			if (StrUtil.isBlank(req.getPhone())) {
+				return ResJson.error(SysContent.ERROR_PHONE);
+			}
+			if (StrUtil.isBlank(req.getPassword())) {
+				return ResJson.error(SysContent.ERROR_PASSORD_EMPTY);
+			}
+			if (StrUtil.isBlank(req.getCodeType())) {
+				return  ResJson.error(SysContent.ERROR_CODE_TYPE_EMPTY);
+			}
+			String ip = request.getRemoteAddr();
+
+			String authCode = csc.codeBoolean(req.getPhone(), req.getCodeType(), req.getCode(), ip);
+			if (SysContent.INTGER_1.toString().equals(authCode)) {
+				return ResJson.error(SysContent.ERROR_REDOMCODE);
+			} else if (SysContent.INTGER_2.toString().equals(authCode)) {
+				return  ResJson.error(SysContent.ERROR_REDOMCODE_LANGTIME);
+			}
+			if(SysContent.INTGER_1.toString().equals(req.getType())){
+				return setShopPassword( req, ip);
+			}else if(SysContent.INTGER_2.toString().equals(req.getType())){
+				return  setTuserPassword( req, ip);
+			}
+
+
+		} catch (Exception e) {
+			logger.error(SysContent.ERROR_EDIT+e.getMessage());
+			return ResJson.error(SysContent.ERROR_EDIT);
+		}
+
+		return ResJson.error(SysContent.ERROR_SETTING);
+	}
+
+	/**
+	 * 用户端修改密码
+	 * @param req
+	 * @param ip
+	 * @return
+	 */
+	private ResJson setTuserPassword(FindUserPasswordReq req,String ip){
+		TUser user = tUserService.getOneByLoginPhone(req.getPhone());
+		if (null == user) {
+			return ResJson.error(SysContent.ERROR_PHONE_NO_EXSIS);
+		} else if (!SysContent.INTGER_1.toString().equals(user.getStatus())) {
+			return ResJson.error(SysContent.ERROR_PHONE_JY);
+		} else {
+			user.setPassword(req.getPassword());
+			tUserService.updateById(user);
+			findPasswordCache(req.getPhone(),req.getCodeType(),ip);
+			return ResJson.Ok(SysContent.OK_OPER);
+		}
+	}
+
+	/**
+	 *
+	 * 商户端修改密码
+	 * @param req
+	 * @param ip
+	 * @return
+	 */
+	private ResJson setShopPassword(FindUserPasswordReq req,String ip){
+		TShopHomeBaseInfo user = shopHomeBaseInfoService.getInfoByLoginNo(req.getPhone());
+		if (null == user) {
+			return ResJson.error(SysContent.ERROR_PHONE_NO_EXSIS);
+		} else if (!SysContent.INTGER_1.toString().equals(user.getStatus())) {
+			return ResJson.error(SysContent.ERROR_PHONE_JY);
+		} else {
+			user.setPassword(req.getPassword());
+			shopHomeBaseInfoService.updateById(user);
+			findPasswordCache(req.getPhone(),req.getCodeType(),ip);
+			return ResJson.Ok(SysContent.OK_OPER);
+		}
+	}
+	private void findPasswordCache(String phone,String codetype,String ip){
+		CacheUtils.remove("code" + phone,codetype);
+		CacheUtils.remove("ip" + ip, codetype);
+		CacheUtils.remove("dateTime" + ip, codetype);
+	}
+	/**
+	 * 1.5用户修改登录密码
+	 *
+	 * @param req
+	 * @return
+	 */
+	public ResJson codec(EditUserPasswordReq req, HttpServletRequest request) {
+		ResJson res = new ResJson();
+		res.setResultNote("修改失败");
+		try {
+			if (StrUtil.isBlank(req.getUid())) {
+				return	ResJson.error(SysContent.ERROR_SYS);
+			}else if (StrUtil.isBlank(req.getOldPassword())) {
+				return	ResJson.error(SysContent.ERROR_OLD_PASSORD_EMPTY);
+			}else if (StrUtil.isBlank(req.getNewPassword())) {
+				return	ResJson.error(SysContent.ERROR_NEW_PASSWORD_EMPTY);
+			}
+			//商家
+            if(SysContent.INTGER_1.toString().equals(req.getType())){
+            	res=updateShopPassword(req);
+            //用户
+			}else if(SysContent.INTGER_2.toString().equals(req.getType())){
+				res=updateTuserPassword(req);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return res;
+	}
+
+	/**
+	 * 修改商家密码
+	 * @param req
+	 * @return
+	 */
+	private ResJson updateShopPassword(EditUserPasswordReq req){
+		TShopHomeBaseInfo tuser=shopHomeBaseInfoService.getById(req.getUid());
+		if (null == tuser) {
+			return ResJson.error(SysContent.ERROR_SYS);
+		} else {
+			if (!req.getOldPassword().equals(tuser.getPassword())) {
+				return ResJson.error("原密码错误");
+			} else {
+				tuser.setPassword(req.getNewPassword());
+				shopHomeBaseInfoService.updateById(tuser);
+				return ResJson.Ok("修改成功");
+			}
+		}
+	}
+	/**
+	 * 修改商家密码
+	 * @param req
+	 * @return
+	 */
+	private ResJson updateTuserPassword(EditUserPasswordReq req){
+		TUser tuser=tUserService.getById(req.getUid());
+		if (null == tuser) {
+			return ResJson.error(SysContent.ERROR_SYS);
+		} else {
+			if (!req.getOldPassword().equals(tuser.getPassword())) {
+				return ResJson.error("原密码错误");
+			} else {
+				tuser.setPassword(req.getNewPassword());
+				tUserService.updateById(tuser);
+				return ResJson.Ok("修改成功");
+			}
+		}
+	}
+
+	/**
+	 * 1.51用户修改登录密码 验证升级
+	 *
+	 * @param req
+	 * @return
+	 */
 //	public ResJson codecVerify(EditUserPasswordReq req, HttpServletRequest request) {
 //		ResJson res = new ResJson();
 //		res.setResultNote("修改失败");
 //		try {
 //			if (StringUtils.isBlank(req.getUid())) {
-//				res.setResultNote("系统开小车");
-//				return res;
+//				return ResJson.error(SysContent.ERROR_SYS);
 //			}
 //			if (StringUtils.isBlank(req.getOldPassword())) {
-//				res.setResultNote("原密码不能为空");
-//				return res;
+//               return ResJson.error("原密码不能为空");
 //			}
 //			if (StringUtils.isBlank(req.getNewPassword())) {
-//				res.setResultNote("新密码不能为空");
-//				return res;
+//                return ResJson.error("新密码不能为空");
 //			}
 //
 //			if (StringUtils.isBlank(req.getCodeType())) {
-//				res.setResultNote("验证码类型不能为空");
-//				return res;
+//                return ResJson.error("验证码类型不能为空");
 //			}
 //			if (StringUtils.isBlank(req.getPhone())) {
-//				res.setResultNote("手机号不能为空");
-//				return res;
+//                return ResJson.error("手机号不能为空");
 //			}
 //			String ip = request.getRemoteAddr();
 //			String authCode = csc.codeBoolean(req.getPhone(), req.getCodeType(), req.getCode(), ip);
@@ -1307,7 +1134,7 @@
 //			}
 //			Tuser tuser = tuserService.get(req.getUid());
 //			if (null == tuser) {
-//				res.setResultNote("系统开小车");
+//				res.setResultNote(SysContent.ERROR_SYS);
 //			} else {
 //				if (!req.getOldPassword().equals(tuser.getPassword())) {
 //					res.setResultNote("原密码错误");
@@ -1338,7 +1165,7 @@
 //		res.setResultNote("获取失败");
 //		try {
 //			if (StringUtils.isBlank(req.getUid())) {
-//				res.setResultNote("系统开小车");
+//				res.setResultNote(SysContent.ERROR_SYS);
 //				return res;
 //			}
 //			if (StringUtils.isBlank(req.getCommunityId())) {
@@ -1879,7 +1706,7 @@
 //		String sql;
 //		try {
 //			if (StringUtils.isBlank(req.getUid())) {
-//				res.setResultNote("系统开小车");
+//				res.setResultNote(SysContent.ERROR_SYS);
 //				return res;
 //			}
 //			if (StringUtils.isBlank(req.getImgId())) {
@@ -16934,5 +16761,5 @@
 //		}
 //		return res;
 //	};
-//
-//}
+
+}

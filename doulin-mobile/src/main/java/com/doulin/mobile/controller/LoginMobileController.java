@@ -4,25 +4,26 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.doulin.common.date.DateFormatUtil;
-import com.doulin.entity.common.ResJson;
-import com.doulin.entity.common.SendSmsReq;
-import com.doulin.entity.common.ServerTimeRes;
-import com.doulin.entity.common.UserLoginReq;
+import com.doulin.entity.TShopHomeBaseInfo;
+import com.doulin.entity.common.*;
 import com.doulin.mobile.code.CommonServiceCode;
 import com.doulin.mobile.code.ShopServiceCode;
+import com.doulin.mobile.code.UserServiceCode;
+import com.doulin.mobile.common.ApiNameUtil;
 import com.doulin.mobile.common.BaseAppController;
+import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Api(tags = "移动端登录")
+@CrossOrigin
 @RestController
 @RequestMapping("app/api")
 @Slf4j
@@ -43,29 +45,79 @@ public class LoginMobileController extends BaseAppController {
     @Autowired
     private CommonServiceCode csc;
     @Autowired
+    private UserServiceCode usc;
+    @Autowired
     private ShopServiceCode ssc;
+    @Autowired
+    private TShopHomeBaseInfoService shopHomeBaseInfoService;
 
     // 服务入口
-    @ApiOperation(value = "服务入口")
+    @ApiOperation(value = "服务入口",tags = {"商家登录json={\n" +
+            "    \"cmd\": \"shopLogin\",\n" +
+            "    \"phone\": \"电话\",\n" +
+            "    \"password\": \"登录密码\",\n" +
+            "    \"type\": \"1商家，2用户\",\n" +
+            "    \"loginType\": \"1密码登录，2短信登录\",\n" +
+            "    \"token\": \"\",\n" +
+            "    \"openId\": \"微信openId\",\n" +
+            "    \"uid\": \"用户id\",\n" +
+            "    \"codeType\": \"短信类型 0/老版本 1/绑定手机  2/找回密码   3/身份验证   4/修改密码  5/注册  6/登录\",\n" +
+            "    \"randomCode\":\"验证码\"\n" +
+            "    \n" +
+            "}","获取验证码json={\n" +
+            "    \"cmd\": \"getSMSCode\",\n" +
+            "    \"codeType\": \"短信类型 0/老版本 1/绑定手机  2/找回密码   3/身份验证   4/修改密码  5/注册  6/登录\",\n" +
+            "    \"phone\": \"手机号\"\n" +
+            "}","商家添加密码 json={\n" +
+            "    \"cmd\": \"addShopPassword\",\n" +
+            "    \"loginNo\": \"登录的手机号\",\n" +
+            "    \"password\": \"登录密码\"\n" +
+            "}","商家密码修改json={\n" +
+            "    \"cmd\": \"editShopPassword\",\n" +
+            "    \"oldPassword\": \"旧密码\",\n" +
+            "    \"newPassword\": \"新密码\",\n" +
+            "    \"codeType\": \"短信类型 0/老版本 1/绑定手机  2/找回密码   3/身份验证   4/修改密码  5/注册  6/登录\",\n" +
+            "    \"randomCode\": \"验证码\",\n" +
+            "    \"type\": \"/1商家  2/用户\",\n" +
+            "    \"phone\": \"电话\"\n" +
+            "}"})
     @PostMapping(value = "/service")
     public String service(HttpServletRequest request, HttpServletResponse response,   String json) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         ResJson res = new ResJson();
         try {
-             json = URLDecoder.decode(json, "utf-8");
+//             json = URLDecoder.decode(json, "utf-8");
             if (StrUtil.isBlank(json)) {
                 res.setResultNote("请求数据不能为空");
                 return responseAppRes(res);
             }
             log.info("收：" + json);
-            Map<String,Object> obj = getRequestCk(json);
+            Map<String, Object> obj = getRequestCk(json);
             String cmd = obj.get("cmd").toString(); // 获取请求信息
-            String type = obj.get("codeType").toString(); // 获取请求信息
+           // String type = obj.get("codeType").toString(); // 获取请求信息
             /**************** 用户端接口 *******************/
-//            if ("phoneVerification".equals(cmd)) { // 1.0验证手机号
-//                UserRegisterReq req =JSONUtil.toBean(json, UserRegisterReq.class);
-//                  utilService.phoneFlag(type,req);
-//            } else if ("userRegister".equals(cmd)) { // 1.1用户注册
+            if (ApiNameUtil.GETSMSCODE.getApi().equals(cmd)) {// 6.7发送验证码
+                SendSmsReq req = BeanUtil.toBean(obj, SendSmsReq.class);
+                res = csc.sendSMSCode(req, request);
+            } else if (ApiNameUtil.SHOPLOGIN.getApi().equals(cmd)) { // 4.1 商家登录
+                UserLoginReq req = BeanUtil.toBean(obj, UserLoginReq.class);
+                res = ssc.codec1(request, req);
+            }else  if(ApiNameUtil.SHOPREGISTER.getApi().equals(cmd)){//商家注册
+//                res = usc.codec(request, req);
+            }else if (ApiNameUtil.ADDSHOPPASSWORD.getApi().equals(cmd)) { // 1.5商家登录密码
+                TShopHomeBaseInfo req = BeanUtil.toBean(obj, TShopHomeBaseInfo.class);
+                res = ResJson.Ok( shopHomeBaseInfoService.addPassByPhone(request,req));
+            }else if (ApiNameUtil.EDITSOPPASSWORD.getApi().equals(cmd)) { // 商家修改登录密码
+                EditUserPasswordReq req = BeanUtil.toBean(obj, EditUserPasswordReq.class);
+                res = usc.codec(req, request);
+            }else if ("phoneVerification".equals(cmd)) { // 1.0验证手机号
+                UserRegisterReq req =JSONUtil.toBean(json, UserRegisterReq.class);
+//                res = usc.codec1(req);
+            }else if ("findUserPassword".equals(cmd)) { // 1.4用户找回密码
+                FindUserPasswordReq req = BeanUtil.toBean(json, FindUserPasswordReq.class);
+                res = usc.codecVerify(req, request);
+            }
+//            else if ("userRegister".equals(cmd)) { // 1.1用户注册
 ////                res = usc.codec(request, req);
 //            } else if ("phoneVerifCode".equals(cmd)) { // 1.72验证用户是否已注册（验证码）
 ////                res = usc.codec1(request, req);
@@ -570,10 +622,7 @@ public class LoginMobileController extends BaseAppController {
 //                GetDistance req = JSONObject.parseObject(json, GetDistance.class);
 //                res = usc.codecDistance(req);
 //            } else
-            if ("shopLogin".equals(cmd)) { // 4.1 商家登录
-                UserLoginReq req = JSONUtil.toBean(json, UserLoginReq.class);
-                res = ssc.codec1(request, req);
-            }
+
 //            else if ("findShopPassword".equals(cmd)) { // 4.2 商家忘记密码
 //                FindUserPasswordReq req = JSONObject.parseObject(json, FindUserPasswordReq.class);
 //                res = ssc.codec1(req);
@@ -850,10 +899,7 @@ public class LoginMobileController extends BaseAppController {
 //                res=usc.activityListcode(request, req);
 //            }
             /**************** 公共接口 *******************/
-            else if ("getSMSCode".equals(cmd)) {// 6.7发送验证码
-                SendSmsReq req = BeanUtil.toBean(obj, SendSmsReq.class);
-                res = csc.sendSMSCode(req, request);
-            } else if ("getServerTime".equals(cmd)) {// 6.8获取服务器时间
+            else if ("getServerTime".equals(cmd)) {// 6.8获取服务器时间
                 res = codec3();
             }
         } catch (Exception e) {
@@ -863,7 +909,7 @@ public class LoginMobileController extends BaseAppController {
             return responseAppRes(res);
         }
         log.info("发：" + JSONUtil.toJsonStr(res));
-         return responseAppRes(res);
+        return responseAppRes(res);
 //        return responseAppRes(res);
     }
 

@@ -33,7 +33,7 @@
         </where>
     </select>
     <update id="deleteInfoBatchIds">
-        UPDATE t_shop_home_group t  SET t.del_flag = 1, t.edit_by =#{loginUserId}, t.edit_dt=new()
+        UPDATE t_shop_home_group t  SET t.del_flag = 1, t.edit_by =#{loginUserId}, t.edit_dt=now()
          WHERE  t.id IN
         <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
             CAST(#{id} AS SIGNED)

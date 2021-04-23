@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -24,7 +23,8 @@ import java.util.Map;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统控制器类")
+@Api(tags = "系统角色控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysRole")
 @Slf4j
@@ -47,6 +47,7 @@ public class SysRoleController extends BaseWebController {
             "    \"v\": {\n" +
             "        \"roleName\": \"角色名称\",\n" +
             "        \"roleSign\": \"角色标识\",\n" +
+            "        \"status\": \"0/正常  1/禁用\",\n" +
             "        \"remark\": \"角色描述\"\n" +
             "    }\n" +
             "}")
@@ -73,12 +74,38 @@ public class SysRoleController extends BaseWebController {
     /**
      * 删除
      *
-     * @param ids
+     * @param requestMap
      */
-    @ApiOperation(value = "delete", notes = "")
-    @GetMapping("/delete")
-    public void delete(@RequestParam("ids") Long... ids) {
-        sysRoleService.removeByIds(Arrays.asList(ids));
+    @ApiOperation(value = "delete", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"1\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"角色id\"\n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/delete")
+    public Object delete(@RequestBody Map<String,Object> requestMap) {
+        try {
+            String loginUserId = getLoginUserId(requestMap);
+            if (null == getVvalue(requestMap).get(SysContent.ID_STR)) {
+                throw new MyException(SysContent.ERROR_ID);
+            } else {
+                Integer id = Integer.valueOf(getVvalue(requestMap).get(SysContent.ID_STR).toString());
+                SysRole sysMenu = sysRoleService.getById(id);
+                sysMenu.setEditBy(loginUserId);
+                sysMenu.setEditDt(new Date());
+                sysMenu.setDelFlag(SysContent.INTGER_1);
+                sysRoleService.updateById(sysMenu);
+            }
+            return R.ok();
+        } catch (MyException e) {
+            log.error("/sysRole/delete" + e.getMessage());
+            return R.error(e.getMessage());
+        }
+
     }
 
     /**
@@ -96,6 +123,7 @@ public class SysRoleController extends BaseWebController {
             "        \"id\": \"角色id\",\n" +
             "        \"roleName\": \"角色名称\",\n" +
             "        \"roleSign\": \"角色标识\",\n" +
+            "        \"status\": \"0/正常  1/禁用\",\n" +
             "        \"remark\": \"角色描述\"\n" +
             "    }\n" +
             "}")
@@ -164,7 +192,10 @@ public class SysRoleController extends BaseWebController {
             "}")
     @PostMapping("/page")
     public Object pageList(@RequestBody Map<String,Object> requestMap) {
-        IPage<SysRole> pagelist = sysRoleService.pageInfo(getPageParm(requestMap));
+        Map<String, Object> smap = getSvalue(requestMap);
+        Map<String, Object> vmap = getVvalue(requestMap);
+        vmap.putAll(smap);
+        IPage<SysRole> pagelist = sysRoleService.pageInfo(vmap);
         if (SysContent.INTGER_0 < pagelist.getRecords().size()) {
             return R.ok(pagelist);
         } else {

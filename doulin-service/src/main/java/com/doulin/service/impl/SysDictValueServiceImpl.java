@@ -1,6 +1,5 @@
 package com.doulin.service.impl;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -61,7 +60,8 @@ public class SysDictValueServiceImpl extends ServiceImpl<SysDictValueMapper, Sys
         }
 
          if(SysContent.OPER_ADD.equals(oper)){
-             if(null!=sysDictValueMapper.selectListByTypeCodeOrValue(sysDictValue.getTypeCode(),sysDictValue.getValue())){
+             List<SysDictValue> list= sysDictValueMapper.selectListByTypeCodeOrValue(sysDictValue.getTypeCode(),sysDictValue.getValue());
+             if(null!=list && list.size()>0){
                  throw new MyException(SysContent.ERROR_EMPTY_DICT_VALUE);
              }
          }else if(SysContent.OPER_EDIT.equals(oper)){

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.common.MyException;
 import com.doulin.entity.SysMenu;
-import com.doulin.entity.edo.Tree;
+import com.doulin.entity.edo.MenuTree;
 import com.doulin.entity.vo.VQuery;
 
 import java.util.List;
@@ -54,5 +54,5 @@ public interface SysMenuService extends IService<SysMenu> {
 
 
 
-    Tree<SysMenu> getTree();
+    MenuTree<SysMenu> getTree();
 }

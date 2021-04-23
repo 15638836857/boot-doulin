@@ -46,7 +46,7 @@ public class TestHttpEncrypt {
 //		System.out.println("ServerEncryptsss:"+content);
 //		System.out.println("ServerEncrypt:"+HttpEncryptUtil.serverEncrypt(aesKeyStr, content));
 //		System.out.println("AppDecrypt:"+HttpEncryptUtil.appDecrypt(aesKeyStr, "{\"ct\" : \"OuwmqqAj/D3Vvr8GY6hRCurRfYdi9jM+NQiq3fbk1AU40vjSyvaZgepYUpbZm2gKLO9J0z0xTeqXvtelxad7hxSbEJzbc/vMgEMs8chb5Yt4sLtD87SLDiFPalKVpaUP/2pGJYGQONddBswai4isdGUnoNLzNQEX7RRv335Capk=\"}"));
-		System.out.println("AppDecrypt:"+HttpEncryptUtil.appDecrypt(aesKeyStr, "{\n  \"ak\" : \"BuKx/oTGfCzhcYcf6tJfiA7tFuZxYBq2J7Cctmz2R95RnKoBdneNX0/cqkwuOvRKukGhX8uOFXBSA0zUd9axAO5hD0ZtnYU8JSEaqJZKMrTa+owup9GlYBCo2NyatbGR7tF8YyHhmqwzKOOyryq8zMZWUxXAoEGjFsWd0AocVeW3ELuVbI8rlpTT3ERn0XeIz+rxZmjJp7kix/KQQa2bDtLmHal6m1pA758bOQa3MmlZ3g95po5r/0WwfzycwuIn8THX5TKYSA5w8EKm64dUea0DyPkhNjWrKkzpfF3jb6i7YUSWGamW+m85N7bFh/gv8u+RJjyarVBdGUBrcoGnjA==\",\n  \"ct\" : \"DhBwdrz+9pBhWIMzThA5VfQcRSF44hVP45MjGgk0p6ZFOtdZb9HALZWjjSzTFZfJng8syQfLWdB9qXlE0Ou0+E4tpUqp70zMKz/A88amnleyfOQi5Rrtgogy6kLr2mVS\"\n}"));
+		System.out.println("AppDecrypt:"+HttpEncryptUtil.appDecrypt(aesKeyStr, "{\"ct\":\"DosTsjjJ7OMrYJdY/E126qQ2Ai72sRhekSzn168i0Bw97pLYl9p8C/23LxlGxIi4gLCvJfhPrcO5B+olKRhM7y9p6lbQtBGTwWCTJWptQU7xNzo6XY3IZxTCHSuMYcXX\"}"));
 		System.out.println(Base64Utils.byte2Base64(AESUtils.encryptAES(
 				"55.50".getBytes(), 
 				AESUtils.loadKeyAES(KeyUtil.AES_KEY), 

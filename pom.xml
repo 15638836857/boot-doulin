@@ -37,6 +37,7 @@
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <fastjson.version>1.2.75</fastjson.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <baidu.version>4.15.7</baidu.version>
     </properties>
     <dependencies>
         <dependency>
@@ -323,6 +324,12 @@
         <!--<version>3.1.0</version>-->
         <!--<scope>provided</scope>-->
         <!--</dependency>-->
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>${baidu.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -143,7 +143,7 @@
     </select>
     <update id="deleteInfoBatchIds">
         UPDATE t_community t  SET t.del_flag = 1,
-            t.edit_by =#{loginUserId}, t.edit_dt=new()
+            t.edit_by =#{loginUserId}, t.edit_dt=now()
         WHERE t.id IN
         <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
             CAST(#{id} AS SIGNED)

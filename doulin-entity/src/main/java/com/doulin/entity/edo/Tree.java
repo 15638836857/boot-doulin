@@ -26,6 +26,9 @@ public class Tree<T> {
 	@Getter
     @Setter
     private Integer sort;
+	@Getter
+    @Setter
+    private Integer status;
 	/**
 	 * 节点状态，open closed
 	 */

@@ -26,6 +26,8 @@ public class SysDictType implements Serializable {
 
     @TableId(value = "id", type = IdType.INPUT)
     private Integer id;
+    @TableField(exist = false)
+    private Integer item;
 
     /**
      * 字典类型编码

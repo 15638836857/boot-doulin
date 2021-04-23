@@ -53,5 +53,13 @@ public class ErrorContent {
     public static final String ERROR_APP_REQUEST = "app请求有误";
     public static final String ERROR_EMPTY_FILE ="文件不能为空" ;
     public static final String ERROR_PHONE_EXSIS ="该手机号已注册" ;
-    public static final String ERROR_PASSORD_EXSIS = "密码不能为空";
+    public static final String ERROR_PASSORD_EMPTY= "密码不能为空";
+    public static final String ERROR_REDOMCODE = "验证码出错误";
+    public static final String ERROR_ACCOUNT_OR_PASSWORD = "手机号或密码错误";
+
+    public static final String EORROR_ACCOUNT_DJ ="该账号已被冻结" ;
+    public static final String ERROR_SYS ="系统开小车" ;
+    public static final String ERROR_WUSHUJU = "无数据";
+
+
 }

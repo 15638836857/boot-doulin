@@ -36,6 +36,18 @@ public class XssFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+        // 设置允许Cookie
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
+        // 允许http://www.xxx.com域（自行设置，这里只做示例）发起跨域请求
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        // 设置允许跨域请求的方法
+        resp.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        // 允许跨域请求包含content-type
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,X-CAF-Authorization-Token,sessionToken,X-TOKEN");
+        if (((HttpServletRequest) request).getMethod().equals("OPTIONS")) {
+//            response.getWriter().println("ok");
+            return;
+        }
         if (handleExcludeURL(req, resp)) {
             filterChain.doFilter(request, response);
             return;

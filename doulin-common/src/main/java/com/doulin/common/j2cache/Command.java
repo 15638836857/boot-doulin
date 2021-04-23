@@ -42,19 +42,19 @@ public class Command {
 		return (int)(rnd_seed.nextInt(10000) * 1000 + ct % 1000);
 	}
 
-	public static void main(String[] args) {
-		for(int i=0;i<5;i++){
-			Command cmd = new Command(OPT_DELETE_KEY, "users", "ld"+i);
-			byte[] bufs = cmd.toBuffers();
-			System.out.print(cmd.getSrc() + ":");
-			for(byte b : bufs){
-				System.out.printf("[%s]",Integer.toHexString(b));			
-			}
-			System.out.println();
-			Command cmd2 = Command.parse(bufs);
-			System.out.printf("%d -> %d:%s:%s(%s)\n", cmd2.getSrc(), cmd2.getOperator(), cmd2.getRegion(), cmd2.getKey(), cmd2.isLocalCommand());
-		}
-	}
+//	public static void main(String[] args) {
+//		for(int i=0;i<5;i++){
+//			Command cmd = new Command(OPT_DELETE_KEY, "users", "ld"+i);
+//			byte[] bufs = cmd.toBuffers();
+//			System.out.print(cmd.getSrc() + ":");
+//			for(byte b : bufs){
+////				System.out.printf("[%s]",Integer.toHexString(b));
+//			}
+//			System.out.println();
+//			Command cmd2 = Command.parse(bufs);
+////			System.out.printf("%d -> %d:%s:%s(%s)\n", cmd2.getSrc(), cmd2.getOperator(), cmd2.getRegion(), cmd2.getKey(), cmd2.isLocalCommand());
+//		}
+//	}
 
 	public Command(byte o, String r, Object k){
 		this.operator = o;

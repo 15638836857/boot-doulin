@@ -9,7 +9,7 @@ import com.doulin.common.BuildTree;
 import com.doulin.common.MyException;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysMenu;
-import com.doulin.entity.edo.Tree;
+import com.doulin.entity.edo.MenuTree;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysMenuMapper;
 import com.doulin.service.SysMenuService;
@@ -105,18 +105,21 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public Tree<SysMenu> getTree(){
-        List<Tree<SysMenu>> trees = new ArrayList<Tree<SysMenu>>();
+    public MenuTree<SysMenu> getTree(){
+        List<MenuTree<SysMenu>> trees = new ArrayList<MenuTree<SysMenu>>();
         List<SysMenu> menuDOs =list(new QueryWrapper<SysMenu>().eq(SysContent.DEL_FLAG,SysContent.INTGER_0));
         for (SysMenu sysMenuDO : menuDOs) {
-            Tree<SysMenu> tree = new Tree<SysMenu>();
+            MenuTree<SysMenu> tree = new MenuTree<SysMenu>();
             tree.setId(sysMenuDO.getId().toString());
             tree.setParentId(sysMenuDO.getParentId().toString());
-            tree.setText(sysMenuDO.getName());
+            tree.setName(sysMenuDO.getName());
+            tree.setInfo(sysMenuDO.getInfo());
+            tree.setView(sysMenuDO.getView());
+            tree.setIcon(sysMenuDO.getIcon());
             trees.add(tree);
         }
         // 默认顶级菜单为０，根据数据库实际情况调整
-        Tree<SysMenu> t = BuildTree.build(trees);
+        MenuTree<SysMenu> t = BuildTree.buildMenu(trees);
         return t;
     }
 

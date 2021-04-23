@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TAboutMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TAbout">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="adtime" property="adtime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, type, content, url, adtime, status
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TAbout">
+        select
+        <include refid="Base_Column_List"/>
+        from t_about
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectPageList"  parameterType="java.util.Map" resultMap="BaseResultMap">
+           SELECT t3.*
+            FROM
+                (
+                    SELECT  (@i :=@i + 1) AS item,  t2.*
+                    FROM
+                        (
+                            SELECT
+                                t1.id, t1.type,
+                                t1.content,t1.url,
+                                t1.del_flag, t1.adtime,t1.`status`
+                            FROM
+                                (
+                                    SELECT
+                                        t.id,t.type,t.content,
+                                        t.url,t.adtime,t.`status`
+                                    FROM   t_about t
+                                    WHERE  t.`status` = 0
+                                ) t1,
+                                (SELECT @i := 0) AS it
+                        ) t2
+                ) t3
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+    <select id="selectTotalCount" parameterType="java.util.Map" resultType="Integer">
+        SELECT count(*)
+         FROM   t_about t
+          WHERE t.`status` = 0
+    </select>
+
+</mapper>

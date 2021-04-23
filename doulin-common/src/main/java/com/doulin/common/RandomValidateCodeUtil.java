@@ -102,6 +102,7 @@ public class RandomValidateCodeUtil {
         return randomString;
     }
 
+
     /**
      * 绘制干扰线
      */

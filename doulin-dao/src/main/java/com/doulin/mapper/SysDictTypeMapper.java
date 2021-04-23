@@ -2,10 +2,9 @@ package com.doulin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import com.doulin.entity.SysDictType;
 import com.doulin.entity.vo.VQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public interface SysDictTypeMapper extends BaseMapper<SysDictType> {
 
     IPage<SysDictType> findByQuery(IPage<SysDictType> page, @Param("query") VQuery query);
 
-    void deleteByids(@Param("ids")List<Integer> ids);
+    void deleteByids(@Param("ids")List<String> ids,@Param("loginUserId")String loginUserId);
 
     SysDictType selectOneById(@Param("id")Integer id);
 

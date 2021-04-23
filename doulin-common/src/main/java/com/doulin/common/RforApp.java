@@ -13,8 +13,8 @@ import java.io.Serializable;
  */
 @Data
 public class RforApp implements Serializable {
-    private String result;
-    private String resultNote;
-    private Integer mainShow;
-    private Object Object;
+    private String code="0";
+    private String msg;
+    private Object data;
+    private String token;
 }

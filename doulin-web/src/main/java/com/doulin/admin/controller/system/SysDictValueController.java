@@ -13,7 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SysDictValueController
@@ -22,6 +25,7 @@ import java.util.*;
  * @Date 2021-04-09
  **/
 @Api(tags = "字典值控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sysDictValue")
 @Slf4j
@@ -180,6 +184,39 @@ public class SysDictValueController extends BaseWebController {
             }
         } catch (MyException e) {
             log.error("sysDictValue/detail" + e.getMessage());
+            return R.error(e.getMessage());
+        }
+
+    }
+    /**
+     * 详情
+     *
+     * @param requestMap
+     * @return
+     */
+    @ApiOperation(value = "管理键值", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "    \t\"code\":字典编码\n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/getInfoByCode")
+    public Object getInfoByCode(@RequestBody  Map<String,Object> requestMap) {
+        try {
+            Map<String,Object> vmap=getVvalue(requestMap);
+            if(null!=vmap.get(SysContent.CODE_STR)){
+               String code=vmap.get(SysContent.CODE_STR).toString();
+               List list=sysDictValueService.getListByTypeCodeOrValue(code,null);
+               return R.ok(list);
+            }else{
+                throw new MyException(SysContent.ERROR_ID);
+            }
+        } catch (MyException e) {
+            log.error("sysDictValue/getInfoByCode" + e.getMessage());
             return R.error(e.getMessage());
         }
 

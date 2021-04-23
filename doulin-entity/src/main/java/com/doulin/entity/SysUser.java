@@ -37,6 +37,9 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "手机号")
     @TableField("tele_phone")
     private String telePhone;
+    @ApiModelProperty(value = "联系方式")
+    @TableField("login_no")
+    private String login_no;
     /**
      * 用户密码
      */

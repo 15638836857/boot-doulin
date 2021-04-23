@@ -7,6 +7,7 @@
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
         <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="role_sign" property="roleSign" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
@@ -17,7 +18,7 @@
 
 
     <sql id="Base_Column_List">
-        id, role_name, role_sign, remark, del_flag, add_by, add_dt, edit_by, edit_dt
+        id, role_name,status, role_sign, remark, del_flag, add_by, add_dt, edit_by, edit_dt
     </sql>
 
 
@@ -41,6 +42,7 @@
                 t3.del_flag,
                 t3.add_by,
                 t3.add_dt,
+                t3.status,
                 t3.edit_by,
                 t3.edit_dt
             FROM(SELECT
@@ -52,6 +54,7 @@
                         t2.del_flag,
                         t2.add_by,
                         t2.add_dt,
+                         t2.status,
                         t2.edit_by,
                         t2.edit_dt
                     FROM
@@ -63,6 +66,7 @@
                                 t1.remark,
                                 t1.del_flag,
                                 t1.add_by,
+                                 t1.status,
                                 t1.add_dt,
                                 t1.edit_by,
                                 t1.edit_dt
@@ -76,6 +80,7 @@
                                         t.del_flag,
                                         t.add_by,
                                         t.add_dt,
+                                        t.status,
                                         t.edit_by,
                                         t.edit_dt
                                     FROM

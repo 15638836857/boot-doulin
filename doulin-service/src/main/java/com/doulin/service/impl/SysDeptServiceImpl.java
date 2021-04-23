@@ -50,6 +50,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             tree.setParentId(sysMenuDO.getParentId().toString());
             tree.setText(sysMenuDO.getName());
             tree.setSort(sysMenuDO.getSortNum());
+            tree.setStatus(sysMenuDO.getStatus());
             trees.add(tree);
         }
         // 默认顶级菜单为０，根据数据库实际情况调整

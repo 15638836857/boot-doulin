@@ -4,6 +4,8 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysDictType">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
         <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
@@ -30,7 +32,7 @@
         id, type_code, type_name, remark, sort, del_flag, add_by, add_dt, edit_by, edit_dt
     </sql>
     <sql id="TBase_Column_List">
-        t.d, t.type_code, t.type_name, t.remark, t.sort, t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
+        t.id, t.type_code, t.type_name, t.remark, t.sort, t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
     </sql>
 
 
@@ -45,13 +47,13 @@
         </where>
     </select>
     <update id="deleteByids" parameterType="java.util.List">
-        UPDATE sys_dict_type t set t.del_flag=1 where
-         t.del_flag=0
-         and
-          t.id in
-        <foreach collection="ids" index="index" open="(" separator="," close=")">
-            #{index}
+        UPDATE sys_dict_type t set t.del_flag=1,
+        t.edit_by =#{loginUserId}, t.edit_dt=now()
+        WHERE t.id IN
+        <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">
+            CAST(#{id} AS SIGNED)
         </foreach>
+
     </update>
     <select id="selectOneById" parameterType="Integer" resultMap="BaseResultMap">
         SELECT
@@ -74,19 +76,20 @@
     <select id="selectPageInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
 
         SELECT <include refid="TBase_Column_List"/>,item FROM (
-         SELECT
-            (@i:=@i+1) as item,
-            <include refid="Base_Column_List"/>
-        FROM
-            sys_dict_type d,
-         (select @i:=0) as it
-        WHERE
-            d.del_flag = 0
-            <if test="typeCode!='' and typeCode!=null">AND d.type_code=#{typeCode}</if>
-            <if test="typeName!='' and typeName!=null">AND d.type_name like  #{typeName}'%'</if>
-        ) t
+             SELECT
+                (@i:=@i+1) as item,
+                 f.*
+              FROM
+            (select <include refid="Base_Column_List"/> from sys_dict_type WHERE
+                 del_flag = 0
+                <if test="typeCode!='' and typeCode!=null">AND type_code=#{typeCode}</if>
+                <if test="typeName!='' and typeName!=null">AND type_name like  #{typeName}'%'</if>
+                ORDER BY sort ASC
+                ) F,
+             (select @i:=0) as it
+            ) t
         <if test="page != null and rows != null">
-            <bind name="key_offset" value="(page-1)*rows"></bind>
+            <bind name="key_offset" value="(page-1)*rows"/>
             LIMIT #{key_offset},#{rows}
         </if>
 

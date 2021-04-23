@@ -1,14 +1,12 @@
 package com.doulin.admin.controller.system;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.admin.controller.common.BaseWebController;
+import com.doulin.common.MyException;
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysDept;
-import com.doulin.entity.SysMenu;
 import com.doulin.entity.edo.Tree;
-import com.doulin.entity.vo.VQuery;
 import com.doulin.service.SysDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,6 +24,7 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "部门控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/sdept")
 @Slf4j
@@ -49,6 +47,7 @@ public class SysDeptController extends BaseWebController {
             "    \"v\": {\n" +
             "        \"parentId\": \"父级id 默认传0\",\n" +
             "        \"name\": \"部门名称\",\n" +
+            "        \"status\": \"正常0  禁用1\",\n" +
             "        \"sortNum\": \"排序\"\n" +
             "    }\n" +
             "}")
@@ -73,12 +72,39 @@ public class SysDeptController extends BaseWebController {
     /**
      * 删除
      *
-     * @param ids
+     * @param requestMap
      */
-    @ApiOperation(value = "delete", notes = "")
-    @GetMapping("/delete")
-    public void delete(@RequestParam("ids") Long... ids) {
-        sysDeptService.removeByIds(Arrays.asList(ids));
+    @ApiOperation(value = "delete", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"数据id\"\n" +
+            "       \n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/delete")
+    public Object delete(@RequestBody Map<String,Object> requestMap)  {
+
+        try {
+            Map<String, Object> map = getVvalue(requestMap);
+            if (null != map.get(SysContent.ID_STR)) {
+                String id = map.get(SysContent.ID_STR).toString();
+                SysDept sysDept=sysDeptService.getById(id);
+                sysDept.setEditDt(new Date());
+                sysDept.setDelFlag(SysContent.INTGER_1);
+                sysDept.setEditBy(getLoginUserId(requestMap));
+                sysDeptService.updateById(sysDept);
+            } else {
+                throw new MyException(SysContent.ERROR_ID);
+            }
+        } catch (MyException e) {
+            log.error("sysdept/delete***********异常信息" + e.getMessage());
+            return R.error(SysContent.ERROR_EDIT);
+        }
+        return R.ok(SysContent.OK_OPER);
     }
 
     /**
@@ -96,6 +122,7 @@ public class SysDeptController extends BaseWebController {
             "        \"id\": \"数据id\",\n" +
             "        \"parentId\": \"父级id 默认传0\",\n" +
             "        \"name\": \"部门名称\",\n" +
+            "        \"status\": \"正常0  禁用1\",\n" +
             "        \"sortNum\": \"排序\"\n" +
             "    }\n" +
             "}")
@@ -150,7 +177,7 @@ public class SysDeptController extends BaseWebController {
     @PostMapping("/getInfoList")
     public Object getList() {
         Tree<SysDept> tree =sysDeptService.getTree();
-        return tree ;
+        return R.ok(tree) ;
     }
 
 }

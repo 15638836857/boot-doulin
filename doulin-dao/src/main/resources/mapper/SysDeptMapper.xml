@@ -7,6 +7,7 @@
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="sort_num" property="sortNum" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>

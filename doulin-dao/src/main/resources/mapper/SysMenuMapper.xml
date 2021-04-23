@@ -6,6 +6,8 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="perms" property="perms" jdbcType="VARCHAR"/>
+        <result column="view" property="view" jdbcType="VARCHAR"/>
         <result column="type" property="type" jdbcType="INTEGER"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
@@ -19,7 +21,7 @@
 
 
     <sql id="Base_Column_List">
-        id, parent_id, name, type, icon, order_num, del_flag, add_by, add_dt, edit_by, edit_dt
+        id, parent_id,view,info,perms, name, type, icon, order_num, del_flag, add_by, add_dt, edit_by, edit_dt
     </sql>
 
 
@@ -47,6 +49,7 @@
                 t.parent_id,
                 t.`NAME`,
                 t.type,
+                t.view,t.info,t.perms,
                (CASE
                 WHEN t.type = 1 THEN
                     '菜单'
@@ -75,6 +78,7 @@
                 t.parent_id,
                 t.`NAME`,
                 t.type,
+                 t.view,t.info,t.perms,
                (CASE
                 WHEN t.type = 1 THEN
                     '菜单'

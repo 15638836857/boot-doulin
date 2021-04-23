@@ -12,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -28,7 +25,8 @@ import java.util.Map;
  * @Author malinging
  * @Date 2021-04-09
  **/
-@Api(tags = "系统登录角色控制器类")
+@Api(tags = "系统登录角色菜单控制器类")
+@CrossOrigin
 @RestController
 @RequestMapping("/srm")
 @Slf4j

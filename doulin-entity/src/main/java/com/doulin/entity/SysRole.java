@@ -43,7 +43,10 @@ public class SysRole implements Serializable {
     @ApiModelProperty(value = "角色标识")
     @TableField("role_sign")
     private String roleSign;
-
+    /**
+     * 0/正常  1/禁用
+     */
+    private Integer status;
     /**
      * 角色描述
      */

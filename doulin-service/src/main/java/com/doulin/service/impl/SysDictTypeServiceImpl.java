@@ -8,18 +8,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.doulin.common.MyException;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.SysDictType;
-import com.doulin.entity.SysDictValue;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysDictTypeMapper;
 import com.doulin.mapper.SysDictValueMapper;
 import com.doulin.service.SysDictTypeService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +82,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
             for (int i = 0; i < ids.length; i++) {
                 arrayIds.add(Integer.valueOf(ids[i]));
             }
-            deleteByids(arrayIds);
+           // deleteByids(arrayIds);
         } else {
             throw new MyException(SysContent.ERROR_OPER);
         }
@@ -101,12 +98,9 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
 
     @Override
     @Transactional(rollbackFor = MyException.class)
-    public boolean deleteByids(List<Integer> ids) throws MyException {
-        List<SysDictValue> listValue = sysDictValueMapper.selectByTypeIds(ids);
-        if (null != listValue) {
-            throw new MyException(SysContent.ERROR_DICT_TYPE_DELETE);
-        }
-        sysDictTypeMapper.deleteByids(ids);
+    public boolean deleteByids(List<String> ids,String loginUserId)  throws MyException {
+
+        sysDictTypeMapper.deleteByids(ids,loginUserId);
         return true;
     }
 

@@ -2,6 +2,8 @@ package com.doulin.service.impl;
 
 import cn.hutool.core.util.PhoneUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,21 +15,18 @@ import com.doulin.common.DateTimeUtil;
 import com.doulin.common.DateUtils;
 import com.doulin.common.SMS.SMSVerificationCode;
 import com.doulin.common.StringUtils;
+import com.doulin.common.baidu.OcrBaiduUtil;
 import com.doulin.common.content.ErrorContent;
 import com.doulin.common.content.SysContent;
 import com.doulin.common.encrymlbgo.AESUtils;
 import com.doulin.common.j2cache.CacheUtils;
 import com.doulin.common.token.JwtToken;
-import com.doulin.entity.TShopHomeBaseInfo;
-import com.doulin.entity.TUser;
-import com.doulin.entity.common.ResJson;
-import com.doulin.entity.common.UserLoginReq;
-import com.doulin.entity.common.UserLoginRes;
-import com.doulin.entity.common.UserRegisterReq;
+import com.doulin.entity.*;
+import com.doulin.entity.common.*;
+import com.doulin.entity.edo.Tree;
 import com.doulin.entity.image.ImgDoConfig;
-import com.doulin.service.TShopHomeBaseInfoService;
-import com.doulin.service.TUserService;
-import com.doulin.service.UtilService;
+import com.doulin.entity.shop.BankCardTypeVo;
+import com.doulin.service.*;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +37,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @className UtilServiceImpl
@@ -59,7 +55,12 @@ public class UtilServiceImpl implements UtilService {
     private TShopHomeBaseInfoService shopHomeBaseInfoService;
     @Autowired
     private TUserService tUserService;
-
+    @Autowired
+    private TCommunnityTokenService communnityTokenService;
+    @Autowired
+    private TBankInfoService tBankInfoService;
+    @Autowired
+    private TAboutService tAboutService;
     @Override
     public void shortMassge(String phone, String type, String ip) throws Exception {
         try {
@@ -80,15 +81,17 @@ public class UtilServiceImpl implements UtilService {
     }
 
     @Override
-    public List<String> uploadImg(MultipartFile[] file, String shopCode, String type) throws Exception {
+    public List<String> uploadImg(MultipartFile[] file,  String type) throws Exception {
         List<String> fileUrl = new LinkedList<>();
+
         if (file != null && file.length > 0) {
             for (int i = 0; i < file.length; i++) {
                 String realPath = "";
                 if (SysContent.INTGER_1.toString().equals(type)) {
-                    realPath = imgDoConfig.getFilePath() + shopCode + "/baseinfo";
+
+                    realPath = imgDoConfig.getFilePath()  + "/shop";
                 } else if (SysContent.INTGER_2.toString().equals(type)) {
-                    realPath = imgDoConfig.getFilePath() + shopCode + "/goods";
+                    realPath = imgDoConfig.getFilePath()  + "/user";
                 }
                 String[] split = DateTimeUtil.dateConvtoFmt(new Date(), "yyyy-MM").split("-");
                 String dateDir = split[0] + "/" + split[1];
@@ -101,8 +104,19 @@ public class UtilServiceImpl implements UtilService {
                 String fileName1 = DateTimeUtil.dateFormat("yyyyMMddHHmmss", new Date()) + StringUtils.randomString(4) + ext1;
                 File localFile1 = new File(path + File.separator + fileName1);
                 file[i].transferTo(localFile1);
-                fileUrl.add(imgDoConfig.getHost() + imgDoConfig.getPrefix() + dateDir + "/" + fileName1);
+                String reurnurl = imgDoConfig.getPrefix();
+                StringBuilder st=new StringBuilder();
+
+                if (SysContent.INTGER_1.toString().equals(type)) {
+                    st.append("/shop/" );
+                } else if (SysContent.INTGER_2.toString().equals(type)) {
+                    st.append("/user/");
+                }
+                st.append(dateDir + "/" + fileName1);
+                String strr=st.toString();
+                fileUrl.add(reurnurl+st.toString());
             }
+
             return fileUrl;
         } else {
             throw new Exception(SysContent.ERROR_EMPTY_FILE);
@@ -334,6 +348,170 @@ public class UtilServiceImpl implements UtilService {
            log.error(e.getMessage());
         }
         return res;
+    }
+
+    @Override
+    public String getRandomCodesByPhone(String phone,String codeType) {
+        String randomCodes = String.valueOf( CacheUtils.get("code" + phone,codeType));
+        return randomCodes;
+    }
+    /**
+     * 获取登录成功的token
+     * @param req
+     * @return
+     */
+    @Override
+    public String getShopLoginSucessToken(HttpServletRequest request,UserLoginReq req,UserLoginRes res ,TShopHomeBaseInfo c) throws Exception {
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(req.getToken()) &&
+                SysContent.INTGER_0.toString().equals(res.getResult())) {
+            shopHomeBaseInfoService.updateToken(c.getId(), req.getToken());
+            List<TCommunnityToken> listTokens = communnityTokenService.getByToken(req.getToken());
+            if (null == listTokens || listTokens.size() == 0) {
+                TCommunnityToken tt = new TCommunnityToken();
+                tt.setAdtime(new Date());
+                tt.setDelFlag(SysContent.INTGER_0.toString());
+                tt.setShopId(c.getId());
+                tt.setToken(req.getToken());
+                communnityTokenService.save(tt);
+            }
+        }
+        TUser user = new TUser();
+        user.setId(c.getId());
+        user.setPassword(c.getPassword());
+        String token= JwtToken.createToken(request, user);
+        return token;
+    }
+
+    @Override
+    public void deleteImag(String url) throws Exception {
+        try {
+            String imgUrl=url.replace(imgDoConfig.getPrefix(),imgDoConfig.getFilePath());
+            File file=new File(imgUrl);
+            if(file.exists()){
+                file.delete();
+            }
+        } catch (Exception e) {
+           throw new Exception(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public ResJson getZjInfo(Map<String, Object> map) {
+        try {
+            String type=map.get(SysContent.ZJTYPE_STR).toString();
+            String url=imgDoConfig.getFilePath()+map.get(SysContent.URL_STR).toString().replace(imgDoConfig.getPrefix(),"");
+            //身份证
+            if(SysContent.CARDZ_STR.equals(type)){
+                CardInfo cardInfo=new CardInfo();
+                String json=  OcrBaiduUtil.idcard(url);
+                cardInfo.setCardNum(getWords(SysContent.NUM_CARD,json));
+                cardInfo.setName(getWords(SysContent.NAME_CARD,json));
+                return ResJson.Ok(cardInfo);
+            }else if(SysContent.CARDF_STR.equals(type)){
+                CardInfo cardInfo=new CardInfo();
+                String json=  OcrBaiduUtil.idcard(url);
+                String time1=getWords(SysContent.JFRQ_CARD,json);
+                String time2=getWords(SysContent.SXRJ_CARD,json);
+                time1= DateUtils.dateFormat(time1,"yyyyMMdd","yyyy/MM/dd");
+                time2= DateUtils.dateFormat(time2,"yyyyMMdd","yyyy/MM/dd");
+                cardInfo.setTime(time1+"-"+time2);
+                return ResJson.Ok(cardInfo);
+            }else if(SysContent.BANK_CARD_STR.equals(type)){
+                String json=JSONUtil.parseObj(OcrBaiduUtil.bankCard(url)).getStr(SysContent.RESULT);
+                BankCardVo bankCardVo= JSONUtil.toBean(json,BankCardVo.class);
+                if(BankCardTypeVo.TYPE_0.getCode().equals(bankCardVo.getBank_card_type())){
+                    return ResJson.error(BankCardTypeVo.TYPE_0.getName());
+                }
+                bankCardVo.setBank_card_type_name(BankCardTypeVo.getNameByCode(bankCardVo.getBank_card_type()));
+                return ResJson.Ok(bankCardVo);
+            }else if(SysContent.SHOPSHIRO.equals(type)){
+                String json=OcrBaiduUtil.businessLicense(url);
+                BusinessVo vo=new BusinessVo();
+                vo.setCreditCode(getWords(SysContent.XYDM_STR,json));
+                vo.setCommpayName(getWords(SysContent.DWMC_STR,json));
+                vo.setCreateDt(getWords(SysContent.CJSJ_STR,json));
+                vo.setType(getWords(SysContent.LX_STR,json));
+                vo.setValidTime(getWords(SysContent.YXQ_STR,json));
+                vo.setBusinessScope(getWords(SysContent.JYFW_STR,json));
+                return ResJson.Ok(vo);
+            }else{
+                return ResJson.error(SysContent.ERROR_ZJLX);
+            }
+        } catch (Exception e) {
+            return ResJson.error(SysContent.ERROR_ZJLX+e.getMessage());
+        }
+    }
+
+    @Override
+    public ResJson getBankIfo(String btype,String province,String city,String bank) throws Exception {
+        List<Tree<TBankInfo>> trees = new ArrayList<Tree<TBankInfo>>();
+        List<TBankInfo> data = tBankInfoService.getInfoByType(Integer.valueOf(btype), province, city, bank);
+
+        Set<SelectVo> selectPVos = new HashSet<>();
+        if (SysContent.INTGER_1.toString().equals(btype)) {
+            for (TBankInfo tb : data) {
+                SelectVo selectVo = new SelectVo();
+                selectVo.setCode(tb.getProvince());
+                selectVo.setLabel(tb.getProvince());
+                selectPVos.add(selectVo);
+            }
+            for (SelectVo selectPVo : selectPVos) {
+                Set<SelectVo> sp = new HashSet<>();
+                for (TBankInfo tb : data) {
+                    if (tb.getProvince().equals(selectPVo.getCode())) {
+                        SelectVo sv = new SelectVo();
+                        sv.setCode(tb.getCity());
+                        sv.setLabel(tb.getCity());
+                        sp.add(sv);
+                        continue;
+                    }
+                    continue;
+                }
+                selectPVo.setChildList(new ArrayList<>(sp));
+            }
+
+            return ResJson.Ok(selectPVos);
+        } else if (SysContent.INTGER_2.toString().equals(btype)) {
+            for (TBankInfo tb : data) {
+                SelectVo selectVo = new SelectVo();
+                selectVo.setCode(tb.getBankName());
+                selectVo.setLabel(tb.getBankName());
+                selectPVos.add(selectVo);
+            }
+            for (SelectVo selectPVo : selectPVos) {
+                Set<SelectVo> sp = new HashSet<>();
+                for (TBankInfo tb : data) {
+                    if (tb.getBankName().equals(selectPVo.getCode())) {
+                        SelectVo sv = new SelectVo();
+                        sv.setCode(tb.getBankChild());
+                        sv.setLabel(tb.getBankChild());
+                        sv.setCode(tb.getBankNum());
+                        sp.add(sv);
+                        continue;
+                    }
+                    continue;
+                }
+                selectPVo.setChildList(new ArrayList<>(sp));
+            }
+            return ResJson.Ok(selectPVos);
+        } else {
+            throw new Exception(SysContent.ERROR_PARAM);
+        }
+    }
+
+    @Override
+    public ResJson geAboutById(String id) {
+        TAbout tAbout=tAboutService.geAboutById(id);
+        if(null!=tAbout){
+            ResJson.Ok(tAbout.getContent());
+        }
+        return ResJson.error(SysContent.ERROR_WUSHUJU);
+    }
+
+    public String getWords(String key,String json){
+          JSONObject jsonObject= JSONUtil.parseObj(json).getJSONObject(SysContent.WORDSRESULT);
+          return jsonObject.getJSONObject(key).getStr(SysContent.WORDS);
     }
     /**
      * 验证Token

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,10 +22,11 @@ import java.util.Date;
 @ApiModel(value = "TShopHomeBaseInfo Entity", description = "商家基本信息表")
 @Data
 @TableName("t_shop_home_base_info")
+@ToString(callSuper = true)
 public class TShopHomeBaseInfo implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -37,6 +39,7 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "登录号  目前指定手机号")
     @TableField("login_no")
     private String loginNo;
+    private String loginName;
 
     private String token;
     private String ryToken;			// rytoken
@@ -209,7 +212,7 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "创办成立时间")
     @TableField("found_dt")
-    private Date foundDt;
+    private String foundDt;
 
     /**
      * 有效期yyyymmdd-yyyymmdd
@@ -235,9 +238,9 @@ public class TShopHomeBaseInfo implements Serializable {
     /**
      * 经营类型 字典表
      */
-    @ApiModelProperty(value = "经营类型 字典表")
+    @ApiModelProperty(value = "经营类型")
     @TableField("business_class")
-    private Integer businessClass;
+    private String businessClass;
 
     /**
      * 联系方式
@@ -389,5 +392,20 @@ public class TShopHomeBaseInfo implements Serializable {
      * 有效状态 0/有效  1/无效
      */
     private Integer status;
+    /**
+     * 银行名称
+     */
+    @TableField(exist = false)
+    private String bankName;
+    /**
+     * 银行支行名称
+     */
+    @TableField(exist = false)
+    private String bankChildName;
+    @TableField(exist = false)
+    private String bankProvince;
+    @TableField(exist = false)
+    private String bankCity;
+
 
 }

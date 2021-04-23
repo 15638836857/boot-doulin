@@ -1,5 +1,6 @@
 package com.doulin.mobile.code;
 
+import com.doulin.common.config.Global;
 import com.doulin.common.j2cache.CacheUtils;
 import com.doulin.entity.common.ResJson;
 import com.doulin.entity.common.SendSmsReq;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+
 @Service
 public class CommonServiceCode{
 	@Autowired
@@ -38,31 +41,31 @@ public class CommonServiceCode{
 	 * @param code
 	 * @return
 	 */
-//	public String codeBoolean(String phone, String codetype, String code, String ip) {
-//		if(!Global.isDevelopMode()){
-//			String randomCodes = (String) CacheUtils.get("code" + phone, codetype);
-//			if(null != randomCodes && randomCodes.length()>0) {
-//				String[] randomCode = randomCodes.split(",");
-//				System.out.println(randomCode.toString());
-//				Object obIp = CacheUtils.get("ip" + ip, codetype);
-//				if (null != randomCode && obIp != null && Arrays.asList(randomCode).contains(code)==true && obIp.toString().equals(ip)) {// 验证码是否正确
-//					Object obTime = CacheUtils.get("dateTime" + ip, codetype);
-//					if (null != obTime) {
-//						long beforeTime = Long.valueOf(obTime.toString());
-//						long current = System.currentTimeMillis();
-//						System.out.println((current - beforeTime) / (1000 * 60));
-//						if ((current - beforeTime) / (1000 * 60) > 1) {// 验证码是否过期
-//							return "2";
-//						}
-//					}
-//					return "0";
-//				}
-//			}
-//			return "1";
-//		}else{
-//			return "0";
-//		}
-//	}
+	public String codeBoolean(String phone, String codetype, String code, String ip) {
+		if(!Global.isDevelopMode()){
+			String randomCodes = (String) CacheUtils.get("code" + phone, codetype);
+			if(null != randomCodes && randomCodes.length()>0) {
+				String[] randomCode = randomCodes.split(",");
+				System.out.println(randomCode.toString());
+				Object obIp = CacheUtils.get("ip" + ip, codetype);
+				if (null != randomCode && obIp != null && Arrays.asList(randomCode).contains(code)==true && obIp.toString().equals(ip)) {// 验证码是否正确
+					Object obTime = CacheUtils.get("dateTime" + ip, codetype);
+					if (null != obTime) {
+						long beforeTime = Long.valueOf(obTime.toString());
+						long current = System.currentTimeMillis();
+						System.out.println((current - beforeTime) / (1000 * 60));
+						if ((current - beforeTime) / (1000 * 60) > 1) {// 验证码是否过期
+							return "2";
+						}
+					}
+					return "0";
+				}
+			}
+			return "1";
+		}else{
+			return "0";
+		}
+	}
 //	/**
 //	 * 相册标签数量
 //	 * @param uid
@@ -145,7 +148,7 @@ public class CommonServiceCode{
 			Long dateTime = System.currentTimeMillis();// 获取服务器的时间
 
 			String randomCodes = String.valueOf( CacheUtils.get("code" + req.getPhone(),req.getCodeType()));
-			if(null != randomCodes && randomCodes.length()>0) {
+			if(null != randomCodes && !"null".equals(randomCodes) && randomCodes.length()>0) {
 				String[] randomCode = randomCodes.split(",");
 				if(randomCode.length>0&&!"null".equals(randomCode[0])) {
 					res.setResult("0");
