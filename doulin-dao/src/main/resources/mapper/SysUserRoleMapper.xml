@@ -38,5 +38,17 @@
         LEFT JOIN sys_role t2 ON t.role_id = t2.id
         WHERE t1.id =#{userId}
     </select>
+    <select id="selectByLoginNo" parameterType="String" resultType="Integer">
+            SELECT DISTINCT
+                t.id
+            FROM
+                sys_user_role t
+            LEFT JOIN sys_user t2 ON t.user_id = t2.id
+            WHERE
+                t2.del_flag = 0
+            AND t2.`status` = 'N'
+            AND t2.login_no = #{loginNo}
+            order by  t.id
+    </select>
 
 </mapper>

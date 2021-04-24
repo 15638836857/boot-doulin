@@ -20,14 +20,19 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     IPage<SysUser> findByQuery(IPage<SysUser> page, @Param("query") VQuery query);
 
-    void deleteByIds(@Param("ids")List<Integer> ids);
+    void deleteByIds(@Param("ids") List<Integer> ids, @Param("userId") String userId);
 
     /**
      * 根据手机号或真实姓名查询信息
+     *
      * @param map
      * @return
      */
     List<SysUser> selectPageData(Map<String, Object> map);
 
     Integer selectPageToTal(Map<String, Object> map);
+
+    List<SysUser> selectInfoById(@Param("id") Integer id);
+
+    SysUser selectInfoByLoginNo(@Param("loginNo") String loginNo);
 }

@@ -81,7 +81,6 @@ public class ResJson implements Serializable {
 		r.setResult("1");
 		r.setResultNote(msg);
 		r.setMsg(msg);
-		r.setResultNote("操作失败");
 		return r;
 	}
 

@@ -23,4 +23,12 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @return
      */
     List<SysUserRole> getListByUserId(Integer userId);
+
+
+    /**
+     * 根据用户登录的userLoginno 获取角色
+     * @param loginNo
+     * @return
+     */
+    List<Integer> getListByLoginNo(String loginNo);
 }

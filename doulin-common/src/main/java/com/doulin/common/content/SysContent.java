@@ -108,4 +108,10 @@ public class SysContent extends ErrorContent{
     public static final String ERROR_YWY ="业务员编码无效或禁用" ;
     public static final String YWY_OK = "业务员编码有效";
     public static final String FR_NAME ="法人" ;
+    public static final String DELETE_SUCCESS = "删除成功";
+    public static final String EDIT_SUCCESS = "修改成功";
+
+    public static final String  SYS_ADMIN = "admin";
+    public static final String ADMIN_ERROR = "超级管理员不能修改";
+    public static final String MENU_STR = "menu";
 }

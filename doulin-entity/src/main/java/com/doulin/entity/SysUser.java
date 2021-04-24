@@ -24,7 +24,7 @@ import java.util.List;
 public class SysUser implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
      * 序号
@@ -40,19 +40,23 @@ public class SysUser implements Serializable {
     private String telePhone;
     @ApiModelProperty(value = "联系方式")
     @TableField("login_no")
-    private String login_no;
+    private String loginNo;
     /**
      * 用户密码
      */
     @ApiModelProperty(value = "用户密码")
     @TableField("password")
     private String password;
+    @TableField("birth_day")
+    private String birthDay;
+    @TableField("sex")
+    private String sex;
     /**
-     * 账户是否锁定  0 无  1是
+     * 账户是否锁定    Y是 N否
      */
     @ApiModelProperty(value = "账户是否锁定")
     @TableField("status")
-    private Integer status;
+    private String status;
 
     /**
      * 真实名称
@@ -81,7 +85,16 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "头像 base64 字符串")
     @TableField("photo")
     private String photo;
-
+    @TableField("province_id")
+    private Integer provinceId;
+    @TableField("city_id")
+    private Integer cityId;
+    @TableField("area_id")
+    private Integer areaId;
+    @TableField("address")
+    private String  address;
+    @TableField("hobby")
+    private String hobby;
     /**
      * 最后一次登录
      */
@@ -138,6 +151,9 @@ public class SysUser implements Serializable {
      */
     @TableField(exist = false)
     private String roleId;
+
+    @TableField(exist = false)
+    private String menuId;
     /**
      * 用户关联的菜单
      */

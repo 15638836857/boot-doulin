@@ -110,9 +110,9 @@ public class UtilServiceImpl implements UtilService {
                 StringBuilder st=new StringBuilder();
 
                 if (SysContent.INTGER_1.toString().equals(type)) {
-                    st.append("/shop/" );
+                    st.append("shop/" );
                 } else if (SysContent.INTGER_2.toString().equals(type)) {
-                    st.append("/user/");
+                    st.append("user/");
                 }
                 st.append(dateDir + "/" + fileName1);
                 String strr=st.toString();
@@ -509,8 +509,7 @@ public class UtilServiceImpl implements UtilService {
     public ResJson geAboutById(String id) {
         TAbout tAbout = tAboutService.geAboutById(id);
         if (null != tAbout) {
-            Object object = tAbout.getContent();
-            return ResJson.Ok(object);
+            return ResJson.Ok(tAbout);
         }
         return ResJson.error(SysContent.ERROR_WUSHUJU);
     }

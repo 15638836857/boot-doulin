@@ -18,7 +18,6 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -109,7 +108,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    UserRealm userRealm() {
+    public UserRealm userRealm() {
         UserRealm userRealm = new UserRealm();
         return userRealm;
     }

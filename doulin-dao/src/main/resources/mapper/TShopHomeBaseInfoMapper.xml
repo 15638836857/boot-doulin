@@ -61,12 +61,26 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+
+        <result column="shop_acceptance_letter_img" property="shopAcceptanceLetterImg" jdbcType="VARCHAR"/>
+        <result column="shop_settlement_book_img" property="shopSettlementBookImg" jdbcType="VARCHAR"/>
+        <result column="cashier_photo" property="ashierPhoto" jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
         id, login_no,login_name,shop_home_code, shop_home_name, shop_grop_code, shop_user_id, community_code,
-        shop_province_id, shop_city_id, shop_district_id, shop_address, shop_flag, shop_open_business_time, shop_close_business_time, shop_balance, shop_title_image, shop_logo, shop_indoor_photo, shop_qrcode, shop_get_order_auto_flag, shop_paywater_prefix, order_cancel_time_unit, order_cancel_maxtime, business_license_image, social_credit_code, company_name, found_dt, period_of_validity, company_class, business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num, legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p, legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag, apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag
+        shop_province_id, shop_city_id, shop_district_id, shop_address, shop_flag, shop_open_business_time,
+        shop_close_business_time, shop_balance, shop_title_image, shop_logo, shop_indoor_photo, shop_qrcode,
+        shop_get_order_auto_flag, shop_paywater_prefix, order_cancel_time_unit, order_cancel_maxtime,
+        business_license_image, social_credit_code, company_name, found_dt, period_of_validity, company_class,
+        business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num,
+        legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p,
+        legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag,
+         apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag,
+         shop_acceptance_letter_img,
+         shop_settlement_book_img,
+         cashier_photo
     </sql>
 
 
@@ -131,6 +145,9 @@
             t.apply_state,
             t.apply_flag,
             t.apply_return_msg,
+            t.shop_acceptance_letter_img,
+            t.shop_settlement_book_img,
+            t.cashier_photo,
 --             t.add_by,
 --             t.add_dt,
 --             t.edit_by,

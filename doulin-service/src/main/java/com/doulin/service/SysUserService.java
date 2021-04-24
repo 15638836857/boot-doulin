@@ -21,10 +21,10 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 根据手机号 获取用户的信息
-     * @param telePhone 手机号
+     * @param loginNo 登录号
      * @return 系统用户实体对象
      */
-    SysUser getOneByLoginNo(String telePhone);
+    SysUser getOneByLoginNo(String loginNo);
 
     /**
      * 系统用户校验
@@ -47,7 +47,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param ids
      * @return
      */
-    boolean deleteByIds(List<Integer> ids) throws MyException;
+    boolean deleteByIds(List<Integer> ids,String userId) throws MyException;
 
     /**
      * 分页查询 根据手机号和用户的真实姓名
@@ -55,4 +55,6 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     IPage<SysUser> pageInfo(Map<String, Object> vmap);
+
+    List<SysUser> getInfoByUserId(Integer id);
 }

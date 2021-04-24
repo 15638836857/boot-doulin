@@ -90,7 +90,8 @@ public class SysSalesmanServiceImpl extends ServiceImpl<SysSalesmanMapper, SysSa
     @Override
     public SysSalesman getOneByCode(String code) {
         QueryWrapper<SysSalesman> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq(SysContent.STATUS,SysContent.Y_STR);
+        //无禁用
+        queryWrapper.eq(SysContent.STATUS,SysContent.N_STR);
         queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
         queryWrapper.eq(SysContent.CODE_STR,code);
         return getOne(queryWrapper);

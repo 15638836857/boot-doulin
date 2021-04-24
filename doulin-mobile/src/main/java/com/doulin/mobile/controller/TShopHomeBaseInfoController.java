@@ -58,9 +58,9 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"shopOpenBusinessTime\": \"商家上班时间 如：8:00\",\n" +
             "    \"shopCloseBusinessTime\": \"商家下班时间 如: 20:00\",\n" +
             "    \"shopBalance\": \"商家余额\",\n" +
-            "    \"shopTitleImage\": \"店面门头照片 base64字串\",\n" +
-            "    \"shopLogo\": \"商家店面logo base64字串\",\n" +
-            "    \"shopIndoorPhoto\": \"店铺内部照 多个路劲 使用英文逗号间隔\",\n" +
+            "    \"shopTitleImage\": \"店面门头照片 \",\n" +
+            "    \"shopLogo\": \"商家店面Logo\",\n" +
+            "    \"shopIndoorPhoto\": \"店铺内部环境照 多个路劲 使用英文逗号间隔\",\n" +
             "    \"shopGetOrderAutoFlag\": \"商家是否自动接单 Y/N\",\n" +
             "    \"shopPaywaterPrefix\": \"商家流水前缀\",\n" +
             "    \"orderCancelTimeUnit\": \"接单后允许订单取消最大时间单位\",\n" +
@@ -93,6 +93,9 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"bankChildName\": \"支行名称\",\n" +
             "    \"bankProvince\": \"银行省份\",\n" +
             "    \"bankCity\": \"银行城市\",\n" +
+            "    \"shopAcceptanceLetterImg\": \"商户受理书图片  业务员上传\",\n" +
+            "    \"shopSettlementBookImg\": \"结算账户指定书\",\n" +
+            "    \"ashierPhoto\": \"收银台照\",\n" +
             "    \"shopHomeCode\": \"商家 后台生成的编码\"\n" +
             "}")
     @PostMapping("/add")

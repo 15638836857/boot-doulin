@@ -398,6 +398,26 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField(exist = false)
     private String bankName;
     /**
+     * 商户受理书图片  业务员上传
+     */
+    @TableField("shop_acceptance_letter_img")
+    private String shopAcceptanceLetterImg;
+    /**
+     * 结算账户指定书
+     */
+    @TableField("shop_settlement_book_img")
+    private String shopSettlementBookImg;
+    /**
+     * 收银台照
+     */
+    @TableField("cashier_photo")
+    private String ashierPhoto;
+
+
+
+
+
+    /**
      * 银行支行名称
      */
     @TableField(exist = false)

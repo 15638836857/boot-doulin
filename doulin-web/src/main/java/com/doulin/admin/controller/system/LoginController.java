@@ -4,17 +4,25 @@ import com.doulin.admin.controller.common.BaseWebController;
 import com.doulin.common.IPUtils;
 import com.doulin.common.R;
 import com.doulin.common.RandomValidateCodeUtil;
+import com.doulin.common.ShiroUtils;
 import com.doulin.common.content.SysContent;
+import com.doulin.common.token.SysUserTokenUtil;
 import com.doulin.entity.SysUser;
+import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
 import com.doulin.service.SystemService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,6 +40,8 @@ public class LoginController extends BaseWebController {
 
     @Autowired
     private SysUserService userService;
+    @Autowired
+    private SysUserRoleService userRoleService;
 
     @ApiOperation(value = "用户登录", httpMethod = "POST", notes = "{\n" +
             "    \"s\": {\n" +
@@ -66,23 +76,27 @@ public class LoginController extends BaseWebController {
             return R.error("验证码已失效");
         }
         try {
-            SysUser sysUser=userService.getOneByLoginNo(loginNo.toString());
+            String pd = SystemService.entryptPassword(password.toString());
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginNo.toString(), pd);
+            Subject subject = SecurityUtils.getSubject();
+            try {
+                subject.login(usernamePasswordToken);
 
-            boolean flag=SystemService.validatePassword(password.toString(),sysUser.getPassword());
-            if(!flag){
-                return R.error("登录账户或密码有误");
-            }else if(sysUser.getStatus().equals(SysContent.INTGER_1)){
-                return R.error("用户已锁定");
+                SysUser sysUser=userService.getOneByLoginNo(loginNo.toString());
+                String token = SysUserTokenUtil.getToken(request.getRemoteAddr(), sysUser.getRoleId(), request.getRemoteAddr());
+                Map<String,Object> result=new HashMap<>();
+                result.put(SysUserTokenUtil.tokenHeard,token);
+                result.put(SysContent.LOGIN_USERID,sysUser.getId());
+                result.put(SysContent.NAME_STR,sysUser.getRealName());
+                result.put(SysContent.MENU_STR,sysUser.getMenuId());
+                return R.ok(result);
+            } catch (AuthenticationException e) {
+                return R.error("用户或密码错误");
             }
 
         } catch (Exception e) {
             return R.error("登录异常");
         }
-
-
-
-
-        return null;
     }
     /**
      * 生成验证码
@@ -103,8 +117,17 @@ public class LoginController extends BaseWebController {
         }
     }
 
-
-
+    @ApiOperation(value = "安全登出")
+    @PostMapping("/logout")
+    public Object logout() {
+        try {
+            ShiroUtils.logout();
+        } catch (Exception e) {
+            log.error("登出*******"+e.getMessage());
+            return R.error("注销失败");
+        }
+        return R.ok();
+    }
 
 
 //    /**

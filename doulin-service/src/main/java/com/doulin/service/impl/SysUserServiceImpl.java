@@ -47,11 +47,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public SysUser getOneByLoginNo(String telePhone) {
-        QueryWrapper<SysUser> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq(SysContent.LOGIN_NO,telePhone);
-        queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
-        return getOne(queryWrapper);
+    public SysUser getOneByLoginNo(String loginNo) {
+        return sysUserMapper.selectInfoByLoginNo(loginNo);
     }
 
     @Override
@@ -59,8 +56,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         //判断是否符合条件
         if(StrUtil.isEmpty(sysUser.getTelePhone()) || !PhoneUtil.isMobile(sysUser.getTelePhone())){
             throw new MyException(SysContent.ERROR_MOBILE);
-        }else if(StrUtil.isEmpty(sysUser.getPassword())){
-            throw new MyException(SysContent.ERROR_PSSWORD);
         }else if(StrUtil.isEmpty(sysUser.getRealName())){
             throw new MyException(ErrorContent.ERROR_REAL_NAME);
         }else if(null==sysUser.getDeptId()){
@@ -68,14 +63,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         if(SysContent.OPER_ADD.equals(oper)){
-            if(null!=getOneByLoginNo(sysUser.getTelePhone())){
+            if(null!=getOneByLoginNo(sysUser.getLoginNo())){
                 throw new MyException(SysContent.ERROR_SYS_USER_EXSIS);
             }
         }else if(SysContent.OPER_EDIT.equals(oper)){
             if(null==sysUser.getId()){
                 throw new MyException(SysContent.ERROR_ID);
             }else {
-                SysUser use=getOneByLoginNo(sysUser.getTelePhone());
+                SysUser use=getOneByLoginNo(sysUser.getLoginNo());
                 if(!use.getId().equals(sysUser.getId())){
                     throw new MyException(SysContent.ERROR_USER);
                 }
@@ -99,12 +94,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 flag=true;
             }
         }else if(SysContent.OPER_EDIT.equals(oper)){
+            if(getInfoByUserId(sysUser.getId()).get(0).getLoginNo().equals(SysContent.SYS_ADMIN)){
+                throw  new MyException(SysContent.ADMIN_ERROR);
+            }
             if(updateById(sysUser)){
                 flag=true;
             }
         }
         String roleIds=sysUser.getRoleId();
-        List<String> roles= Arrays.asList(roleIds);
+        List<String> roles= Arrays.asList(roleIds.split(SysContent.EN_D));
         Set<SysUserRole> urlist=new HashSet<>();
         for (String rid : roles) {
             SysUserRole sur=new SysUserRole();
@@ -120,9 +118,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
     @Transactional(rollbackFor = MyException.class)
     @Override
-    public boolean deleteByIds(List<Integer> ids) throws MyException {
+    public boolean deleteByIds(List<Integer> ids,String userId) throws MyException {
         try {
-            sysUserMapper.deleteByIds(ids);
+            sysUserMapper.deleteByIds(ids,userId);
             return true;
         } catch (Exception e) {
            throw new MyException(e.getMessage());
@@ -139,6 +137,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         page.setSize(Long.valueOf(map.get(SysContent.ROWS).toString()));
         page.setRecords(datalist);
         return page;
+    }
+
+    @Override
+    public List<SysUser> getInfoByUserId(Integer id) {
+
+        return sysUserMapper.selectInfoById(id);
     }
 
 }

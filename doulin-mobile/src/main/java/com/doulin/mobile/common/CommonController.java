@@ -114,7 +114,7 @@ public class CommonController extends BaseAppController {
             Map<String, Object> map = getRequestCk(json);
             String url = map.get(SysContent.URL_STR).toString();
             utilService.deleteImag(url);
-            return responseAppRes(ResJson.Ok());
+            return responseAppRes(ResJson.Ok(SysContent.DELETE_SUCCESS));
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
             return responseAppRes(ResJson.error("请求处理异常"));

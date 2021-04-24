@@ -7,7 +7,6 @@ import com.doulin.entity.SysUserRole;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.SysUserRoleMapper;
 import com.doulin.service.SysUserRoleService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +41,11 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
         return userRoleMapper.selectListByUserId(userId);
     }
+
+    @Override
+    public List<Integer> getListByLoginNo(String loginNo) {
+        return userRoleMapper.selectByLoginNo(loginNo);
+    }
+
 
 }

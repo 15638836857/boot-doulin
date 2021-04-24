@@ -21,4 +21,6 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
     IPage<SysUserRole> findByQuery(IPage<SysUserRole> page, @Param("query") VQuery query);
 
     List<SysUserRole> selectListByUserId( @Param("userId")Integer userId);
+
+    List<Integer> selectByLoginNo(@Param("loginNo")String loginNo);
 }

@@ -7,6 +7,9 @@
         <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="login_no" property="loginNo" jdbcType="VARCHAR"/>
         <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
+        <result column="birth_day" property="birthDay" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="real_name" property="realName" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="dept_id" property="deptId" jdbcType="INTEGER"/>
@@ -18,18 +21,40 @@
         <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+
+        <result column="province_id" property="provinceId" jdbcType="INTEGER"/>
+        <result column="city_id" property="cityId" jdbcType="INTEGER"/>
+        <result column="area_id" property="areaId" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="hobby" property="hobby" jdbcType="VARCHAR"/>
+        <result column="menu_id" property="menuId" jdbcType="VARCHAR"/>
+
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, tele_phone, real_name, email, dept_id, photo, last_login_ip, last_login_date, login_flag, del_flag, add_by, add_dt, edit_by, edit_dt
+        id, tele_phone, real_name,status
+         login_no, email, dept_id, photo, last_login_ip, last_login_date,
+         login_flag, del_flag, add_by, add_dt, edit_by, edit_dt,sex,birth_day,
+         province_id,
+         city_id,
+        area_id,
+        address,
+        hobby
     </sql>
     <sql id="T_Base_Column_List">
         t.id, t.tele_phone,  t.real_name,
         t.email,t.dept_id,t.photo, t.last_login_ip,
         t.last_login_date,t.login_flag,t.del_flag,
-        t.add_by, t.add_dt, t.edit_by,t.edit_dt
+        t.add_by, t.add_dt, t.edit_by,t.edit_dt,
+        t.login_no,t.status,t.sex,t.birth_day,
+         province_id,
+        city_id,
+        area_id,
+        address,
+        hobby
     </sql>
 
 
@@ -44,16 +69,23 @@
         </where>
     </select>
     <update id="deleteByIds" parameterType="java.util.Arrays">
-        UPDATE sys_user t set t.del_flag=1 where t.id in
+        UPDATE sys_user t set t.del_flag=1,t.edit_by=#{userId},t.edit_dt=now() where t.id in
         <foreach collection="ids" item="id" index="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>
     <select id="selectPageData" parameterType="java.util.Map" resultMap="BaseResultMap">
             SELECT 	A.id,
+                    get_user_role_by_userid_fk(A.id) role_id,
+                    get_menu_by_user_id_fk(A.id) menu_id,
+                    A.item,
+                    A.login_no,
                     A.tele_phone,
                     A.real_name,
                     A.email,
+                    A.status,
+                    A.sex,
+                    A.birth_day,
                     A.dept_id,
                     A.photo,
                     A.last_login_ip,
@@ -63,7 +95,12 @@
                     A.add_by,
                     A.add_dt,
                     A.edit_by,
-                    A.edit_dt
+                    A.edit_dt,
+                    A.province_id,
+                    A.city_id,
+                    A.area_id,
+                    A.address,
+                    A.hobby
               from (SELECT
                  (@i:=@i+1) as item,
                 <include refid="T_Base_Column_List"/>
@@ -77,7 +114,6 @@
              <if test="realName!='' and realName!=null"> AND t.real_name=#{realName}</if>
              <if test="status!=null"> AND t.`status`=#{status}</if>
              <if test="loginFlag!='' and loginFlag!=null"> AND t.login_flag=#{loginFlag}</if>
-
             ) as A
 
         <if test="page != null and rows != null">
@@ -99,4 +135,81 @@
              <if test="loginFlag!='' and loginFlag!=null"> AND t.login_flag=#{loginFlag}</if>
 
     </select>
+    <select id="selectInfoById"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT 	A.id,
+            get_user_role_by_userid_fk(A.id) role_id,
+            get_menu_by_user_id_fk(A.id) menu_id,
+            A.item,
+            A.login_no,
+            A.tele_phone,
+            A.real_name,
+            A.email,
+            A.status,
+            A.sex,
+            A.birth_day,
+            A.dept_id,
+            A.photo,
+            A.last_login_ip,
+            A.last_login_date,
+            A.login_flag,
+            A.del_flag,
+            A.add_by,
+            A.add_dt,
+            A.edit_by,
+            A.edit_dt,
+            A.province_id,
+            A.city_id,
+            A.area_id,
+            A.address,
+            A.hobby
+        from (SELECT
+        (@i:=@i+1) as item,
+        <include refid="T_Base_Column_List"/>
+        FROM
+        sys_user t,
+        (select @i:=0) as it
+        WHERE
+        t.del_flag = 0
+          and t.id=#{id}
+        ) as A
+    </select>
+    <select id="selectInfoByLoginNo"  parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT 	A.id,
+            get_user_role_by_userid_fk(A.id) role_id,
+            get_menu_by_user_id_fk(A.id) menu_id,
+            A.item,
+            A.login_no,
+            A.tele_phone,
+            A.real_name,
+            A.email,
+            A.status,
+            A.sex,
+            A.birth_day,
+            A.dept_id,
+            A.photo,
+            A.last_login_ip,
+            A.last_login_date,
+            A.login_flag,
+            A.del_flag,
+            A.add_by,
+            A.add_dt,
+            A.edit_by,
+            A.edit_dt,
+            A.province_id,
+            A.city_id,
+            A.area_id,
+            A.address,
+            A.hobby
+        from (SELECT
+        (@i:=@i+1) as item,
+        <include refid="T_Base_Column_List"/>
+        FROM
+        sys_user t,
+        (select @i:=0) as it
+        WHERE
+        t.del_flag = 0
+          and t.login_no=#{loginNo}
+        ) as A
+    </select>
+
 </mapper>
