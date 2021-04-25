@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TCategory;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+
 /**
  * TCategoryService
  *
@@ -15,4 +17,7 @@ public interface TCategoryService extends IService<TCategory> {
 
     IPage<TCategory> page(VQuery query);
 
+    List<TCategory> getByShopGroupId(Integer shopGroupId);
+
+    TCategory getOneByName(String name);
 }

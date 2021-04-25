@@ -4,8 +4,8 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysUserRole">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="user_id" property="userId" jdbcType="INTEGER"/>
-        <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
     </resultMap>

@@ -412,11 +412,6 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @TableField("cashier_photo")
     private String ashierPhoto;
-
-
-
-
-
     /**
      * 银行支行名称
      */
@@ -426,6 +421,10 @@ public class TShopHomeBaseInfo implements Serializable {
     private String bankProvince;
     @TableField(exist = false)
     private String bankCity;
-
+    /**
+     * 社区名称
+     */
+    @TableField(exist = false)
+    private String communityName;
 
 }

@@ -3,6 +3,7 @@ package com.doulin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.entity.TCommunity;
+import com.doulin.entity.common.SelectVo;
 import com.doulin.entity.vo.VQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,4 +31,7 @@ public interface TCommunityMapper extends BaseMapper<TCommunity> {
     Integer count(Map<String, Object> map);
 
     void deleteInfoBatchIds(@Param("loginUserId")String loginUserId,@Param("ids")List<String> ids);
+
+    List<SelectVo> selectListInfo();
+    List<SelectVo> selectTreeCommunity();
 }

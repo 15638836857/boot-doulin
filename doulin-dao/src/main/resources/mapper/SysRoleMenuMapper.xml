@@ -108,4 +108,19 @@
         WHERE  t.del_flag = 0
         ) tt
     </select>
+    <select id="selectByRoleId" parameterType="String" resultMap="BaseResultMap">
+            SELECT
+              DISTINCT
+                t1.role_name,
+                t.role_id,
+                t.menu_id
+            FROM
+                sys_role_menu t
+            LEFT JOIN sys_role t1 ON t1.id = t.role_id
+            LEFT JOIN sys_menu t2 ON t2.id = t.menu_id
+            WHERE
+                t.del_flag = 0
+                AND t.role_id=#{roleId}
+            ORDER BY role_id
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.doulin.admin.controller.system;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.doulin.admin.controller.common.BaseWebController;
@@ -14,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 系统登录角色控制器类
@@ -48,22 +46,32 @@ public class SysRoleMenuController  extends BaseWebController {
             "    },\n" +
             "    \"v\": {\n" +
             "        \"roleId\": \"角色id\",\n" +
-            "        \"menuId\": \"菜单id\"\n" +
+            "        \"menuId\": \"菜单id 多个英文逗号间隔\"\n" +
             "    }\n" +
             "}")
     @PostMapping("/add")
     public Object add(@RequestBody Map<String,Object> requestMap) {
         try {
-            SysRoleMenu srm = new SysRoleMenu();
+
             Object roleId = getVvalue(requestMap).get("roleId");
             Object menuId = getVvalue(requestMap).get("menuId");
-            srm.setAddBy(getLoginUserId(requestMap));
-            srm.setAddDt(new Date());
-            srm.setDelFlag(SysContent.INTGER_0);
-            srm.setMenuId(Integer.valueOf(menuId.toString()));
-            srm.setRoleId(Integer.valueOf(roleId.toString()));
-            sysRoleMenuService.save(srm);
-        } catch (MyException e) {
+            if(null==roleId || null==menuId){
+                throw new Exception("菜单不能为空");
+            }
+            List<SysRoleMenu> addList=new ArrayList<>();
+            String[] strings=menuId.toString().split(SysContent.EN_D);
+            for (String string : strings) {
+                SysRoleMenu srm = new SysRoleMenu();
+                srm.setAddBy(getLoginUserId(requestMap));
+                srm.setAddDt(new Date());
+                srm.setDelFlag(SysContent.INTGER_0);
+                srm.setMenuId(string);
+                srm.setRoleId(roleId.toString());
+                addList.add(srm);
+            }
+            sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id",roleId));
+            sysRoleMenuService.saveBatch(addList);
+        } catch (Exception e) {
             log.error("srm/add" + e.getMessage());
             return R.error(e.getMessage());
         }
@@ -101,36 +109,45 @@ public class SysRoleMenuController  extends BaseWebController {
      * 更新
      * @param requestMap
      */
-    @ApiOperation(value = "编辑接口", notes = "{\n" +
-            "    \"s\": {\n" +
-            "        \"loginUserId\": \"登录用户userId\",\n" +
-            "        \"page\": 1,\n" +
-            "        \"rows\": 10\n" +
-            "    },\n" +
-            "    \"v\": {\n" +
-            "        \"id\": \"数据id\",\n" +
-            "        \"roleId\": \"角色id\",\n" +
-            "        \"menuId\": \"菜单id\"\n" +
-            "    }\n" +
-            "}")
-    @PostMapping("/update")
-    public Object update(@RequestBody Map<String,Object> requestMap) {
-        try {
-            SysRoleMenu srm = new SysRoleMenu();
-            Object id = getVvalue(requestMap).get("id");
-            Object roleId = getVvalue(requestMap).get("roleId");
-            Object menuId = getVvalue(requestMap).get("menuId");
-            srm.setEditBy(getLoginUserId(requestMap));
-            srm.setEditDt(new Date());
-            srm.setMenuId(Integer.valueOf(menuId.toString()));
-            srm.setRoleId(Integer.valueOf(roleId.toString()));
-            sysRoleMenuService.updateById(srm);
-        } catch (MyException e) {
-            log.error("srm/update" + e.getMessage());
-            return R.error(e.getMessage());
-        }
-        return R.ok();
-    }
+//    @ApiOperation(value = "编辑接口", notes = "{\n" +
+//            "    \"s\": {\n" +
+//            "        \"loginUserId\": \"登录用户userId\",\n" +
+//            "        \"page\": 1,\n" +
+//            "        \"rows\": 10\n" +
+//            "    },\n" +
+//            "    \"v\": {\n" +
+//            "        \"roleId\": \"角色id\",\n" +
+//            "        \"menuId\": \"菜单id\"\n" +
+//            "    }\n" +
+//            "}")
+//    @PostMapping("/update")
+//    public Object update(@RequestBody Map<String,Object> requestMap) {
+//        try {
+//            Object menuId = getVvalue(requestMap).get("menuId");
+//            Object roleId = getVvalue(requestMap).get("roleId");
+//            if(null==roleId || null==menuId){
+//                throw new Exception("菜单不能为空");
+//            }
+//            List<SysRoleMenu> addList=new ArrayList<>();
+//            String[] strings=menuId.toString().split(SysContent.EN_D);
+//            for (String string : strings) {
+//                SysRoleMenu srm = new SysRoleMenu();
+//                srm.setAddBy(getLoginUserId(requestMap));
+//                srm.setAddDt(new Date());
+//                srm.setDelFlag(SysContent.INTGER_0);
+//                srm.setMenuId(string);
+//                srm.setRoleId(roleId.toString());
+//                addList.add(srm);
+//            }
+//
+//            sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id",roleId));
+//            sysRoleMenuService.saveBatch(addList);
+//        } catch (Exception e) {
+//            log.error("srm/update" + e.getMessage());
+//            return R.error(e.getMessage());
+//        }
+//        return R.ok();
+//    }
 
     /**
      * 详情
@@ -145,13 +162,13 @@ public class SysRoleMenuController  extends BaseWebController {
             "        \"rows\": 10\n" +
             "    },\n" +
             "    \"v\": {\n" +
-            "        \"id\": \"数据id \"\n" +
+            "        \"roleId\": \"菜单 \"\n" +
             "    }\n" +
             "}")
-    @PostMapping("/detail")
+    @PostMapping("/detailByRoleId")
     public Object detail(@RequestBody Map<String,Object> requestMap) {
-        String id=getVvalue(requestMap).get(SysContent.ID_STR).toString();
-        SysRoleMenu sysRoleMenu= sysRoleMenuService.getOneById(Integer.valueOf(id));
+        String roleId=getVvalue(requestMap).get(SysContent.ROLEID).toString();
+        List<SysRoleMenu> sysRoleMenu= sysRoleMenuService.getListByRoleId(roleId);
         return R.ok(sysRoleMenu);
     }
 

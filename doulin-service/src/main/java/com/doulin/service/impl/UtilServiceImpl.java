@@ -24,6 +24,7 @@ import com.doulin.common.token.JwtToken;
 import com.doulin.entity.*;
 import com.doulin.entity.common.*;
 import com.doulin.entity.edo.Tree;
+import com.doulin.entity.edo.TreeUtil;
 import com.doulin.entity.image.ImgDoConfig;
 import com.doulin.entity.shop.BankCardTypeVo;
 import com.doulin.service.*;
@@ -63,6 +64,9 @@ public class UtilServiceImpl implements UtilService {
     private TAboutService tAboutService;
     @Autowired
     private SysSalesmanService sysSalesmanService;
+    @Autowired
+    private TCommunityService tCommunityService;
+
     @Override
     public void shortMassge(String phone, String type, String ip) throws Exception {
         try {
@@ -521,6 +525,19 @@ public class UtilServiceImpl implements UtilService {
             return ResJson.Ok(SysContent.YWY_OK);
         }
         return ResJson.error(SysContent.ERROR_YWY);
+    }
+
+    @Override
+    public Object getCommunitySelect(String type) {
+        List<SelectVo> list = new ArrayList<>();
+        if (SysContent.INTGER_1.toString().equals(type)) {
+            list = tCommunityService.getSelectVo();
+        } else if (SysContent.INTGER_2.toString().equals(type)) {
+            TreeUtil<SelectVo> listdata = tCommunityService.getTreeSelectVo();
+            return listdata;
+        }
+
+        return list;
     }
 
     public String getWords(String key,String json){

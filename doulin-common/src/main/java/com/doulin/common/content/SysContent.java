@@ -114,4 +114,9 @@ public class SysContent extends ErrorContent{
     public static final String  SYS_ADMIN = "admin";
     public static final String ADMIN_ERROR = "超级管理员不能修改";
     public static final String MENU_STR = "menu";
+    public static final String ROLE_STR = "role";
+    public static final String ROLEID = "roleId";
+    public static final String SQTYPE_STR = "sqtype";
+    public static final String SHOP_GROUP = "YLDLSHOPGROUP";
+    public static final String GROUP_NAME = "group_name";
 }

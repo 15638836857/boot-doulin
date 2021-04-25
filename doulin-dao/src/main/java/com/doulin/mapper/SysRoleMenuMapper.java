@@ -37,4 +37,11 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
     List<SysRoleMenu> pageInfo(Map<String, Object> map);
 
     Integer countByMap(Map<String, Object> map);
+
+    /**
+     * 根据角色名称查询
+     * @param roleId
+     * @return
+     */
+    List<SysRoleMenu> selectByRoleId( @Param("roleId")String roleId);
 }

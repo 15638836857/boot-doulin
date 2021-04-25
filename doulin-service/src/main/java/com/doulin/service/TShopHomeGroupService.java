@@ -21,4 +21,14 @@ public interface TShopHomeGroupService extends IService<TShopHomeGroup> {
     void removeBatchByIds(String loginUserId, List<String> ids);
 
     IPage<TShopHomeGroup> pageInfo(Map<String, Object> map);
+
+    TShopHomeGroup getOneByName(String groupName);
+
+    /**
+     * 根据id或商品code获取信息
+     * @param id
+     * @param shopCode
+     * @return
+     */
+    TShopHomeGroup getInfoByIdOrShopCode(Integer id,String shopCode);
 }

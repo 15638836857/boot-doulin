@@ -1,10 +1,7 @@
 package com.doulin.service;
 
 import com.doulin.entity.TShopHomeBaseInfo;
-import com.doulin.entity.common.ResJson;
-import com.doulin.entity.common.UserLoginReq;
-import com.doulin.entity.common.UserLoginRes;
-import com.doulin.entity.common.UserRegisterReq;
+import com.doulin.entity.common.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,4 +88,11 @@ public interface UtilService {
      * @return
      */
     ResJson getYwyByCode(String code);
+
+    /**
+     * 获取社区
+     * @param type 1所有  2tree
+     * @return
+     */
+    Object getCommunitySelect(String type);
 }

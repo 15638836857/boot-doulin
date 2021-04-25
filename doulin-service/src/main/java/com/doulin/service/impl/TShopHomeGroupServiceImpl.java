@@ -1,12 +1,15 @@
 package com.doulin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.doulin.common.content.SysContent;
+import com.doulin.entity.TCategory;
 import com.doulin.entity.TShopHomeGroup;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TShopHomeGroupMapper;
+import com.doulin.service.TCategoryService;
 import com.doulin.service.TShopHomeGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,8 @@ public class TShopHomeGroupServiceImpl extends ServiceImpl<TShopHomeGroupMapper,
 
     @Autowired
     private TShopHomeGroupMapper shopHomeGroupMapper;
+    @Autowired
+    private TCategoryService categoryService;
     @Override
     public IPage<TShopHomeGroup> page(VQuery query) {
         IPage<TShopHomeGroup> page = new Page<>();
@@ -53,6 +58,27 @@ public class TShopHomeGroupServiceImpl extends ServiceImpl<TShopHomeGroupMapper,
         page.setTotal(Long.valueOf(count.toString()));
         page.setRecords(list);
         return page;
+    }
+
+    @Override
+    public TShopHomeGroup getOneByName(String groupName) {
+        QueryWrapper<TShopHomeGroup> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq(SysContent.GROUP_NAME,groupName);
+        queryWrapper.eq(SysContent.DEL_FLAG,SysContent.INTGER_0);
+
+        return getOne(queryWrapper);
+    }
+
+    @Override
+    public TShopHomeGroup getInfoByIdOrShopCode(Integer id,String shopCode) {
+        TShopHomeGroup shopHomeGroup=shopHomeGroupMapper.selectInfoByIdOrShopCode(id,shopCode);
+        if(null!=shopHomeGroup) {
+            List<TCategory> tCategory = categoryService.getByShopGroupId(shopHomeGroup.getId());
+            if (null != tCategory) {
+                shopHomeGroup.setGoodsCategoryList(tCategory);
+            }
+        }
+        return shopHomeGroup;
     }
 
 }

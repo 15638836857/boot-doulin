@@ -65,6 +65,7 @@
         <result column="shop_acceptance_letter_img" property="shopAcceptanceLetterImg" jdbcType="VARCHAR"/>
         <result column="shop_settlement_book_img" property="shopSettlementBookImg" jdbcType="VARCHAR"/>
         <result column="cashier_photo" property="ashierPhoto" jdbcType="VARCHAR"/>
+        <result column="community_name" property="communityName" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -77,10 +78,9 @@
         business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num,
         legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p,
         legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag,
-         apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag,
-         shop_acceptance_letter_img,
-         shop_settlement_book_img,
-         cashier_photo
+         apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag, shop_acceptance_letter_img,
+         shop_settlement_book_img, cashier_photo,
+         community_name
     </sql>
 
 
@@ -156,10 +156,12 @@
           b.bank_name,
           b.bank_child bank_child_name,
           b.province bank_province,
-          b.city bank_city
+          b.city bank_city,
+          c.community_name
         FROM
             t_shop_home_base_info t
           LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
+          LEFT JOIN t_community c ON t.community_code=c.community_code
         where t.del_flag=0 and  t.login_no=#{loginNo}
     </select>
 

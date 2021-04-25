@@ -6,6 +6,8 @@ import com.doulin.common.spring.SpringUtils;
 import com.doulin.entity.SysUser;
 import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
+import com.doulin.service.SystemService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -52,6 +54,7 @@ public class UserRealm extends AuthorizingRealm {
 
     }
 
+    @SneakyThrows
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String) token.getPrincipal();
@@ -67,7 +70,7 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         // 密码错误
-        if (!password.equals(user.getPassword())) {
+        if (!SystemService.validatePassword(password,user.getPassword())) {
             throw new IncorrectCredentialsException("账号或密码不正确");
         }
 

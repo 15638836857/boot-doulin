@@ -23,7 +23,7 @@ import java.util.Date;
 public class SysRoleMenu implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -31,7 +31,7 @@ public class SysRoleMenu implements Serializable {
      */
     @ApiModelProperty(value = "角色id")
     @TableField("role_id")
-    private Integer roleId;
+    private String roleId;
 
     @TableField(exist = false)
     private String roleName;
@@ -41,7 +41,7 @@ public class SysRoleMenu implements Serializable {
      */
     @ApiModelProperty(value = "菜单id")
     @TableField("menu_id")
-    private Integer menuId;
+    private String menuId;
 
     @TableField(exist = false)
     private String menuName;

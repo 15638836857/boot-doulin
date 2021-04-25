@@ -34,6 +34,12 @@ public class TCategory implements Serializable {
     private String name;
 
     /**
+     * 商家分类id
+     */
+    @ApiModelProperty(value = "商家分类id")
+    @TableField("shop_group_id")
+    private Integer shopGroupId;
+    /**
      * 父级id
      */
     @ApiModelProperty(value = "父级id")

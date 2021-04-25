@@ -16,12 +16,12 @@ public class R extends HashMap<String, Object> {
     }
 
     public R() {
-        put("code", 0);
-        put("data", getData());
+        put("code", 200);
+        put("data", data);
         put("msg", "操作成功");
     }
     public R(Object data) {
-        put("code", 0);
+        put("code", 200);
         put("data", data);
         put("msg", "操作成功");
     }

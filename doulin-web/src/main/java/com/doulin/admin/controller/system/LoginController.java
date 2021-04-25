@@ -6,11 +6,11 @@ import com.doulin.common.R;
 import com.doulin.common.RandomValidateCodeUtil;
 import com.doulin.common.ShiroUtils;
 import com.doulin.common.content.SysContent;
+import com.doulin.common.j2cache.CacheUtils;
 import com.doulin.common.token.SysUserTokenUtil;
 import com.doulin.entity.SysUser;
 import com.doulin.service.SysUserRoleService;
 import com.doulin.service.SysUserService;
-import com.doulin.service.SystemService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -50,7 +50,7 @@ public class LoginController extends BaseWebController {
             "        \"rows\": 10\n" +
             "    },\n" +
             "    \"v\": {\n" +
-            "        \"loginNo\": \"登录的手机号\",\n" +
+            "        \"loginNo\": \"登录号\",\n" +
             "        \"passWord\": \"密码\",\n" +
             "        \"randomCode\": \"验证码\"\n" +
             "    }\n" +
@@ -66,9 +66,9 @@ public class LoginController extends BaseWebController {
         }
         //从session中获取随机数
         try {
-            String ip = IPUtils.getIpAddr(request);
-            String random = (String) request.getSession().getAttribute(ip + RandomValidateCodeUtil.RANDOMCODEKEY);
-            if (random.equals(randomCode)) {
+            String ip = IPUtils.getIpAddr(request)+ RandomValidateCodeUtil.RANDOMCODEKEY;
+            String random = CacheUtils.get(ip).toString();
+            if (random.equals(randomCode.toString())) {
             } else {
                 return R.error("请输入正确的验证码");
             }
@@ -76,8 +76,7 @@ public class LoginController extends BaseWebController {
             return R.error("验证码已失效");
         }
         try {
-            String pd = SystemService.entryptPassword(password.toString());
-            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginNo.toString(), pd);
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginNo.toString(), password.toString());
             Subject subject = SecurityUtils.getSubject();
             try {
                 subject.login(usernamePasswordToken);
@@ -89,7 +88,9 @@ public class LoginController extends BaseWebController {
                 result.put(SysContent.LOGIN_USERID,sysUser.getId());
                 result.put(SysContent.NAME_STR,sysUser.getRealName());
                 result.put(SysContent.MENU_STR,sysUser.getMenuId());
-                return R.ok(result);
+                result.put(SysContent.ROLE_STR,sysUser.getRoleId());
+
+                return R.ok((Object) result);
             } catch (AuthenticationException e) {
                 return R.error("用户或密码错误");
             }
@@ -126,7 +127,7 @@ public class LoginController extends BaseWebController {
             log.error("登出*******"+e.getMessage());
             return R.error("注销失败");
         }
-        return R.ok();
+        return R.ok("退出成功");
     }
 
 

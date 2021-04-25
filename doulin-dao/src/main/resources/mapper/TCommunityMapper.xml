@@ -149,4 +149,51 @@
             CAST(#{id} AS SIGNED)
         </foreach>
     </update>
+    <select id="selectListInfo" resultType="com.doulin.entity.common.SelectVo">
+           SELECT
+                t.community_name label,
+                t.community_code `VALUE`,
+                t.community_code CODE,
+                t.id
+            FROM
+                t_community t
+            WHERE
+                t.del_flag = 0
+            AND t.community_state = 'N'
+            ORDER BY
+                t.community_code
+    </select>
+    <select id="selectTreeCommunity"  resultType="com.doulin.entity.common.SelectVo">
+        SELECT
+            province_name label,
+            province_id `VALUE`,
+            '0' parent,
+            id
+        FROM
+            get_community_view
+        UNION ALL
+            SELECT
+                city_name label,
+                city_id `VALUE`,
+                province_id parent,
+                id
+            FROM
+                get_community_view
+            UNION ALL
+                SELECT
+                    district_name label,
+                    district_id `VALUE`,
+                    city_id parent,
+                    id
+                FROM
+                    get_community_view
+                UNION ALL
+                    SELECT
+                        community_name label,
+                        community_code `VALUE`,
+                        district_id parent,
+                        id
+                    FROM
+                        get_community_view
+    </select>
 </mapper>

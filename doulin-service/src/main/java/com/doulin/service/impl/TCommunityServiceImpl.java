@@ -4,10 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.doulin.common.BuildTreeUtil;
 import com.doulin.common.MyException;
 import com.doulin.common.StringUtils;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.TCommunity;
+import com.doulin.entity.common.SelectVo;
+import com.doulin.entity.edo.TreeUtil;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TCommunityMapper;
 import com.doulin.service.TCommunityService;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +96,28 @@ public class TCommunityServiceImpl extends ServiceImpl<TCommunityMapper, TCommun
     @Override
     public void deleteBatchByIds(String loginUserId,List<String> ids) {
         communityMapper.deleteInfoBatchIds(loginUserId,ids);
+    }
+
+    @Override
+    public List<SelectVo> getSelectVo() {
+        return communityMapper.selectListInfo();
+    }
+
+    @Override
+    public  TreeUtil<SelectVo> getTreeSelectVo() {
+        List<SelectVo> treelist=communityMapper.selectTreeCommunity();
+        List<TreeUtil<SelectVo>> trees = new ArrayList<TreeUtil<SelectVo>>();
+        for (SelectVo selectVo : treelist) {
+            TreeUtil<SelectVo> tree = new TreeUtil<SelectVo>();
+            tree.setId(selectVo.getId());
+            tree.setParent(selectVo.getParent());
+            tree.setLabel(selectVo.getLabel());
+            tree.setValue(selectVo.getValue());
+            trees.add(tree);
+        }
+        // 默认顶级菜单为０，根据数据库实际情况调整
+        TreeUtil<SelectVo> t = BuildTreeUtil.build(trees);
+        return t;
     }
 
 }

@@ -25,4 +25,6 @@ public interface TShopHomeGroupMapper extends BaseMapper<TShopHomeGroup> {
     List<TShopHomeGroup> pageInfo(Map<String, Object> map);
 
     Integer count(Map<String, Object> map);
+
+    TShopHomeGroup selectInfoByIdOrShopCode(@Param("id")Integer id, @Param("shopCode")String shopCode);
 }

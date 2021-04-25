@@ -189,7 +189,20 @@ public class CommonController extends BaseAppController {
             return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
         }
     }
-
+    @ApiOperation(value = "入驻小区下拉框", notes = "获取所有小区{\n" +
+            "    \"sqtype\": \"1/获取所有社区  2/树形数据\"\n" +
+            "}")
+    @PostMapping(value = "getCommunitySelect")
+    public Object  getCommunitySelect(String json) {
+        try {
+            String type = getRequestCk(json).get(SysContent.SQTYPE_STR).toString();
+            Object list = utilService.getCommunitySelect(type);
+            return responseAppRes(ResJson.Ok(list));
+        } catch (Exception e) {
+            log.error("入驻小区下拉框异常*****" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
 
 
 

@@ -96,6 +96,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"shopAcceptanceLetterImg\": \"商户受理书图片  业务员上传\",\n" +
             "    \"shopSettlementBookImg\": \"结算账户指定书\",\n" +
             "    \"ashierPhoto\": \"收银台照\",\n" +
+            "    \"communityName\": \"社区名称\",\n" +
             "    \"shopHomeCode\": \"商家 后台生成的编码\"\n" +
             "}")
     @PostMapping("/add")

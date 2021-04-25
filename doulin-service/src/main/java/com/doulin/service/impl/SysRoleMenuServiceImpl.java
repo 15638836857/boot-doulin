@@ -63,4 +63,10 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         return null;
     }
 
+    @Override
+    public List<SysRoleMenu> getListByRoleId(String roleId) {
+
+        return sysRoleMenuMapper.selectByRoleId(roleId);
+    }
+
 }

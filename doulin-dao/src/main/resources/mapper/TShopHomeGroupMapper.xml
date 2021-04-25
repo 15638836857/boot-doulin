@@ -4,7 +4,10 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeGroup">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="group_img" property="groupImg" jdbcType="VARCHAR"/>
+        <result column="group_img_status" property="groupImgStatus" jdbcType="VARCHAR"/>
+        <result column="goods_img_status" property="goodsImgStatus" jdbcType="VARCHAR"/>
         <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
         <result column="group_code" property="groupCode" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="VARCHAR"/>
@@ -14,11 +17,13 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="goods_category_count" property="goodsCategoryCount" jdbcType="INTEGER"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, group_img,group_name, group_code,status, sort, add_by, add_dt, edit_by, edit_dt, del_flag
+        id, group_img,group_name, group_code,status, sort, add_by, add_dt, edit_by, edit_dt, del_flag,
+        group_img_status,goods_img_status
     </sql>
 
 
@@ -56,6 +61,9 @@
                             t.group_name,
                             t.group_code,
                             t.`STATUS`,
+                            t.`group_img_status`,
+                            t.`goods_img_status`,
+                            get_shop_group_count_fk(t.id) goods_category_count,
                             t.sort,
                             t.add_by,
                             t.add_dt,
@@ -90,6 +98,9 @@
                     t.group_name,
                     t.group_code,
                     t.`STATUS`,
+                    t.`group_img_status`,
+                    t.`goods_img_status`,
+                    get_shop_group_count_fk(t.id) goods_category_count,
                     t.sort,
                     t.add_by,
                     t.add_dt,
@@ -97,13 +108,36 @@
                     t.edit_dt,
                     t.del_flag
                 FROM
-                t_shop_home_group t
+                     t_shop_home_group t
                 WHERE
-                t.del_flag = 0
+                         t.del_flag = 0
                 <if test="value!='' and value!=null">
                     and  t.group_name like '%${value}%'
                 </if>
         ) t1
+    </select>
+    <select id="selectInfoByIdOrShopCode" resultMap="BaseResultMap">
+        SELECT
+            t.id,
+            t.group_img,
+            t.group_name,
+            t.group_code,
+            t.`STATUS`,
+            t.`group_img_status`,
+            t.`goods_img_status`,
+            get_shop_group_count_fk(t.id) goods_category_count,
+            t.sort,
+            t.add_by,
+            t.add_dt,
+            t.edit_by,
+            t.edit_dt,
+            t.del_flag
+        FROM
+                 t_shop_home_group t
+        WHERE
+             t.del_flag = 0
+        <if test="id!='' and id!=null"> and  t.id = #{id} </if>
+        <if test="shopCode!='' and shopCode!=null"> and  t.group_code = #{shopCode} </if>
     </select>
 
 </mapper>

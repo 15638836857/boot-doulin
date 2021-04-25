@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Data
 public class SelectVo {
+    private String id;
     private String label;
     private String value;
     private String code;

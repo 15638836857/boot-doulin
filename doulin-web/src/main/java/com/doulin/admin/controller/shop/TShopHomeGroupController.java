@@ -25,7 +25,6 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "商家分组控制器类")
-
 @CrossOrigin
 @RestController
 @RequestMapping("/tshg")
@@ -48,22 +47,27 @@ public class TShopHomeGroupController extends BaseWebController {
             "    \"v\": {\n" +
             "        \"groupImg\": \"分类图标 base64字符串\",\n" +
             "        \"groupName\": \"分类名称\",\n" +
-            "        \"status\": \"是否被禁用 Y/N\",\n" +
+            "        \"groupImgStatus\": \"分类图标 启用状态 Y/N\",\n" +
+            "        \"goodsImgStatus\": \"商品图标是否被禁用 Y/N\",\n" +
             "        \"sort\": \"排序\"\n" +
             "    }\n" +
             "}")
     @PostMapping("/add")
     public Object add(@RequestBody Map<String,Object> requestMap) {
-        TShopHomeGroup tShopHomeGroup= BeanUtil.toBean(requestMap,TShopHomeGroup.class);
+        TShopHomeGroup tShopHomeGroup= BeanUtil.toBean(getVvalue(requestMap),TShopHomeGroup.class);
         try {
             tShopHomeGroup.setAddBy(getLoginUserId(requestMap));
             tShopHomeGroup.setAddDt(new Date());
             tShopHomeGroup.setDelFlag(SysContent.INTGER_0);
+            TShopHomeGroup shopHomeGroup=tShopHomeGroupService.getOneByName(tShopHomeGroup.getGroupName());
+            if(null!=shopHomeGroup){
+                throw new MyException("分类名称已存在");
+            }
             //时间戳
-            tShopHomeGroup.setGroupCode(String.valueOf(System.currentTimeMillis()));
+            tShopHomeGroup.setGroupCode(SysContent.SHOP_GROUP+System.currentTimeMillis());
             tShopHomeGroupService.save(tShopHomeGroup);
         } catch (MyException e) {
-           log.error("tshg/add"+e.getMessage());
+           log.error("tshg/add******"+e.getMessage());
            return R.error(e.getMessage());
         }
         return R.ok();
@@ -90,7 +94,7 @@ public class TShopHomeGroupController extends BaseWebController {
             String loginUserId=getLoginUserId(requestMap);
             tShopHomeGroupService.removeBatchByIds(loginUserId,Arrays.asList(ids));
         } catch (MyException e) {
-            log.error("tshg/delete"+e.getMessage());
+            log.error("tshg/delete******"+e.getMessage());
             return R.error(e.getMessage());
         }
         return R.ok();
@@ -108,9 +112,10 @@ public class TShopHomeGroupController extends BaseWebController {
             "    },\n" +
             "    \"v\": {\n" +
             "        \"id\": \"数据id\",\n" +
-            "        \"groupImg\": \"分类图标 base64字符串\",\n" +
             "        \"groupName\": \"分类名称\",\n" +
-            "        \"status\": \"是否被禁用 Y/N\",\n" +
+            "        \"groupImg\": \"分类图标 base64字符串\",\n" +
+            "        \"groupImgStatus\": \"商家分类图标Y/N\",\n" +
+            "        \"goodsImgStatus\": \"商品图标是否被禁用 Y/N\",\n" +
             "        \"sort\": \"排序\"\n" +
             "    }\n" +
             "}")
@@ -118,11 +123,15 @@ public class TShopHomeGroupController extends BaseWebController {
     public Object update(@RequestBody Map<String,Object> requestMap) {
         TShopHomeGroup tShopHomeGroup= BeanUtil.toBean(requestMap,TShopHomeGroup.class);
         try {
+            TShopHomeGroup shopHomeGroup=tShopHomeGroupService.getOneByName(tShopHomeGroup.getGroupName());
+            if(null!=shopHomeGroup && !shopHomeGroup.getId().equals(tShopHomeGroup.getId())){
+                throw new MyException("分类名称已存在");
+            }
             tShopHomeGroup.setEditBy(getLoginUserId(requestMap));
             tShopHomeGroup.setEditDt(new Date());
             tShopHomeGroupService.updateById(tShopHomeGroup);
         } catch (MyException e) {
-            log.error("tshg/add"+e.getMessage());
+            log.error("tshg/add*****"+e.getMessage());
             return R.error(e.getMessage());
         }
         return R.ok();
@@ -145,7 +154,7 @@ public class TShopHomeGroupController extends BaseWebController {
     @PostMapping("/detail")
     public Object detail(@RequestBody Map<String,Object> requestMap) {
         Object id =getVvalue(requestMap).get(SysContent.ID_STR);
-        return R.ok(tShopHomeGroupService.getById(Integer.valueOf(id.toString())));
+        return R.ok(tShopHomeGroupService.getInfoByIdOrShopCode(Integer.valueOf(id.toString()),null));
     }
 
     /**
@@ -166,9 +175,7 @@ public class TShopHomeGroupController extends BaseWebController {
             "}")
     @PostMapping("/page")
     public Object pageList(@RequestBody Map<String,Object> requestMap) {
-        Map<String,Object> smap=getSvalue(requestMap);
-        Map<String,Object> vmap=getVvalue(requestMap);
-        vmap.putAll(smap);
+        Map<String,Object> vmap=getPageParm(requestMap);
         IPage<TShopHomeGroup> page=tShopHomeGroupService.pageInfo(vmap);
         if(page.getRecords().size()>0){
             return R.ok(page);

@@ -42,4 +42,6 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @return
      */
     List<Integer> getLoginUserMenu(String loginNo);
+
+    List<SysRoleMenu> getListByRoleId(String roleId);
 }

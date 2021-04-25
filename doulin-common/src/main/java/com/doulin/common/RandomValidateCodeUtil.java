@@ -1,5 +1,6 @@
 package com.doulin.common;
 
+import com.doulin.common.j2cache.CacheUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,10 +76,12 @@ public class RandomValidateCodeUtil {
         }
         logger.info(randomString);
         //将生成的随机字符串保存到session中
-        session.removeAttribute(ip+RANDOMCODEKEY);
-        session.setAttribute(ip+RANDOMCODEKEY, randomString);
-        //2分钟后失效
-        session.setMaxInactiveInterval(2*60);
+        CacheUtils.remove(ip+RANDOMCODEKEY);
+        CacheUtils.put(ip+RANDOMCODEKEY,randomString,20);
+//        session.removeAttribute(ip+RANDOMCODEKEY);
+//        session.setAttribute(ip+RANDOMCODEKEY, randomString);
+//        //2分钟后失效
+//        session.setMaxInactiveInterval(2*60);
         g.dispose();
         try {
             // 将内存中的图片通过流动形式输出到客户端
