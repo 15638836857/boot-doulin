@@ -3,6 +3,7 @@ package com.doulin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TShopHomeGroup;
+import com.doulin.entity.common.SelectVo;
 import com.doulin.entity.vo.VQuery;
 
 import java.util.List;
@@ -31,4 +32,10 @@ public interface TShopHomeGroupService extends IService<TShopHomeGroup> {
      * @return
      */
     TShopHomeGroup getInfoByIdOrShopCode(Integer id,String shopCode);
+
+    /**
+     * 商家分类下拉框
+     * @return
+     */
+    List<SelectVo> getSelectInfo();
 }

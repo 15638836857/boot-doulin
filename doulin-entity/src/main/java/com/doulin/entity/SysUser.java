@@ -78,6 +78,12 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "部门id")
     @TableField("dept_id")
     private Integer deptId;
+    /**
+     * 部门id
+     */
+    @ApiModelProperty(value = "部门ids 回显")
+    @TableField("dept_ids")
+    private String deptIds;
 
     /**
      * 头像 base64 字符串

@@ -39,4 +39,6 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
      * @param  tShopHomeBaseInfo password 密码
      */
     TShopHomeBaseInfo addPassByPhone(HttpServletRequest request,TShopHomeBaseInfo tShopHomeBaseInfo) throws Exception;
+
+    void updateInfoById(TShopHomeBaseInfo tsb) throws Exception;
 }

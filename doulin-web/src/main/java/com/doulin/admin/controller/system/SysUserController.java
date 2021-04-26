@@ -60,6 +60,7 @@ public class SysUserController extends BaseWebController {
             "        \"realName\": \"真实姓名\",\n" +
             "        \"email\": \"用户的邮箱\",\n" +
             "        \"deptId\": \"部门id\",\n" +
+            "        \"deptIds\": \"部门ids\",\n" +
             "        \"birthDay\": \"生日\",\n" +
             "        \"sex\": \"性别 Y男  X女\",\n" +
             "        \"photo\": \"系统用户头像 base64字符串\"\n" +
@@ -179,6 +180,7 @@ public class SysUserController extends BaseWebController {
             "        \"realName\": \"真实姓名\",\n" +
             "        \"email\": \"用户的邮箱\",\n" +
             "        \"deptId\": \"部门id\",\n" +
+            "        \"deptIds\": \"部门id 回显使用\",\n" +
             "        \"photo\": \"系统用户头像 base64字符串\",\n" +
             "        \"status\": \"账户是否锁定 \",\n" +
             "        \"loginFlag\": \"账户是否可以登录 Y/N\"\n" +
@@ -301,6 +303,7 @@ public class SysUserController extends BaseWebController {
         String id=getVvalue(requestMap).get(SysContent.ID_STR).toString();
         SysUser user=sysUserService.getById(id);
         if(null!=user) {
+            user.setPassword(null);
             return R.ok(user);
         }else{
             return R.error(ErrorContent.ERROR_EMPTY);

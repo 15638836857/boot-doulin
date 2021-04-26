@@ -66,6 +66,10 @@ public class UtilServiceImpl implements UtilService {
     private SysSalesmanService sysSalesmanService;
     @Autowired
     private TCommunityService tCommunityService;
+    @Autowired
+    private TShopHomeGroupService shopHomeGroupService;
+
+
 
     @Override
     public void shortMassge(String phone, String type, String ip) throws Exception {
@@ -537,6 +541,12 @@ public class UtilServiceImpl implements UtilService {
             return listdata;
         }
 
+        return list;
+    }
+
+    @Override
+    public Object getShopClassSelect() {
+        List<SelectVo> list = shopHomeGroupService.getSelectInfo();
         return list;
     }
 

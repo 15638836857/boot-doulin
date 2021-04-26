@@ -44,6 +44,11 @@ public class TShopHomeBaseInfo implements Serializable {
     private String token;
     private String ryToken;			// rytoken
     private String password;
+    /**
+     * 合作方ID (由商云客平台分配)
+     */
+    @TableField("plat_id")
+    private String platId;
 
 
     /**
@@ -57,8 +62,10 @@ public class TShopHomeBaseInfo implements Serializable {
      * 商家分类编码
      */
     @ApiModelProperty(value = "商家分类编码")
-    @TableField("shop_grop_code")
-    private String shopGropCode;
+    @TableField("shop_group_code")
+    private String shopGroupCode;
+    @TableField(exist = false)
+    private String shopGroupCodeName;
 
     /**
      * 商家和用户关联id
@@ -80,6 +87,7 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "省份")
     @TableField("shop_province_id")
     private Integer shopProvinceId;
+
 
     /**
      * 商家所在的城市
@@ -222,9 +230,9 @@ public class TShopHomeBaseInfo implements Serializable {
     private String periodOfValidity;
 
     /**
-     * 商户类型 字典表
+     * 商户类型
      */
-    @ApiModelProperty(value = "商户类型 字典表")
+    @ApiModelProperty(value = "商户类型 ")
     @TableField("company_class")
     private Integer companyClass;
 
@@ -236,7 +244,7 @@ public class TShopHomeBaseInfo implements Serializable {
     private String businessScope;
 
     /**
-     * 经营类型 字典表
+     * 经营类型
      */
     @ApiModelProperty(value = "经营类型")
     @TableField("business_class")
@@ -280,14 +288,14 @@ public class TShopHomeBaseInfo implements Serializable {
     /**
      * 身份证正面图片base64字符串
      */
-    @ApiModelProperty(value = "身份证正面图片base64字符串")
+    @ApiModelProperty(value = "身份证正面图片")
     @TableField("legal_person_card_z")
     private String legalPersonCardZ;
 
     /**
      * 法人手持身份证图
      */
-    @ApiModelProperty(value = "法人手持身份证图")
+    @ApiModelProperty(value = "身份证图反面")
     @TableField("legal_person_card_f")
     private String legalPersonCardF;
 
@@ -301,7 +309,7 @@ public class TShopHomeBaseInfo implements Serializable {
     /**
      * 法人手持身份证图 base64 字符串
      */
-    @ApiModelProperty(value = "法人手持身份证图 base64 字符串")
+    @ApiModelProperty(value = "法人手持身份证图")
     @TableField("legal_person_card_p")
     private String legalPersonCardP;
 
@@ -315,7 +323,7 @@ public class TShopHomeBaseInfo implements Serializable {
     /**
      * 银行卡图片存base64图片
      */
-    @ApiModelProperty(value = "银行卡图片存base64图片")
+    @ApiModelProperty(value = "银行卡图片")
     @TableField("legal_person_bank_image")
     private String legalPersonBankImage;
 
@@ -343,7 +351,7 @@ public class TShopHomeBaseInfo implements Serializable {
     /**
      * 申请是否通过 Y/N
      */
-    @ApiModelProperty(value = "申请是否通过 Y/N")
+    @ApiModelProperty(value = "申请是否通过 Y/Z/N")
     @TableField("apply_flag")
     private String applyFlag;
 
@@ -426,5 +434,18 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @TableField(exist = false)
     private String communityName;
-
+    @TableField(exist = false)
+    private String shopProvinceName;
+    /**
+     * 商家所在的城市
+     */
+    @ApiModelProperty(value = "商家所在的城市")
+    @TableField(exist = false)
+    private String shopCityName;
+    /**
+     * 县区
+     */
+    @ApiModelProperty(value = "县区")
+    @TableField(exist = false)
+    private String shopDistrictName;
 }

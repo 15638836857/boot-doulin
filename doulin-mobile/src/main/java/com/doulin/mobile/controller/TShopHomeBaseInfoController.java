@@ -47,7 +47,8 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"loginNo\": \"登录人 手机号必传\",\n" +
             "    \"loginName\": \"登录人 名称\",\n" +
             "    \"shopHomeName\": \"商家名称\",\n" +
-            "    \"shopGropCode\": \"商家分类编码\",\n" +
+            "    \"shopGroupCode\": \"商家分类编码\",\n" +
+            "    \"shopGroupCodeName\": \"商家分类编码名称\",\n" +
             "    \"shopUserId\": \"商家和用户关联id\",\n" +
             "    \"communityCode\": \"社区编码\",\n" +
             "    \"shopProvinceId\": \"省份Id\",\n" +
@@ -67,10 +68,10 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"orderCancelMaxtime\": \"接单后允许订单取消最大时间\",\n" +
             "    \"businessLicenseImage\": \"营业执照 base64字串\",\n" +
             "    \"socialCreditCode\": \"社会信用代码\",\n" +
-            "    \"companyName\": \"单位名称\",\n" +
+            "    \"companyName\": \"公司单位名称\",\n" +
             "    \"foundDt\": \"创办成立时间\",\n" +
             "    \"periodOfValidity\": \"有效期yyyymmdd-yyyymmdd\",\n" +
-            "    \"companyClass\": \"商户类型 字典表\",\n" +
+            "    \"companyClass\": \"公司类型 字典表\",\n" +
             "    \"businessScope\": \"经营范围\",\n" +
             "    \"businessClass\": \"经营类型\",\n" +
             "    \"telePhone\": \"联系方式\",\n" +
@@ -118,7 +119,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             tsb.setDelFlag(SysContent.INTGER_0);
             tsb.setEditDt(new Date());
             tsb.setId(tsbio.getId());
-            tShopHomeBaseInfoService.updateById(tsb);
+            tShopHomeBaseInfoService.updateInfoById(tsb);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
             log.error("app/tbbf/add**********"+e.getMessage());

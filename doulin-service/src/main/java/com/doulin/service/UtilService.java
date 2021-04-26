@@ -95,4 +95,10 @@ public interface UtilService {
      * @return
      */
     Object getCommunitySelect(String type);
+
+    /**
+     * 获取商家类型下拉数据
+     * @return
+     */
+    Object getShopClassSelect();
 }

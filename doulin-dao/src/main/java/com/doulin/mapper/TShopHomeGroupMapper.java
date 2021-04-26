@@ -3,6 +3,7 @@ package com.doulin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.entity.TShopHomeGroup;
+import com.doulin.entity.common.SelectVo;
 import com.doulin.entity.vo.VQuery;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,6 @@ public interface TShopHomeGroupMapper extends BaseMapper<TShopHomeGroup> {
     Integer count(Map<String, Object> map);
 
     TShopHomeGroup selectInfoByIdOrShopCode(@Param("id")Integer id, @Param("shopCode")String shopCode);
+
+    List<SelectVo> selectInfo();
 }

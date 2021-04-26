@@ -119,4 +119,11 @@ public class SysContent extends ErrorContent{
     public static final String SQTYPE_STR = "sqtype";
     public static final String SHOP_GROUP = "YLDLSHOPGROUP";
     public static final String GROUP_NAME = "group_name";
+    public static final String STR_200 = "200";
+    public static final String SUCCESS = "SUCCESS";
+    public static final String OK_STR ="OK" ;
+    public static final String Z_STR ="Z" ;
+
+    public static final String  Mchinlet="Mchinlet";
+    public static final String ADD = "Add";
 }

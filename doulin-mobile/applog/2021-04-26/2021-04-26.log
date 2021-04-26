@@ -1,0 +1,722 @@
+2021-04-26 17:03:35 -
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/D:/m2/repository/org/json/json/20160810/json-20160810.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2021-04-26 17:03:36 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 9244 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:03:36 -The following profiles are active: dev,j2cache
+2021-04-26 17:03:36 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:03:36 CST 2021]; root of context hierarchy
+2021-04-26 17:03:36 -Started com.doulin.controller.Mobiletest in 1.262 seconds (JVM running for 3.122)
+2021-04-26 17:03:36 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1bb266b3] to prepare test instance [com.doulin.controller.Mobiletest@76c7beb3]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:03:36 -Closing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:03:36 CST 2021]; root of context hierarchy
+2021-04-26 17:04:35 -
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/D:/m2/repository/org/json/json/20160810/json-20160810.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2021-04-26 17:04:35 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 24936 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:04:35 -The following profiles are active: dev,j2cache
+2021-04-26 17:04:35 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:04:35 CST 2021]; root of context hierarchy
+2021-04-26 17:04:35 -Started com.doulin.controller.Mobiletest in 0.873 seconds (JVM running for 1.908)
+2021-04-26 17:04:35 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1bb266b3] to prepare test instance [com.doulin.controller.Mobiletest@76c7beb3]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:04:35 -Closing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:04:35 CST 2021]; root of context hierarchy
+2021-04-26 17:07:21 -
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/D:/m2/repository/org/json/json/20160810/json-20160810.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2021-04-26 17:07:21 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 27496 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:07:21 -The following profiles are active: dev,j2cache
+2021-04-26 17:07:21 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:07:21 CST 2021]; root of context hierarchy
+2021-04-26 17:07:21 -Started com.doulin.controller.Mobiletest in 0.971 seconds (JVM running for 2.511)
+2021-04-26 17:07:21 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1bb266b3] to prepare test instance [com.doulin.controller.Mobiletest@76c7beb3]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:07:21 -Closing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:07:21 CST 2021]; root of context hierarchy
+2021-04-26 17:09:11 -
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/D:/m2/repository/org/json/json/20160810/json-20160810.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2021-04-26 17:09:11 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 18120 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:09:11 -The following profiles are active: dev,j2cache
+2021-04-26 17:09:11 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4a194c39: startup date [Mon Apr 26 17:09:11 CST 2021]; root of context hierarchy
+2021-04-26 17:09:11 -Started com.doulin.controller.Mobiletest in 0.856 seconds (JVM running for 1.929)
+2021-04-26 17:09:11 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@68e965f5] to prepare test instance [com.doulin.controller.Mobiletest@72bd06ca]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:09:11 -Closing org.springframework.web.context.support.GenericWebApplicationContext@4a194c39: startup date [Mon Apr 26 17:09:11 CST 2021]; root of context hierarchy
+2021-04-26 17:10:19 -
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/D:/m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+	jar:file:/D:/m2/repository/org/json/json/20160810/json-20160810.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2021-04-26 17:10:19 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 11248 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:10:19 -The following profiles are active: dev,j2cache
+2021-04-26 17:10:19 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:10:19 CST 2021]; root of context hierarchy
+2021-04-26 17:10:19 -Started com.doulin.controller.Mobiletest in 0.84 seconds (JVM running for 1.95)
+2021-04-26 17:10:20 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1bb266b3] to prepare test instance [com.doulin.controller.Mobiletest@76c7beb3]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:10:20 -Closing org.springframework.web.context.support.GenericWebApplicationContext@3243b914: startup date [Mon Apr 26 17:10:19 CST 2021]; root of context hierarchy
+2021-04-26 17:11:13 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 20692 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:11:13 -The following profiles are active: dev,j2cache
+2021-04-26 17:11:13 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@59252cb6: startup date [Mon Apr 26 17:11:13 CST 2021]; root of context hierarchy
+2021-04-26 17:11:13 -Started com.doulin.controller.Mobiletest in 0.772 seconds (JVM running for 1.892)
+2021-04-26 17:11:13 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@37858383] to prepare test instance [com.doulin.controller.Mobiletest@3f2ef586]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:11:13 -Closing org.springframework.web.context.support.GenericWebApplicationContext@59252cb6: startup date [Mon Apr 26 17:11:13 CST 2021]; root of context hierarchy
+2021-04-26 17:11:27 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 5232 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:11:27 -The following profiles are active: dev,j2cache
+2021-04-26 17:11:27 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@6050462a: startup date [Mon Apr 26 17:11:27 CST 2021]; root of context hierarchy
+2021-04-26 17:11:27 -Started com.doulin.controller.Mobiletest in 0.837 seconds (JVM running for 2.088)
+2021-04-26 17:11:27 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1608bcbd] to prepare test instance [com.doulin.controller.Mobiletest@3be4fcc0]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:11:27 -Closing org.springframework.web.context.support.GenericWebApplicationContext@6050462a: startup date [Mon Apr 26 17:11:27 CST 2021]; root of context hierarchy
+2021-04-26 17:14:10 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 27396 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:14:10 -The following profiles are active: dev,j2cache
+2021-04-26 17:14:10 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@11841b15: startup date [Mon Apr 26 17:14:10 CST 2021]; root of context hierarchy
+2021-04-26 17:14:10 -Started com.doulin.controller.Mobiletest in 1.145 seconds (JVM running for 2.911)
+2021-04-26 17:14:10 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1608bcbd] to prepare test instance [com.doulin.controller.Mobiletest@e1e2e5e]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:14:10 -Closing org.springframework.web.context.support.GenericWebApplicationContext@11841b15: startup date [Mon Apr 26 17:14:10 CST 2021]; root of context hierarchy
+2021-04-26 17:14:36 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 14228 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:14:36 -The following profiles are active: dev,j2cache
+2021-04-26 17:14:36 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@654c1a54: startup date [Mon Apr 26 17:14:36 CST 2021]; root of context hierarchy
+2021-04-26 17:14:36 -Started com.doulin.controller.Mobiletest in 1.05 seconds (JVM running for 2.878)
+2021-04-26 17:14:36 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1608bcbd] to prepare test instance [com.doulin.controller.Mobiletest@3b7b05a8]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:14:36 -Closing org.springframework.web.context.support.GenericWebApplicationContext@654c1a54: startup date [Mon Apr 26 17:14:36 CST 2021]; root of context hierarchy
+2021-04-26 17:14:48 -Starting com.doulin.controller.Mobiletest on DESKTOP-V600BF1-malingbing with PID 13600 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:14:48 -The following profiles are active: dev,j2cache
+2021-04-26 17:14:48 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@18324f97: startup date [Mon Apr 26 17:14:48 CST 2021]; root of context hierarchy
+2021-04-26 17:14:48 -Started com.doulin.controller.Mobiletest in 1.235 seconds (JVM running for 3.079)
+2021-04-26 17:14:48 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1608bcbd] to prepare test instance [com.doulin.controller.Mobiletest@6f89292e]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:14:48 -Closing org.springframework.web.context.support.GenericWebApplicationContext@18324f97: startup date [Mon Apr 26 17:14:48 CST 2021]; root of context hierarchy
+2021-04-26 17:16:23 -Starting Mobiletest on DESKTOP-V600BF1-malingbing with PID 26568 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:16:23 -Running with Spring Boot v2.0.3.RELEASE, Spring v5.0.7.RELEASE
+2021-04-26 17:16:23 -The following profiles are active: dev,j2cache
+2021-04-26 17:16:23 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@59252cb6: startup date [Mon Apr 26 17:16:23 CST 2021]; root of context hierarchy
+2021-04-26 17:16:23 -Started Mobiletest in 1.17 seconds (JVM running for 2.565)
+2021-04-26 17:16:23 -Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@37858383] to prepare test instance [com.doulin.controller.Mobiletest@2f058b8a]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.doulin.controller.Mobiletest': Unsatisfied dependency expressed through field 'shopToTreeService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:587)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:91)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:373)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1350)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireBeanProperties(AbstractAutowireCapableBeanFactory.java:401)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:44)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:33)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:230)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:58)
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.doulin.service.ShopToTreeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1104)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1065)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:584)
+	... 28 common frames omitted
+2021-04-26 17:16:23 -Closing org.springframework.web.context.support.GenericWebApplicationContext@59252cb6: startup date [Mon Apr 26 17:16:23 CST 2021]; root of context hierarchy
+2021-04-26 17:17:57 -Starting Mobiletest on DESKTOP-V600BF1-malingbing with PID 24156 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:17:57 -Running with Spring Boot v2.0.3.RELEASE, Spring v5.0.7.RELEASE
+2021-04-26 17:17:57 -The following profiles are active: dev,j2cache
+2021-04-26 17:17:57 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@693e4d19: startup date [Mon Apr 26 17:17:57 CST 2021]; root of context hierarchy
+2021-04-26 17:17:58 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'provinceCityDistrictMapper' and 'com.doulin.mapper.ProvinceCityDistrictMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysDeptMapper' and 'com.doulin.mapper.SysDeptMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysDictTypeMapper' and 'com.doulin.mapper.SysDictTypeMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysDictValueMapper' and 'com.doulin.mapper.SysDictValueMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysLogMapper' and 'com.doulin.mapper.SysLogMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysMenuMapper' and 'com.doulin.mapper.SysMenuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysRoleMapper' and 'com.doulin.mapper.SysRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysRoleMenuMapper' and 'com.doulin.mapper.SysRoleMenuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysSalesmanMapper' and 'com.doulin.mapper.SysSalesmanMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysUserMapper' and 'com.doulin.mapper.SysUserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'sysUserRoleMapper' and 'com.doulin.mapper.SysUserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TAboutMapper' and 'com.doulin.mapper.TAboutMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TBankInfoMapper' and 'com.doulin.mapper.TBankInfoMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TCarMapper' and 'com.doulin.mapper.TCarMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TCategoryMapper' and 'com.doulin.mapper.TCategoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TCommunityMapper' and 'com.doulin.mapper.TCommunityMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TCommunnityTokenMapper' and 'com.doulin.mapper.TCommunnityTokenMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TGoodsMapper' and 'com.doulin.mapper.TGoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TGoodsSkuMapper' and 'com.doulin.mapper.TGoodsSkuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TOrderAfterDetailMapper' and 'com.doulin.mapper.TOrderAfterDetailMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TOrderMapper' and 'com.doulin.mapper.TOrderMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TOrderOrCarGoodsMapper' and 'com.doulin.mapper.TOrderOrCarGoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TShopHomeBaseInfoMapper' and 'com.doulin.mapper.TShopHomeBaseInfoMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TShopHomeGroupMapper' and 'com.doulin.mapper.TShopHomeGroupMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TUserAddressMapper' and 'com.doulin.mapper.TUserAddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -Skipping MapperFactoryBean with name 'TUserMapper' and 'com.doulin.mapper.TUserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:17:59 -No MyBatis mapper was found in '[com.doulin.mapper]' package. Please check your configuration.
+2021-04-26 17:17:59 -Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3e0d128c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/getSMSCode],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getSMSCode(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/rsaKey],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getRsaKey()
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/jiami],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.jiami(java.util.Map<java.lang.String, java.lang.Object>)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/deleteImg],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.addimgs(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/addimgs],methods=[POST],consumes=[multipart/form-data]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.addimgs(javax.servlet.http.HttpServletRequest,org.springframework.web.multipart.MultipartFile[],java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/getBankInfo],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getBankInfo(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/getValueByCode],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getValueByCode(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/zjInfo],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getZjInfo(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/jiemi],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.jiemi(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/getCommunitySelect],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getCommunitySelect(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/about/displayContent],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.aboutDisplayContent(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tool/api/getShopClassSelect],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getShopClassSelect(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/api/service],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.LoginMobileController.service(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/tBankInfo/add],methods=[POST]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.add(com.doulin.entity.TBankInfo)
+2021-04-26 17:18:04 -Mapped "{[/tBankInfo/update],methods=[POST]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.update(com.doulin.entity.TBankInfo)
+2021-04-26 17:18:04 -Mapped "{[/tBankInfo/delete],methods=[GET]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.delete(java.lang.Long...)
+2021-04-26 17:18:04 -Mapped "{[/tBankInfo/page],methods=[POST]}" onto public com.baomidou.mybatisplus.core.metadata.IPage<com.doulin.entity.TBankInfo> com.doulin.mobile.controller.TBankInfoAppController.userList(com.doulin.entity.vo.VQuery)
+2021-04-26 17:18:04 -Mapped "{[/tBankInfo/detail],methods=[GET]}" onto public com.doulin.entity.TBankInfo com.doulin.mobile.controller.TBankInfoAppController.detail(java.lang.Long)
+2021-04-26 17:18:04 -Mapped "{[/app/tbbf/add],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.TShopHomeBaseInfoController.add(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/app/tbbf/update],methods=[POST]}" onto public void com.doulin.mobile.controller.TShopHomeBaseInfoController.update(com.doulin.entity.TShopHomeBaseInfo)
+2021-04-26 17:18:04 -Mapped "{[/app/tbbf/delete],methods=[GET]}" onto public void com.doulin.mobile.controller.TShopHomeBaseInfoController.delete(java.lang.Long...)
+2021-04-26 17:18:04 -Mapped "{[/app/tbbf/page],methods=[POST]}" onto public com.baomidou.mybatisplus.core.metadata.IPage<com.doulin.entity.TShopHomeBaseInfo> com.doulin.mobile.controller.TShopHomeBaseInfoController.userList(com.doulin.entity.vo.VQuery)
+2021-04-26 17:18:04 -Mapped "{[/app/tbbf/detail],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.TShopHomeBaseInfoController.detail(java.lang.String)
+2021-04-26 17:18:04 -Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2021-04-26 17:18:04 -Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2021-04-26 17:18:04 -Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2021-04-26 17:18:04 -Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2021-04-26 17:18:04 -Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2021-04-26 17:18:04 -Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2021-04-26 17:18:04 -Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:18:05 -Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@693e4d19: startup date [Mon Apr 26 17:17:57 CST 2021]; root of context hierarchy
+2021-04-26 17:18:05 -Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:18:05 -Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:18:05 -Mapped URL path [/files/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:18:05 -Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2021-04-26 17:18:06 -{dataSource-1} inited
+2021-04-26 17:18:06 -Using default implementation for ThreadExecutor
+2021-04-26 17:18:06 -Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-26 17:18:06 -Quartz Scheduler v.2.2.1 created.
+2021-04-26 17:18:06 -RAMJobStore initialized.
+2021-04-26 17:18:06 -Scheduler meta-data: Quartz Scheduler (v2.2.1) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-26 17:18:06 -Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-26 17:18:06 -Quartz scheduler version: 2.2.1
+2021-04-26 17:18:06 -JobFactory set to: org.springframework.boot.autoconfigure.quartz.AutowireCapableBeanJobFactory@483ed60e
+2021-04-26 17:18:07 -Starting beans in phase 2147483647
+2021-04-26 17:18:07 -Context refreshed
+2021-04-26 17:18:07 -Found 1 custom documentation plugin(s)
+2021-04-26 17:18:07 -Scanning for api listing references
+2021-04-26 17:18:07 -Generating unique operation named: addimgsUsingPOST_1
+2021-04-26 17:18:07 -Generating unique operation named: addUsingPOST_1
+2021-04-26 17:18:07 -Generating unique operation named: deleteUsingGET_1
+2021-04-26 17:18:07 -Generating unique operation named: updateUsingPOST_1
+2021-04-26 17:18:07 -Generating unique operation named: userListUsingPOST_1
+2021-04-26 17:18:07 -Starting Quartz Scheduler now
+2021-04-26 17:18:07 -Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-26 17:18:07 -Started Mobiletest in 11.242 seconds (JVM running for 12.872)
+2021-04-26 17:18:07 -==>  Preparing: SELECT t.id, t.login_no, t.password, t.login_name, t.shop_home_code, t.shop_home_name, t.shop_group_code, (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name, t.shop_user_id, t.community_code, t.shop_province_id, t.shop_city_id, t.shop_district_id, t.shop_address, t.shop_flag, t.shop_open_business_time, t.shop_close_business_time, t.shop_balance, t.shop_title_image, t.shop_logo, t.shop_indoor_photo, t.shop_qrcode, t.shop_get_order_auto_flag, t.shop_paywater_prefix, t.order_cancel_time_unit, t.order_cancel_maxtime, t.business_license_image, t.social_credit_code, t.company_name, t.found_dt, t.period_of_validity, t.company_class, t.business_scope, t.business_class, t.tele_phone, t.company_email, t.legal_person_card_name, t.legal_person_card_num, t.legal_person_card_time, t.legal_person_card_z, t.legal_person_card_f, t.legal_person_bank_card, t.legal_person_card_p, t.legal_person_bank_card_l, t.legal_person_bank_image, t.legal_person_bank_hand_image, t.ywq_code, t.apply_state, t.apply_flag, t.apply_return_msg, t.shop_acceptance_letter_img, t.shop_settlement_book_img, t.cashier_photo, b.bank_name, b.bank_child bank_child_name, b.province bank_province, b.city bank_city, c.community_name FROM t_shop_home_base_info t LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num LEFT JOIN t_community c ON t.community_code=c.community_code where t.del_flag=0 and t.login_no=? -- t.add_by, -- t.add_dt, -- t.edit_by, -- t.edit_dt, -- t.del_flag,
+2021-04-26 17:18:07 -==> Parameters: 18515180597(String)
+2021-04-26 17:18:07 -<==      Total: 1
+2021-04-26 17:18:08 -Closing org.springframework.web.context.support.GenericWebApplicationContext@693e4d19: startup date [Mon Apr 26 17:17:57 CST 2021]; root of context hierarchy
+2021-04-26 17:18:08 -Stopping beans in phase 2147483647
+2021-04-26 17:18:08 -Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-26 17:18:08 -Shutting down Quartz Scheduler
+2021-04-26 17:18:08 -Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-26 17:18:08 -Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-26 17:18:08 -Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-26 17:18:08 -{dataSource-1} closed
+2021-04-26 17:18:54 -Starting Mobiletest on DESKTOP-V600BF1-malingbing with PID 15556 (started by 马凌冰 in D:\boot-doulin\boot-doulin\doulin-mobile)
+2021-04-26 17:18:54 -Running with Spring Boot v2.0.3.RELEASE, Spring v5.0.7.RELEASE
+2021-04-26 17:18:54 -The following profiles are active: dev,j2cache
+2021-04-26 17:18:54 -Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4b2a01d4: startup date [Mon Apr 26 17:18:54 CST 2021]; root of context hierarchy
+2021-04-26 17:18:55 -Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'provinceCityDistrictMapper' and 'com.doulin.mapper.ProvinceCityDistrictMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysDeptMapper' and 'com.doulin.mapper.SysDeptMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysDictTypeMapper' and 'com.doulin.mapper.SysDictTypeMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysDictValueMapper' and 'com.doulin.mapper.SysDictValueMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysLogMapper' and 'com.doulin.mapper.SysLogMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysMenuMapper' and 'com.doulin.mapper.SysMenuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysRoleMapper' and 'com.doulin.mapper.SysRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysRoleMenuMapper' and 'com.doulin.mapper.SysRoleMenuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysSalesmanMapper' and 'com.doulin.mapper.SysSalesmanMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysUserMapper' and 'com.doulin.mapper.SysUserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'sysUserRoleMapper' and 'com.doulin.mapper.SysUserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TAboutMapper' and 'com.doulin.mapper.TAboutMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TBankInfoMapper' and 'com.doulin.mapper.TBankInfoMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TCarMapper' and 'com.doulin.mapper.TCarMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TCategoryMapper' and 'com.doulin.mapper.TCategoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TCommunityMapper' and 'com.doulin.mapper.TCommunityMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TCommunnityTokenMapper' and 'com.doulin.mapper.TCommunnityTokenMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TGoodsMapper' and 'com.doulin.mapper.TGoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TGoodsSkuMapper' and 'com.doulin.mapper.TGoodsSkuMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TOrderAfterDetailMapper' and 'com.doulin.mapper.TOrderAfterDetailMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TOrderMapper' and 'com.doulin.mapper.TOrderMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TOrderOrCarGoodsMapper' and 'com.doulin.mapper.TOrderOrCarGoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TShopHomeBaseInfoMapper' and 'com.doulin.mapper.TShopHomeBaseInfoMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TShopHomeGroupMapper' and 'com.doulin.mapper.TShopHomeGroupMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TUserAddressMapper' and 'com.doulin.mapper.TUserAddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -Skipping MapperFactoryBean with name 'TUserMapper' and 'com.doulin.mapper.TUserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-26 17:18:56 -No MyBatis mapper was found in '[com.doulin.mapper]' package. Please check your configuration.
+2021-04-26 17:18:56 -Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b22f7187] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/rsaKey],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getRsaKey()
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/getValueByCode],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getValueByCode(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/getBankInfo],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getBankInfo(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/jiami],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.jiami(java.util.Map<java.lang.String, java.lang.Object>)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/jiemi],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.jiemi(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/getSMSCode],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getSMSCode(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/deleteImg],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.addimgs(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/addimgs],methods=[POST],consumes=[multipart/form-data]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.addimgs(javax.servlet.http.HttpServletRequest,org.springframework.web.multipart.MultipartFile[],java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/zjInfo],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.getZjInfo(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/getCommunitySelect],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getCommunitySelect(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/getShopClassSelect],methods=[POST]}" onto public java.lang.Object com.doulin.mobile.common.CommonController.getShopClassSelect(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tool/api/about/displayContent],methods=[POST]}" onto public java.lang.String com.doulin.mobile.common.CommonController.aboutDisplayContent(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/api/service],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.LoginMobileController.service(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/tBankInfo/add],methods=[POST]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.add(com.doulin.entity.TBankInfo)
+2021-04-26 17:19:00 -Mapped "{[/tBankInfo/update],methods=[POST]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.update(com.doulin.entity.TBankInfo)
+2021-04-26 17:19:00 -Mapped "{[/tBankInfo/delete],methods=[GET]}" onto public void com.doulin.mobile.controller.TBankInfoAppController.delete(java.lang.Long...)
+2021-04-26 17:19:00 -Mapped "{[/tBankInfo/page],methods=[POST]}" onto public com.baomidou.mybatisplus.core.metadata.IPage<com.doulin.entity.TBankInfo> com.doulin.mobile.controller.TBankInfoAppController.userList(com.doulin.entity.vo.VQuery)
+2021-04-26 17:19:00 -Mapped "{[/tBankInfo/detail],methods=[GET]}" onto public com.doulin.entity.TBankInfo com.doulin.mobile.controller.TBankInfoAppController.detail(java.lang.Long)
+2021-04-26 17:19:00 -Mapped "{[/app/tbbf/add],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.TShopHomeBaseInfoController.add(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/app/tbbf/update],methods=[POST]}" onto public void com.doulin.mobile.controller.TShopHomeBaseInfoController.update(com.doulin.entity.TShopHomeBaseInfo)
+2021-04-26 17:19:00 -Mapped "{[/app/tbbf/delete],methods=[GET]}" onto public void com.doulin.mobile.controller.TShopHomeBaseInfoController.delete(java.lang.Long...)
+2021-04-26 17:19:00 -Mapped "{[/app/tbbf/page],methods=[POST]}" onto public com.baomidou.mybatisplus.core.metadata.IPage<com.doulin.entity.TShopHomeBaseInfo> com.doulin.mobile.controller.TShopHomeBaseInfoController.userList(com.doulin.entity.vo.VQuery)
+2021-04-26 17:19:00 -Mapped "{[/app/tbbf/detail],methods=[POST]}" onto public java.lang.String com.doulin.mobile.controller.TShopHomeBaseInfoController.detail(java.lang.String)
+2021-04-26 17:19:00 -Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2021-04-26 17:19:00 -Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2021-04-26 17:19:00 -Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2021-04-26 17:19:00 -Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2021-04-26 17:19:00 -Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2021-04-26 17:19:00 -Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2021-04-26 17:19:01 -Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:19:01 -Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@4b2a01d4: startup date [Mon Apr 26 17:18:54 CST 2021]; root of context hierarchy
+2021-04-26 17:19:01 -Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:19:01 -Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:19:01 -Mapped URL path [/files/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2021-04-26 17:19:01 -Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2021-04-26 17:19:02 -{dataSource-1} inited
+2021-04-26 17:19:02 -Using default implementation for ThreadExecutor
+2021-04-26 17:19:02 -Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-26 17:19:02 -Quartz Scheduler v.2.2.1 created.
+2021-04-26 17:19:02 -RAMJobStore initialized.
+2021-04-26 17:19:02 -Scheduler meta-data: Quartz Scheduler (v2.2.1) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-26 17:19:02 -Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-26 17:19:02 -Quartz scheduler version: 2.2.1
+2021-04-26 17:19:02 -JobFactory set to: org.springframework.boot.autoconfigure.quartz.AutowireCapableBeanJobFactory@3f4a605f
+2021-04-26 17:19:03 -Starting beans in phase 2147483647
+2021-04-26 17:19:03 -Context refreshed
+2021-04-26 17:19:03 -Found 1 custom documentation plugin(s)
+2021-04-26 17:19:03 -Scanning for api listing references
+2021-04-26 17:19:03 -Generating unique operation named: addimgsUsingPOST_1
+2021-04-26 17:19:03 -Generating unique operation named: addUsingPOST_1
+2021-04-26 17:19:03 -Generating unique operation named: deleteUsingGET_1
+2021-04-26 17:19:03 -Generating unique operation named: updateUsingPOST_1
+2021-04-26 17:19:03 -Generating unique operation named: userListUsingPOST_1
+2021-04-26 17:19:03 -Starting Quartz Scheduler now
+2021-04-26 17:19:03 -Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-26 17:19:03 -Started Mobiletest in 10.37 seconds (JVM running for 11.81)
+2021-04-26 17:19:03 -==>  Preparing: SELECT t.id, t.login_no, t.password, t.login_name, t.shop_home_code, t.shop_home_name, t.shop_group_code, (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name, t.shop_user_id, t.community_code, t.shop_province_id, t.shop_city_id, t.shop_district_id, t.shop_address, t.shop_flag, t.shop_open_business_time, t.shop_close_business_time, t.shop_balance, t.shop_title_image, t.shop_logo, t.shop_indoor_photo, t.shop_qrcode, t.shop_get_order_auto_flag, t.shop_paywater_prefix, t.order_cancel_time_unit, t.order_cancel_maxtime, t.business_license_image, t.social_credit_code, t.company_name, t.found_dt, t.period_of_validity, t.company_class, t.business_scope, t.business_class, t.tele_phone, t.company_email, t.legal_person_card_name, t.legal_person_card_num, t.legal_person_card_time, t.legal_person_card_z, t.legal_person_card_f, t.legal_person_bank_card, t.legal_person_card_p, t.legal_person_bank_card_l, t.legal_person_bank_image, t.legal_person_bank_hand_image, t.ywq_code, t.apply_state, t.apply_flag, t.apply_return_msg, t.shop_acceptance_letter_img, t.shop_settlement_book_img, t.cashier_photo, b.bank_name, b.bank_child bank_child_name, b.province bank_province, b.city bank_city, c.community_name FROM t_shop_home_base_info t LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num LEFT JOIN t_community c ON t.community_code=c.community_code where t.del_flag=0 and t.login_no=? -- t.add_by, -- t.add_dt, -- t.edit_by, -- t.edit_dt, -- t.del_flag,
+2021-04-26 17:19:03 -==> Parameters: 18515180597(String)
+2021-04-26 17:19:03 -<==      Total: 1
+2021-04-26 17:19:03 -Closing org.springframework.web.context.support.GenericWebApplicationContext@4b2a01d4: startup date [Mon Apr 26 17:18:54 CST 2021]; root of context hierarchy
+2021-04-26 17:19:03 -Stopping beans in phase 2147483647
+2021-04-26 17:19:03 -Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-26 17:19:03 -Shutting down Quartz Scheduler
+2021-04-26 17:19:03 -Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-26 17:19:03 -Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-26 17:19:03 -Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-26 17:19:04 -{dataSource-1} closed

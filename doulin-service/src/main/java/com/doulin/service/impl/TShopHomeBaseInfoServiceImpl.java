@@ -11,6 +11,7 @@ import com.doulin.entity.common.UserLoginRes;
 import com.doulin.entity.shop.ShopApplicyStatus;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TShopHomeBaseInfoMapper;
+import com.doulin.service.ShopToTreeService;
 import com.doulin.service.TCommunnityTokenService;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
@@ -38,6 +39,8 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     private TCommunnityTokenService communnityTokenService;
     @Autowired
     private UtilService utilService;
+    @Autowired
+    private ShopToTreeService shopToTreeService;
     @Override
     public IPage<TShopHomeBaseInfo> page(VQuery query) {
         IPage<TShopHomeBaseInfo> page = new Page<>();
@@ -98,6 +101,20 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
             return shopHomeBaseInfo;
         } catch (Exception e) {
            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateInfoById(TShopHomeBaseInfo tsb) throws Exception {
+        try {
+            if (SysContent.INTGER_3 == tsb.getApplyState()) {
+                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.ADD);
+                //申请状态 Z申请中
+                tsb.setApplyFlag(SysContent.Z_STR);
+            }
+            updateById(tsb);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 

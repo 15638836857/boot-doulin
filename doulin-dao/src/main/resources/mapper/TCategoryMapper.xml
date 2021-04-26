@@ -4,6 +4,7 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TCategory">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="shop_group_id" property="shopGroupId" jdbcType="INTEGER"/>
@@ -32,6 +33,58 @@
 
             </if>
         </where>
+    </select>
+    <select id="selectPageList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT t2.* from(SELECT (@i :=@i + 1) AS item,t1.* FROM(SELECT
+            t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
+            t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
+        FROM
+            t_category t
+        WHERE
+            t.del_flag = 0
+            <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
+            <if test="shopGroupId!='' and shopGroupId!=null"> AND t.shop_group_id =#{shopGroupId}  </if>
+        order by t.sort
+        ) t1,(SELECT @i := 0) AS it) t2
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+    <select id="selectTotal" parameterType="java.util.Map" resultType="INTEGER">
+        SELECT count(t2.id) from(SELECT (@i :=@i + 1) AS item,t1.* FROM(SELECT
+            t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
+            t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
+        FROM
+            t_category t
+        WHERE
+            t.del_flag = 0
+            <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
+            <if test="shopGroupId!='' and shopGroupId!=null"> AND t.shop_group_id =#{shopGroupId}  </if>
+        ) t1,(SELECT @i := 0) AS it) t2
+
+    </select>
+    <update id="deleteByIdAndLoginId" >
+        UPDATE t_category t
+        SET t.del_flag = 1,
+             t.edit_by =#{loginUserId}, t.edit_dt=now()
+        WHERE t.id =#{id}
+<!--        <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">-->
+<!--            CAST(#{id} AS SIGNED)-->
+<!--        </foreach>-->
+
+    </update>
+    <select id="selectOneByIdOrName" resultMap="BaseResultMap">
+        SELECT
+            t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
+            t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
+        FROM
+           t_category t
+        WHERE
+           t.del_flag = 0
+        <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
+        <if test="id!='' and id!=null"> AND t.id =#{id}  </if>
+
     </select>
 
 </mapper>

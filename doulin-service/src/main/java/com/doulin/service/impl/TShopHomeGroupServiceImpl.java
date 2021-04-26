@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.doulin.common.content.SysContent;
-import com.doulin.entity.TCategory;
 import com.doulin.entity.TShopHomeGroup;
+import com.doulin.entity.common.SelectVo;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TShopHomeGroupMapper;
 import com.doulin.service.TCategoryService;
@@ -72,13 +72,13 @@ public class TShopHomeGroupServiceImpl extends ServiceImpl<TShopHomeGroupMapper,
     @Override
     public TShopHomeGroup getInfoByIdOrShopCode(Integer id,String shopCode) {
         TShopHomeGroup shopHomeGroup=shopHomeGroupMapper.selectInfoByIdOrShopCode(id,shopCode);
-        if(null!=shopHomeGroup) {
-            List<TCategory> tCategory = categoryService.getByShopGroupId(shopHomeGroup.getId());
-            if (null != tCategory) {
-                shopHomeGroup.setGoodsCategoryList(tCategory);
-            }
-        }
+
         return shopHomeGroup;
+    }
+
+    @Override
+    public List<SelectVo> getSelectInfo() {
+        return shopHomeGroupMapper.selectInfo();
     }
 
 }

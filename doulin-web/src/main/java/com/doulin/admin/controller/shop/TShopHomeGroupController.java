@@ -70,7 +70,8 @@ public class TShopHomeGroupController extends BaseWebController {
            log.error("tshg/add******"+e.getMessage());
            return R.error(e.getMessage());
         }
-        return R.ok();
+        Object id=tShopHomeGroup.getId();
+        return R.ok(id);
     }
 
     /**
@@ -88,7 +89,7 @@ public class TShopHomeGroupController extends BaseWebController {
             "    }\n" +
             "}")
     @PostMapping("/delete")
-    public Object delete(Map<String,Object> requestMap) {
+    public Object delete(@RequestBody  Map<String,Object> requestMap) {
         String ids=getVvalue(requestMap).get(SysContent.ID_STR).toString();
         try {
             String loginUserId=getLoginUserId(requestMap);

@@ -58,7 +58,7 @@ public class Tree<T> {
 	/**
 	 * 是否有子节点
 	 */
-	private boolean hasChildren = false;
+//	private boolean hasChildren = false;
 
 	public String getId() {
 		return id;
@@ -116,13 +116,13 @@ public class Tree<T> {
 		this.hasParent = isParent;
 	}
 
-	public boolean isHasChildren() {
-		return hasChildren;
-	}
-
-	public void setChildren(boolean isChildren) {
-		this.hasChildren = isChildren;
-	}
+//	public boolean isHasChildren() {
+//		return hasChildren;
+//	}
+//
+//	public void setChildren(boolean isChildren) {
+//		this.hasChildren = isChildren;
+//	}
 
 	public String getParentId() {
 		return parentId;
@@ -142,7 +142,7 @@ public class Tree<T> {
 		this.attributes = attributes;
 		this.children = children;
 		this.hasParent = isParent;
-		this.hasChildren = isChildren;
+//		this.hasChildren = isChildren;
 		this.parentId = parentID;
 	}
 

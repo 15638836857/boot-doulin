@@ -6,6 +6,7 @@ import com.doulin.entity.TCategory;
 import com.doulin.entity.vo.VQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * TCategoryService
@@ -19,5 +20,18 @@ public interface TCategoryService extends IService<TCategory> {
 
     List<TCategory> getByShopGroupId(Integer shopGroupId);
 
-    TCategory getOneByName(String name);
+    TCategory getOneByNameOrId(Integer id,String name);
+
+    /**
+     * 分页数据
+     * @param pageParm name 商品名称
+     * @param pageParm shopGroupId 商家分类id
+     * @return
+     */
+    IPage<TCategory> pageInfo(Map<String, Object> pageParm);
+
+    List<TCategory> getPageList(Map<String, Object> map);
+    Integer getPageTotal(Map<String, Object> map);
+
+    void deleteById(Integer  id, String loginUserId);
 }

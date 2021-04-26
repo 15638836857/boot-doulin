@@ -203,6 +203,20 @@ public class CommonController extends BaseAppController {
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }
+    @ApiOperation(value = "商家店铺类型 下拉框", notes = "{\n" +
+            "    \"loginNo\": \"\"\n" +
+            "}")
+    @PostMapping(value = "getShopClassSelect")
+    public Object  getShopClassSelect(String json) {
+        try {
+            String type = getRequestCk(json).get(SysContent.LOGINNO_STR).toString();
+            Object list = utilService.getShopClassSelect();
+            return responseAppRes(ResJson.Ok(list));
+        } catch (Exception e) {
+            log.error("商家店铺类型*下拉框****" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
 
 
 
