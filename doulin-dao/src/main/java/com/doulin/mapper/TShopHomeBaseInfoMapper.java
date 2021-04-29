@@ -6,6 +6,9 @@ import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.vo.VQuery;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * TShopHomeBaseInfoMapper
  *
@@ -19,4 +22,11 @@ public interface TShopHomeBaseInfoMapper extends BaseMapper<TShopHomeBaseInfo> {
 
     TShopHomeBaseInfo selectByLoginNo(@Param("loginNo")String loginNo);
 
+    /**
+     * 分页数据
+     * @param map
+     * @return
+     */
+    List<TShopHomeBaseInfo> selectPageList(Map<String, Object> map);
+    Integer selectCount(Map<String, Object> map);
 }

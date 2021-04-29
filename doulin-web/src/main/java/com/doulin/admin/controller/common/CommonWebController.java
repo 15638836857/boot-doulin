@@ -63,12 +63,15 @@ public class CommonWebController extends BaseWebController {
     public Object addimgs(  @RequestBody Map<String,Object> requestMap) {
         try {
             Map<String, Object> map = getVvalue(requestMap);
-            String url = map.get(SysContent.URL_STR).toString();
+            if(null==map.get(SysContent.URL_STR)){
+                throw new Exception(SysContent.ERROR_PARAM);
+            }
+            String url[] = map.get(SysContent.URL_STR).toString().split(SysContent.EN_D);
             utilService.deleteImag(url);
             return R.ok(SysContent.OK_OPER);
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
-            return R.error(SysContent.ERROR_REQUEST);
+            return R.error( e.getMessage());
         }
     }
     @ApiOperation(value ="商家信息上传" ,notes = "{\n" +

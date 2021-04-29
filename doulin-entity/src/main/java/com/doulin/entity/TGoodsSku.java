@@ -90,5 +90,4 @@ public class TGoodsSku implements Serializable {
 
     @TableField("edit_dt")
     private Date editDt;
-
 }

@@ -112,12 +112,15 @@ public class CommonController extends BaseAppController {
     public String addimgs(  String json) {
         try {
             Map<String, Object> map = getRequestCk(json);
-            String url = map.get(SysContent.URL_STR).toString();
+            if(null==map.get(SysContent.URL_STR)){
+                throw new Exception(SysContent.ERROR_PARAM);
+            }
+            String[] url = map.get(SysContent.URL_STR).toString().split(SysContent.EN_D);
             utilService.deleteImag(url);
             return responseAppRes(ResJson.Ok(SysContent.DELETE_SUCCESS));
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
-            return responseAppRes(ResJson.error("请求处理异常"));
+            return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
         }
     }
     @ApiOperation(value ="根据字典code获取字典值" ,notes = "{\n" +

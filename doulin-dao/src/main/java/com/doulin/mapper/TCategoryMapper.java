@@ -27,4 +27,6 @@ public interface TCategoryMapper extends BaseMapper<TCategory> {
     void deleteByIdAndLoginId( @Param("id")Integer id, @Param("loginUserId") String loginUserId);
 
     TCategory selectOneByIdOrName( @Param("id")Integer id, @Param("name") String name);
+
+    List<TCategory> selectInfoByLoginNo( @Param("loginNo")String loginNo);
 }

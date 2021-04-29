@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -88,7 +87,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"legalPersonBankHandImage\": \"法人手持银行卡图片\",\n" +
             "    \"ywqCode\": \"平台业务员编码\",\n" +
             "    \"applyState\": \"商家申请状态 设置完密码商家入驻状态 0:未入驻、 1:已填写基本资料 2:待业务上门开店、3:待支付三方审核 4:开户失败需更改资料 5：成功入驻  ，6：未注册\",\n" +
-            "    \"applyFlag\": \"申请是否通过 Y/N\",\n" +
+            "    \"applyFlag\": \"申请是否通过 Y审核通过/Z审核中/N审核失败\",\n" +
             "    \"applyReturnMsg\": \"申请结果描述\",\n" +
             "    \"bankName\": \"银行名称\",\n" +
             "    \"bankChildName\": \"支行名称\",\n" +
@@ -98,6 +97,8 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"shopSettlementBookImg\": \"结算账户指定书\",\n" +
             "    \"ashierPhoto\": \"收银台照\",\n" +
             "    \"communityName\": \"社区名称\",\n" +
+            "    \"shopToUserMinMoney\": \"配送最低消费\",\n" +
+            "    \"userGiveShopMoney\": \"配送费\",\n" +
             "    \"shopHomeCode\": \"商家 后台生成的编码\"\n" +
             "}")
     @PostMapping("/add")
@@ -119,7 +120,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             tsb.setDelFlag(SysContent.INTGER_0);
             tsb.setEditDt(new Date());
             tsb.setId(tsbio.getId());
-            tShopHomeBaseInfoService.updateInfoById(tsb);
+            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.ADD);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
             log.error("app/tbbf/add**********"+e.getMessage());
@@ -129,14 +130,80 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
     }
 
     /**
+     * 商家银行卡
+     *
+     * @param json
+     */
+    @ApiOperation(value = "商家银行卡", notes = "{\n" +
+            "    \"loginNo\": \"登录账号\",\n" +
+            "    \"legalPersonBankCard\": \"银行卡卡号\",\n" +
+            "    \"legalPersonBankCardL\": \"银行卡联号\",\n" +
+            "    \"legalPersonBankImage\": \"银行卡图片\",\n" +
+            "    \"legalPersonBankHandImage\": \"法人手持银行卡图片\",\n" +
+            "    \"telePhone\": \"手机号\"\n" +
+            "}")
+    @GetMapping("/business/bankInfo")
+    public Object bankInfo(String json) {
+        try {
+            Map<String,Object>  map= getRequestCk(json);
+            TShopHomeBaseInfo tsb= BeanUtil.toBean(map,TShopHomeBaseInfo.class);
+            TShopHomeBaseInfo shopHomeBaseInfo=tShopHomeBaseInfoService.getInfoByLoginNo(tsb.getLoginNo());
+            shopHomeBaseInfo.setApplyDate(new Date());
+            shopHomeBaseInfo.setEditDt(new Date());
+            shopHomeBaseInfo.setLegalPersonBankCard(tsb.getLegalPersonBankCard());
+            shopHomeBaseInfo.setLegalPersonBankCardL(tsb.getLegalPersonBankCardL());
+            shopHomeBaseInfo.setLegalPersonBankImage(tsb.getLegalPersonBankImage());
+            shopHomeBaseInfo.setLegalPersonBankHandImage(tsb.getLegalPersonBankHandImage());
+            shopHomeBaseInfo.setTelePhone(tsb.getTelePhone());
+            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.UPDATE);
+            return responseAppRes(ResJson.Ok());
+        } catch (Exception e) {
+          log.error("/business/bankInfo*****"+e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+
+    }
+    /**
      * 删除
      *
-     * @param ids
+     * @param json
      */
-    @ApiOperation(value = "delete", notes = "")
-    @GetMapping("/delete")
-    public void delete(@RequestParam("ids") Long... ids) {
-        tShopHomeBaseInfoService.removeByIds(Arrays.asList(ids));
+    @ApiOperation(value = "店铺设置", notes = "{\n" +
+            "    \"loginNo\": \"登录账号\",\n" +
+            "    \"shopHomeName\": \"店铺名称\",\n" +
+            "    \"shopAddress\": \"商家位置\",\n" +
+            "    \"doorToDoor\": \"是否支持上门  Y/N\",\n" +
+            "    \"shopToUserMinMoney\": \"配送标准：如：19.9\",\n" +
+            "    \"userGiveShopMoney\": \"配送费用：如：3\",\n" +
+            "    \"shopGetOrderAutoFlag\": \"商家是否自动接单 Y/N\",\n" +
+            "    \"shopPaywaterPrefix\": \"商家流水前缀\",\n" +
+            "    \"restTimeStart\": \"休息时间开始  2020-05-01 18:00\",\n" +
+            "    \"restTimeEnd\": \"休息时间开始  2020-05-05 18:00\"\n" +
+            "}")
+    @PostMapping("/setShop")
+    public Object setShop(String json) {
+        try {
+            Map<String,Object> map = getRequestCk(json);
+            TShopHomeBaseInfo tsb= BeanUtil.toBean(map,TShopHomeBaseInfo.class);
+            TShopHomeBaseInfo shopHomeBaseInfo=tShopHomeBaseInfoService.getInfoByLoginNo(tsb.getLoginNo());
+            shopHomeBaseInfo.setShopHomeName(tsb.getShopHomeName());
+            shopHomeBaseInfo.setEditDt(new Date());
+            shopHomeBaseInfo.setShopAddress(tsb.getShopAddress());
+            shopHomeBaseInfo.setDoorToDoor(tsb.getDoorToDoor());
+            shopHomeBaseInfo.setShopToUserMinMoney(tsb.getShopToUserMinMoney());
+            shopHomeBaseInfo.setUserGiveShopMoney(tsb.getUserGiveShopMoney());
+            shopHomeBaseInfo.setShopGetOrderAutoFlag(tsb.getShopGetOrderAutoFlag());
+            shopHomeBaseInfo.setShopPaywaterPrefix(tsb.getShopPaywaterPrefix());
+            shopHomeBaseInfo.setRestTimeStart(tsb.getRestTimeStart());
+            shopHomeBaseInfo.setRestTimeEnd(tsb.getRestTimeEnd());
+            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.ADD);
+            return responseAppRes(ResJson.Ok());
+        } catch (Exception e) {
+            log.error("app/tbbf/setShop*****"+e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+
+
     }
 
     /**

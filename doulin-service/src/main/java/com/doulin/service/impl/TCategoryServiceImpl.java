@@ -83,4 +83,9 @@ public class TCategoryServiceImpl extends ServiceImpl<TCategoryMapper, TCategory
         tCategoryMapper.deleteByIdAndLoginId(id,loginUserId);
     }
 
+    @Override
+    public List<TCategory> getListByLoginNo(String loginNo) {
+        return tCategoryMapper.selectInfoByLoginNo(loginNo);
+    }
+
 }

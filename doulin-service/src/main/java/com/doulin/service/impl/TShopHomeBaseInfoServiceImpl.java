@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -105,17 +107,48 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     }
 
     @Override
-    public void updateInfoById(TShopHomeBaseInfo tsb) throws Exception {
+    public void updateInfoById(TShopHomeBaseInfo tsb,String oper) throws Exception {
         try {
-            if (SysContent.INTGER_3 == tsb.getApplyState()) {
-                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.ADD);
-                //申请状态 Z申请中
-                tsb.setApplyFlag(SysContent.Z_STR);
+            if(SysContent.OPER_ADD.equals(oper)) {
+//            if (SysContent.INTGER_3 == tsb.getApplyState()) {
+//                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.ADD);
+//                tsb.setApplyDate(new Date());
+//                //申请状态 Z申请中
+//                tsb.setApplyFlag(SysContent.Z_STR);
+//            }
+            }else{
+//                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.UPDATE);
+////                tsb.setApplyDate(new Date());
+////                //申请状态 Z申请中
+////                tsb.setApplyFlag(SysContent.Z_STR);
             }
             updateById(tsb);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public IPage<TShopHomeBaseInfo> getPageInfo(Map<String, Object> map) {
+        List<TShopHomeBaseInfo> pageList=getPageList(map);
+        Integer total=getCount(map);
+        IPage<TShopHomeBaseInfo> page=new Page<>();
+        page.setCurrent(Long.valueOf(map.get(SysContent.PAGE).toString()));
+        page.setTotal(Long.valueOf(total));
+        page.setRecords(pageList);
+        page.setSize(Long.valueOf(map.get(SysContent.ROWS).toString()));
+        return page;
+    }
+
+    @Override
+    public Integer getCount(Map<String, Object> map) {
+        return shopHomeBaseInfoMapper.selectCount(map);
+    }
+
+    @Override
+    public List<TShopHomeBaseInfo> getPageList(Map<String, Object> map) {
+
+        return shopHomeBaseInfoMapper.selectPageList(map);
     }
 
 }

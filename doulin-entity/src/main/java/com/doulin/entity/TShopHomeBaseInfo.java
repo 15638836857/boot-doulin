@@ -1,9 +1,13 @@
 package com.doulin.entity;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.doulin.entity.shop.ApplyFlagUtil;
+import com.doulin.entity.shop.ShopApplicyStatus;
+import com.doulin.entity.util.EntityDateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +32,8 @@ public class TShopHomeBaseInfo implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+    @TableField(exist = false)
+    private Integer item;
 
     /**
      * 商家编号
@@ -42,7 +48,7 @@ public class TShopHomeBaseInfo implements Serializable {
     private String loginName;
 
     private String token;
-    private String ryToken;			// rytoken
+    private String ryToken;            // rytoken
     private String password;
     /**
      * 合作方ID (由商云客平台分配)
@@ -129,7 +135,7 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "商家下班时间")
     @TableField("shop_close_business_time")
-    private String  shopCloseBusinessTime;
+    private String shopCloseBusinessTime;
 
     /**
      * 商家余额
@@ -179,6 +185,17 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "商家流水前缀")
     @TableField("shop_paywater_prefix")
     private String shopPaywaterPrefix;
+
+    /**
+     * 配送标准 多少起送
+     */
+    @TableField("shop_to_user_min_money")
+    private BigDecimal shopToUserMinMoney;
+    /**
+     * 配送费用
+     */
+    @TableField("user_give_shop_money")
+    private BigDecimal userGiveShopMoney;
 
     /**
      * 接单后允许订单取消最大时间单位
@@ -258,6 +275,7 @@ public class TShopHomeBaseInfo implements Serializable {
     private String telePhone;
 
     /**
+     * 配
      * 公司邮箱
      */
     @ApiModelProperty(value = "公司邮箱")
@@ -340,6 +358,8 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "平台业务员编码")
     @TableField("ywq_code")
     private String ywqCode;
+    @TableField(exist = false)
+    private String ywqName;
 
     /**
      * 商家申请状态 字典表
@@ -421,6 +441,23 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField("cashier_photo")
     private String ashierPhoto;
     /**
+     * 是否支持上门  Y/N
+     */
+    @TableField("door_to_door")
+    private String doorToDoor;
+    /**
+     * 休息时间开始
+     */
+    @TableField("rest_time_start")
+    private Date restTimeStart;
+    /**
+     * 休息时间结束
+     */
+    @TableField("rest_time_end")
+    private Date restTimeEnd;
+
+
+    /**
      * 银行支行名称
      */
     @TableField(exist = false)
@@ -443,9 +480,50 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField(exist = false)
     private String shopCityName;
     /**
+     * 申请时间
+     */
+    @TableField("apply_date")
+    private Date applyDate;
+    /**
      * 县区
      */
     @ApiModelProperty(value = "县区")
     @TableField(exist = false)
     private String shopDistrictName;
+
+    @ApiModelProperty(value = "营业状态")
+    @TableField(exist = false)
+    private String businessStatus;
+
+    public String getBusinessStatus() {
+
+        if (ApplyFlagUtil.STATUS_Y.getCode().equals(applyFlag)) {
+
+            if (null != restTimeStart && null != restTimeEnd) {
+                boolean flag = EntityDateUtil.isInDate(restTimeStart, new Date());
+                boolean flag2 = EntityDateUtil.isInDate(restTimeEnd, new Date());
+                if (flag && flag2) {
+                    return "休息中";
+                }
+            }
+
+
+            String timeopen;
+            String timeclose;
+            if (!StrUtil.isEmpty(shopOpenBusinessTime) && !StrUtil.isEmpty(shopCloseBusinessTime)) {
+                timeopen = shopOpenBusinessTime;
+                timeclose = shopCloseBusinessTime;
+                boolean flag = EntityDateUtil.isTimeRange(timeopen, timeclose);
+                if (!flag) {
+                    return "休息中";
+                }
+            }
+            return "营业中";
+        } else if (ApplyFlagUtil.STATUS_Z.getCode().equals(applyFlag)) {
+            return ApplyFlagUtil.STATUS_Z.getName();
+        } else {
+            return ShopApplicyStatus.getNameByCode(applyState);
+        }
+    }
+
 }

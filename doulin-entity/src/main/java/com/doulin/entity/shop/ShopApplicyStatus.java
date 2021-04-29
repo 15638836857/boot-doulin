@@ -8,20 +8,20 @@ package com.doulin.entity.shop;
  * @Version 1.0
  */
 public enum  ShopApplicyStatus {
-    STATUS_0(0,"初始状态"),
-    STATUS_1(1,"基础资料"),
-    STATUS_2(2,"商家入驻，等待业务员上门"),
-    STATUS_3(3,"商家资料审核"),
-    STATUS_4(4,"商家资料审核失败"),
-    STATUS_5(5,"商家入驻成功"),
-    STATUS_6(6,"商家未注册");
+    STATUS_0(0,"未入住"),
+    STATUS_1(1,"已填写基本资料"),
+    STATUS_2(2,"待业务上门开店"),
+    STATUS_3(3,"待支付三方审核"),
+    STATUS_4(4,"开户失败需更改资料"),
+    STATUS_5(5,"入驻成功"),
+    STATUS_6(6,"未注册");
     private Integer code;
     private String name;
     private ShopApplicyStatus(Integer code,String name){
         this.code=code;
         this.name=name;
     }
-    public static String getNameByCode(String code){
+    public static String getNameByCode(Integer code){
         for (ShopApplicyStatus st : ShopApplicyStatus.values()) {
             if(st.code.equals(code)){
                 return st.getName();

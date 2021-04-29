@@ -4,6 +4,7 @@
 
     <resultMap id="BaseResultMap" type="com.doulin.entity.TShopHomeBaseInfo">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
         <result column="login_no" property="loginNo" jdbcType="VARCHAR"/>
         <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -50,6 +51,7 @@
         <result column="legal_person_bank_image" property="legalPersonBankImage" jdbcType="VARCHAR"/>
         <result column="legal_person_bank_hand_image" property="legalPersonBankHandImage" jdbcType="VARCHAR"/>
         <result column="ywq_code" property="ywqCode" jdbcType="VARCHAR"/>
+        <result column="ywq_name" property="ywqName" jdbcType="VARCHAR"/>
         <result column="apply_state" property="applyState" jdbcType="INTEGER"/>
         <result column="apply_flag" property="applyFlag" jdbcType="VARCHAR"/>
         <result column="apply_return_msg" property="applyReturnMsg" jdbcType="VARCHAR"/>
@@ -68,6 +70,16 @@
         <result column="cashier_photo" property="ashierPhoto" jdbcType="VARCHAR"/>
         <result column="community_name" property="communityName" jdbcType="VARCHAR"/>
         <result column="plat_id" property="platId" jdbcType="VARCHAR"/>
+        <result column="shop_province_name" property="shopProvinceName" jdbcType="VARCHAR"/>
+        <result column="shop_city_name" property="shopCityName" jdbcType="VARCHAR"/>
+        <result column="shop_district_name" property="shopDistrictName" jdbcType="VARCHAR"/>
+        <result column="business_status" property="businessStatus" jdbcType="VARCHAR"/>
+        <result column="apply_date" property="applyDate" jdbcType="VARCHAR"/>
+        <result column="shop_to_user_min_money" property="shopToUserMinMoney" jdbcType="DECIMAL"/>
+        <result column="user_give_shop_money" property="userGiveShopMoney" jdbcType="DECIMAL"/>
+        <result column="door_to_door" property="doorToDoor" jdbcType="VARCHAR"/>
+        <result column="rest_time_start" property="restTimeStart" jdbcType="TIMESTAMP"/>
+        <result column="rest_time_end" property="restTimeEnd" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
@@ -82,7 +94,10 @@
         legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag,
          apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag, shop_acceptance_letter_img,
          shop_settlement_book_img, cashier_photo,plat_id,
-         community_name
+         community_name,
+         apply_date,
+         shop_to_user_min_money,user_give_shop_money,door_to_door,
+         rest_time_start,rest_time_end
     </sql>
 
 
@@ -145,6 +160,7 @@
             t.legal_person_bank_image,
             t.legal_person_bank_hand_image,
             t.ywq_code,
+             e.`name` ywq_name,
             t.apply_state,
             t.apply_flag,
             t.apply_return_msg,
@@ -152,19 +168,204 @@
             t.shop_settlement_book_img,
             t.cashier_photo,
             t.plat_id,
-
+            t.apply_date,
+            t.shop_to_user_min_money,
+            t.user_give_shop_money,
+            t.door_to_door,
+            t.rest_time_start,
+            t.rest_time_end,
           b.bank_name,
           b.bank_child bank_child_name,
           b.province bank_province,
           b.city bank_city,
-          c.community_name
+          c.community_name,
+          (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
+          (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
+          (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
 
         FROM
             t_shop_home_base_info t
           LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
           LEFT JOIN t_community c ON t.community_code=c.community_code
+            LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
         where t.del_flag=0 and  t.login_no=#{loginNo}
 
     </select>
+    <select id="selectPageList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT t3.*
+        FROM
+        (
+        select (@i :=@i + 1) AS item,t1.* from
+        ( SELECT
+        t.id,
+        t.login_no,
+        t.password,
+        t.login_name,
+        t.shop_home_code,
+        t.shop_home_name,
+        t.shop_group_code,
+        (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name,
+        t.shop_user_id,
+        t.community_code,
+        t.shop_province_id,
+        t.shop_city_id,
+        t.shop_district_id,
+        t.shop_address,
+        t.shop_flag,
+        t.shop_open_business_time,
+        t.shop_close_business_time,
+        t.shop_balance,
+        t.shop_title_image,
+        t.shop_logo,
+        t.shop_indoor_photo,
+        t.shop_qrcode,
+        t.shop_get_order_auto_flag,
+        t.shop_paywater_prefix,
+        t.order_cancel_time_unit,
+        t.order_cancel_maxtime,
+        t.business_license_image,
+        t.social_credit_code,
+        t.company_name,
+        t.found_dt,
+        t.period_of_validity,
+        t.company_class,
+        t.business_scope,
+        t.business_class,
+        t.tele_phone,
+        t.company_email,
+        t.legal_person_card_name,
+        t.legal_person_card_num,
+        t.legal_person_card_time,
+        t.legal_person_card_z,
+        t.legal_person_card_f,
+        t.legal_person_bank_card,
+        t.legal_person_card_p,
+        t.legal_person_bank_card_l,
+        t.legal_person_bank_image,
+        t.legal_person_bank_hand_image,
+        t.ywq_code,
+        e.`name` ywq_name,
+        t.apply_state,
+        t.apply_flag,
+        t.apply_return_msg,
+        t.shop_acceptance_letter_img,
+        t.shop_settlement_book_img,
+        t.cashier_photo,
+        t.plat_id,
+        t.apply_date,
+        t.shop_to_user_min_money,
+        t.user_give_shop_money,
+        t.door_to_door,
+        t.rest_time_start,
+        t.rest_time_end,
+        b.bank_name,
+        b.bank_child bank_child_name,
+        b.province bank_province,
+        b.city bank_city,
+        c.community_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
 
+        FROM
+        t_shop_home_base_info t
+        LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
+        LEFT JOIN t_community c ON t.community_code=c.community_code
+         LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
+        where t.del_flag=0
+           <if test="applyState!='' and applyState!=null">  and t.apply_state=#{applyState}</if>
+            <if test="applyFlag=='Y'.toString()">  and t.apply_flag=#{applyFlag} </if>
+            <if test="applyFlag!=''  and applyFlag!=null and applyFlag!='Y'.toString() ">  and (t.apply_flag='N' OR t.apply_flag='Z') </if>
+       ) t1,
+        (SELECT @i := 0) AS it
+          ) t3
+          <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+
+<select id="selectCount" parameterType="java.util.Map" resultType="INTEGER">
+      SELECT count(t1.id) from(
+       SELECT
+        t.id,
+        t.login_no,
+        t.password,
+        t.login_name,
+        t.shop_home_code,
+        t.shop_home_name,
+        t.shop_group_code,
+        (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name,
+        t.shop_user_id,
+        t.community_code,
+        t.shop_province_id,
+        t.shop_city_id,
+        t.shop_district_id,
+        t.shop_address,
+        t.shop_flag,
+        t.shop_open_business_time,
+        t.shop_close_business_time,
+        t.shop_balance,
+        t.shop_title_image,
+        t.shop_logo,
+        t.shop_indoor_photo,
+        t.shop_qrcode,
+        t.shop_get_order_auto_flag,
+        t.shop_paywater_prefix,
+        t.order_cancel_time_unit,
+        t.order_cancel_maxtime,
+        t.business_license_image,
+        t.social_credit_code,
+        t.company_name,
+        t.found_dt,
+        t.period_of_validity,
+        t.company_class,
+        t.business_scope,
+        t.business_class,
+        t.tele_phone,
+        t.company_email,
+        t.legal_person_card_name,
+        t.legal_person_card_num,
+        t.legal_person_card_time,
+        t.legal_person_card_z,
+        t.legal_person_card_f,
+        t.legal_person_bank_card,
+        t.legal_person_card_p,
+        t.legal_person_bank_card_l,
+        t.legal_person_bank_image,
+        t.legal_person_bank_hand_image,
+        t.ywq_code,
+        e.`name` ywq_name,
+        t.apply_state,
+        t.apply_flag,
+        t.apply_return_msg,
+        t.shop_acceptance_letter_img,
+        t.shop_settlement_book_img,
+        t.cashier_photo,
+        t.plat_id,
+        t.apply_date,
+        t.shop_to_user_min_money,
+        t.user_give_shop_money,
+        t.door_to_door,
+        t.rest_time_start,
+        t.rest_time_end,
+        b.bank_name,
+        b.bank_child bank_child_name,
+        b.province bank_province,
+        b.city bank_city,
+        c.community_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
+        (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
+
+        FROM  t_shop_home_base_info t
+        LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
+        LEFT JOIN t_community c ON t.community_code=c.community_code
+        LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
+        where t.del_flag=0
+            <if test="applyState!='' and applyState!=null">  and t.apply_state=#{applyState}</if>
+            <if test="applyFlag=='Y'.toString()">  and t.apply_flag=#{applyFlag} </if>
+            <if test="applyFlag!=''  and applyFlag!=null and applyFlag!='Y'.toString() ">  and (t.apply_flag='N' OR t.apply_flag='Z') </if>
+          ) t1
+</select>
 </mapper>

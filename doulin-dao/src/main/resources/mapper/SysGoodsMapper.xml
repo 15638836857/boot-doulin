@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.SysGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.SysGoods">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="item" property="item" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="sku" property="sku" jdbcType="VARCHAR"/>
+        <result column="prices" property="prices" jdbcType="VARCHAR"/>
+        <result column="shopCount" property="shopCount" jdbcType="VARCHAR"/>
+        <result column="goods_img" property="goodsImg" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, goods_name, goods_img, del_flag, add_by, add_dt, edit_by, edit_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.SysGoods">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_goods
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="pageList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select td.* from (SELECT
+        (@i :=@i + 1) AS item, tt.* from
+        (SELECT
+        st.id,
+        st.goods_name,
+        st.goods_img,
+        get_sys_goods_sku_fk(1,st.id) sku ,
+        get_sys_goods_sku_fk(2,st.id) prices,
+        get_sys_goods_shopcount_fk(st.id) shopCount
+        FROM
+        sys_goods st
+        WHERE
+        st.del_flag = 0
+        <if test="goodsName!='' and goodsName!=null">AND st.goods_name like '%${goodsName}%'</if>
+        ) tt,
+        (SELECT @i := 0) AS it
+        ) td
+        <if test="page != null and rows != null">
+            <bind name="key_offset" value="(page-1)*rows"></bind>
+            LIMIT #{key_offset},#{rows}
+        </if>
+    </select>
+    <select id="pageCount"  parameterType="java.util.Map" resultType="Integer">
+        SELECT  count(*) from
+            (SELECT
+                    st.id,
+                    st.goods_name,
+                    st.goods_img,
+                    get_sys_goods_sku_fk(1,st.id) sku ,
+                    get_sys_goods_sku_fk(2,st.id) prices,
+                    get_sys_goods_shopcount_fk(st.id) shopCount
+            FROM
+                    sys_goods st
+            WHERE
+                    st.del_flag = 0
+            <if test="goodsName!='' and goodsName!=null">AND st.goods_name like '%${goodsName}%'</if>
+            ) tt
+    </select>
+    <select id="getListByName" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            t.id,
+            t.goods_name goodsName,
+            t.goods_img goodsImg,
+            t1.sku,
+            t1.id skuId,
+            t1.prices
+        FROM
+            sys_goods_sku t1
+        LEFT JOIN sys_goods t ON t1.sys_goods_id = t.id
+        WHERE
+            t.del_flag = 0
+           <if test="goodsName!='' and goodsName!=null">AND t.goods_name like '%${goodsName}%'</if>
+        ORDER BY	t.id
+
+    </select>
+
+</mapper>

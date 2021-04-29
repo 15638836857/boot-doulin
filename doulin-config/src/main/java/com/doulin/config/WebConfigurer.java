@@ -1,4 +1,4 @@
-package com.doulin.mobile.config;
+package com.doulin.config;
 
 import com.doulin.entity.image.ImgDoConfig;
 import org.springframework.beans.factory.annotation.Autowired;

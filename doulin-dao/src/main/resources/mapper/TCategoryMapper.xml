@@ -87,4 +87,18 @@
 
     </select>
 
+    <select id="selectInfoByLoginNo"  parameterType="String" resultMap="BaseResultMap">
+           SELECT
+              DISTINCT
+                t1.id, -- 商品分类id
+                t1.`name` -- 商品的分类名称
+            FROM
+                t_goods t
+             LEFT JOIN t_category t1 on t.category_id=t1.id
+             LEFT JOIN t_shop_home_base_info  t2 ON t.shop_home_code=t2.shop_home_code
+            WHERE
+                t.del_flag = 0
+              AND t1.del_flag=0
+              AND t2.login_no=#{loginNo}
+    </select>
 </mapper>

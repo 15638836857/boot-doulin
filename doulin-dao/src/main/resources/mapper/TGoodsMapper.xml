@@ -21,6 +21,7 @@
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="sku_price" property="skuPrice" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
@@ -39,5 +40,26 @@
             </if>
         </where>
     </select>
-
+    <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> from t_goods t where t.del_flag=0 AND t.goods_name=#{selectByName}
+    </select>
+<select id="selectGoodsByCateId"  parameterType="String" resultMap="BaseResultMap">
+          SELECT
+            t.id,
+            t.goods_name,
+            t.goods_lowerframe,
+            t.content,
+            t.goods_title,
+            t.image_title,
+            t.remark,
+            t.sales_volume,
+            t.category_id,
+            get_goods_sku_by_goodsid_fk(t.id) sku_price
+        FROM
+            t_goods t
+        WHERE
+            t.del_flag = 0
+          AND t.category_id=#{cateid}
+ORDER BY t.sort;
+</select>
 </mapper>

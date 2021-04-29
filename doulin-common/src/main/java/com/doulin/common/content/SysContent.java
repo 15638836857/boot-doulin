@@ -126,4 +126,8 @@ public class SysContent extends ErrorContent{
 
     public static final String  Mchinlet="Mchinlet";
     public static final String ADD = "Add";
+    public static final String EDIT = "update";
+    public static final String MSG_STR ="msg" ;
+    public static final String GOODSNAME = "goodsName";
+    public static final String UPDATE = "Update";
 }

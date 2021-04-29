@@ -6,6 +6,8 @@ import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.vo.VQuery;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TShopHomeBaseInfoService
@@ -40,5 +42,15 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
      */
     TShopHomeBaseInfo addPassByPhone(HttpServletRequest request,TShopHomeBaseInfo tShopHomeBaseInfo) throws Exception;
 
-    void updateInfoById(TShopHomeBaseInfo tsb) throws Exception;
+    void updateInfoById(TShopHomeBaseInfo tsb,String oper) throws Exception;
+
+    /**
+     * 商家分页数据
+     * @param map
+     * @return
+     */
+    IPage<TShopHomeBaseInfo> getPageInfo(Map<String, Object> map);
+
+    List<TShopHomeBaseInfo> getPageList(Map<String, Object> map);
+     Integer getCount(Map<String, Object> map);
 }

@@ -59,7 +59,7 @@ public interface UtilService {
      * 根据图片路径删除
      * @param url
      */
-    void deleteImag(String url) throws Exception;
+    void deleteImag(String[] url) throws Exception;
 
     /**
      * 读取证件

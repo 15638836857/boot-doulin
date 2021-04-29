@@ -17,5 +17,24 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "sykes")
 @Data
 public class SykUtil implements Serializable {
+    /**
+     * 商云客 http
+     */
     private String httpUrl;
+    /**
+     * 商云客 分配id
+     */
+    private String  platId;
+    /**
+     * 商云客 apikey
+     */
+    private String apiKey;
+    /**
+     * 代理商户
+     */
+    private String userId;
+    /**
+     * 代理商户密码
+     */
+    private String password;
 }

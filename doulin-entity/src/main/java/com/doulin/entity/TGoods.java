@@ -1,5 +1,7 @@
 package com.doulin.entity;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,7 +11,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * TGoods Entity
@@ -27,7 +32,7 @@ public class TGoods implements Serializable {
      * 分类id
      */
     @ApiModelProperty(value = "分类id")
-    @TableId("id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @TableField("category_id")
@@ -124,5 +129,39 @@ public class TGoods implements Serializable {
 
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * sku商品list
+     */
+    @TableField(exist = false)
+    private List<TGoodsSku> skuList;
+    @TableField(exist = false)
+    private Integer  sysGoodsId;
+    @TableField(exist = false)
+    private String  skuPrice;
+
+    public List<TGoodsSku> getSkuList(){
+        if(StrUtil.isEmpty(skuPrice)){
+            List<TGoodsSku> list=new LinkedList<>();
+            String[] sku=skuPrice.split(",");
+            for (String s : sku) {
+                String[] price=s.split("-");
+                TGoodsSku  tGoodsSku=new TGoodsSku();
+                for (String s1 : price) {
+                    if(StrUtil.isEmpty(tGoodsSku.getSku())){
+                        tGoodsSku.setSku(s1);
+                    }else   if(null==tGoodsSku.getPrice()){
+                       tGoodsSku.setPrice(BigDecimal.valueOf(Long.valueOf(s1)));
+                   }else if(null==tGoodsSku.getCuPrice()){
+                        tGoodsSku.setCuPrice(BigDecimal.valueOf(Long.valueOf(s1)));
+                    }else if(null==tGoodsSku.getStock()){
+                        tGoodsSku.setStock(Integer.valueOf(s1));
+                    }
+                }
+                list.add(tGoodsSku);
+            }
+            return list;
+        }
+        return new ArrayList<TGoodsSku>();
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.doulin.entity.shop;
 
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.doulin.entity.TShopHomeBaseInfo;
 import lombok.Data;
@@ -176,57 +175,58 @@ public class ShopImport implements Serializable {
   * @param cmd
   * @return
   */
- public static String getParamAddOrUpdate(TShopHomeBaseInfo thbif, String cmd, String oper) {
-  ShopImport sp = new ShopImport();
-  sp.setP0_cmd(cmd);
-  sp.setP1_plat_id(thbif.getPlatId());
-  sp.setP2_mch_id(thbif.getLoginNo());
-  sp.setP3_mch_name(thbif.getShopHomeName());
-  sp.setP4_mch_name_short(thbif.getShopHomeCode());
-  sp.setP5_province(thbif.getShopProvinceName());
-  sp.setP6_city(thbif.getShopCityName());
-  sp.setP7_district(thbif.getShopDistrictName());
-  sp.setP8_address(thbif.getShopAddress());
-  sp.setP9_mobile(thbif.getTelePhone());
-  sp.setP10_email(thbif.getCompanyEmail());
-  sp.setP11_service_phone(thbif.getTelePhone());
-  sp.setP12_contact_man(thbif.getLoginName());
-//  sp.setP13_id_card_no();
-  sp.setP14_license_num(thbif.getSocialCreditCode());
-  sp.setP15_license_scope(thbif.getBusinessScope());
-  sp.setP16_license_start_date(getTimeStr(thbif.getFoundDt()));
+ public static String getParamAddOrUpdate(TShopHomeBaseInfo thbif, String cmd,SykUtil sykUtil, String oper) {
+  Map<String,Object> map=new LinkedHashMap<>();
+  map.put("p0_cmd",cmd);
+  map.put("p1_plat_id",thbif.getPlatId());
+  map.put("p2_mch_id",thbif.getLoginNo());
+  map.put("p3_mch_name",thbif.getShopHomeName());
+  map.put("p4_mch_name_short",thbif.getShopHomeCode());
+  map.put("p5_province",thbif.getShopProvinceName());
+  map.put("p6_city",thbif.getShopCityName());
+  map.put("p7_district",thbif.getShopDistrictName());
+  map.put("p8_address",thbif.getShopAddress());
+  map.put("p9_mobile",thbif.getTelePhone());
+//  map.put("p10_email",thbif.getCompanyEmail());
+//  map.put("p11_service_phone",thbif.getTelePhone());
+  map.put("p12_contact_man",thbif.getLoginName());
+  map.put("p13_id_card_no",thbif.getLegalPersonBankCard().replace(" ",""));
+  map.put("p14_license_num",thbif.getSocialCreditCode());
+
+  map.put("p15_license_scope",thbif.getBusinessScope());
+  map.put("p16_license_start_date",getTimeStr(thbif.getFoundDt()));
   String p17 = thbif.getPeriodOfValidity();
   if (!p17.contains("长期")) {
    p17 = getTimeStr(getTimeStr(p17));
   }
-  sp.setP17_license_end_date(p17);
-  sp.setP18_license_type(0);
+  map.put("p17_license_end_date",p17);
+  map.put("p18_license_type",0);
 //  sp.setP19_category_no();
 //  sp.setP20_industry_no();
 //  sp.setP21_wechatno();
-  sp.setP22_act(oper);
-  sp.setP23_bank_no(thbif.getLegalPersonBankCardL());
-  sp.setP24_bank_type(1);
-  sp.setP25_bank_account(thbif.getLegalPersonBankCard());
-  sp.setP26_bank_owner(thbif.getLegalPersonCardName());
-  sp.setP27_bank_idcard(thbif.getLegalPersonBankCard());
-  sp.setP28_bank_mobile(thbif.getTelePhone());
-  sp.setP29_mch_type(2);
-  sp.setP30_username(thbif.getLoginName());
+  map.put("p22_act",oper);
+  map.put("p23_bank_no",thbif.getLegalPersonBankCardL().replace(" ",""));
+  map.put("p24_bank_type",1);
+  map.put("p25_bank_account",thbif.getLegalPersonBankCard().replace(" ",""));
+  map.put("p26_bank_owner",thbif.getLegalPersonCardName());
+  map.put("p27_bank_idcard",thbif.getLegalPersonBankCard().replace(" ",""));
+  map.put("p28_bank_mobile",thbif.getTelePhone());
+  map.put("p29_mch_type",2);
+  map.put("p30_username",sykUtil.getUserId());
+  map.put("p31_pwd",sykUtil.getPassword());
 //  sp.setP31_pwd();
 //  sp.setP32_config();
   String time = thbif.getLegalPersonCardTime();
   String time1 = time.substring(0, time.lastIndexOf('-'));
-  sp.setP33_id_card_start_date(getTimeStr(time1));
+  map.put("p33_id_card_start_date",getTimeStr(time1));
   String time2 = time.substring(time.lastIndexOf('-', time.length()) + 1);
-  sp.setP34_id_card_end_date(getTimeStr(time2));
-  sp.setP35_settleLimit(0);
-  sp.setP39_legal_man(thbif.getLegalPersonCardName());
-  sp.setP40_legal_man_id_card_no(thbif.getLegalPersonBankCard());
-  sp.setNonceStr(String.valueOf(System.currentTimeMillis()));
-  JSONObject jsonObject = JSONUtil.parseObj(sp);
-//   sp.setHmac();
-  return md5Str(jsonObject, sp.getP2_mch_id());
+  map.put("p34_id_card_end_date",getTimeStr(time2));
+  map.put("p35_settleLimit",0);
+  map.put("p39_legal_man",thbif.getLegalPersonCardName());
+  map.put("p40_legal_man_id_card_no",thbif.getLegalPersonBankCard().replace(" ",""));
+  map.put("nonceStr",String.valueOf(System.currentTimeMillis()));
+
+  return md5Str(map, sykUtil.getApiKey());
 
  }
 /**
@@ -234,7 +234,7 @@ public class ShopImport implements Serializable {
   * @param thbif
   * @return
   */
- public static String getParamMchCertUpload(TShopHomeBaseInfo thbif,String http) {
+ public static String getParamMchCertUpload(TShopHomeBaseInfo thbif,String http,String key) {
 
   // [
   //{ "certType": "id_card","imgContent": "字节流","imgType": "jpg"," imgContentType":"0" },
@@ -316,8 +316,7 @@ public class ShopImport implements Serializable {
   param.put("p2_mch_id", p2_mch_id);
   param.put("p3_cert_content", p3_cert_content);
 
-  JSONObject jsonObject = JSONUtil.parseObj(param);
-  return md5Str(jsonObject, thbif.getLoginNo());
+  return md5Str(param, key);
  }
 
  public static String autoGenericCode(String code, int num) {
@@ -331,19 +330,18 @@ public class ShopImport implements Serializable {
   return result;
  }
 
- private static String md5Str(Object sp, String key) {
-  JSONObject jsonObject = JSONUtil.parseObj(sp);
+ private static String md5Str(Map<String,Object> sp, String key) {
   StringBuilder str = new StringBuilder();
-  for (Map.Entry<String, Object> jstr : jsonObject.entrySet()) {
+  for (Map.Entry<String, Object> jstr : sp.entrySet()) {
    str.append(jstr.getKey());
    str.append("=");
    str.append(jstr.getValue());
    str.append("&");
   }
-  str.append("key=");
-  str.append(key);
-  String md5 = upppercaseMd5(str.toString());
-  str.append("&hmac=");
+//  str.append("key=");
+//  str.append(key);
+  String md5 = upppercaseMd5(str.toString()+"key="+key);
+  str.append("hmac=");
   str.append(md5);
 
   return str.toString();

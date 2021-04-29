@@ -34,4 +34,11 @@ public interface TCategoryService extends IService<TCategory> {
     Integer getPageTotal(Map<String, Object> map);
 
     void deleteById(Integer  id, String loginUserId);
+
+    /**
+     * 根据商家登录号
+     * @param loginNo 商家登录号
+     * @return
+     */
+    List<TCategory> getListByLoginNo(String loginNo);
 }

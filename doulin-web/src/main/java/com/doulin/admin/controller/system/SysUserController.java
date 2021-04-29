@@ -254,7 +254,7 @@ public class SysUserController extends BaseWebController {
                 String oldPassWord = vmap.get("oldPassword").toString();
                 String newPassword = vmap.get("newPassword").toString();
                 SysUser dbUser = sysUserService.getById(id);
-                boolean flag = SystemService.validatePassword(oldPassWord, SystemService.entryptPassword(dbUser.getPassword()));
+                boolean flag = SystemService.validatePassword(oldPassWord, dbUser.getPassword());
                 if (!flag) {
                     throw new Exception("旧密码错误");
                 }else{

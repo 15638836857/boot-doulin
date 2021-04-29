@@ -34,29 +34,30 @@ public class ShopToTreeServiceImpl implements ShopToTreeService {
     @Transactional
     @Override
     public String operToSykAddOrUpdate(TShopHomeBaseInfo shopHomeBaseInfo, String cmd, String oper) throws Exception {
-        String param = ShopImport.getParamAddOrUpdate(shopHomeBaseInfo, cmd, oper);
-        String url = sykUtil.getHttpUrl() + "?" + param;
-        String result = HttpUtil.post(url, "");
+        shopHomeBaseInfo.setPlatId(sykUtil.getPlatId());
+        String param = ShopImport.getParamAddOrUpdate(shopHomeBaseInfo, cmd, sykUtil,oper);
+        String url = sykUtil.getHttpUrl() ;
+        String result = HttpUtil.post(url, param);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        if (SysContent.STR_200.equals(jsonObject.getStr("result")) && SysContent.SUCCESS.equals(jsonObject.getStr("msg"))) {
+        if (SysContent.STR_200.equals(jsonObject.getStr(SysContent.RESULT)) && SysContent.SUCCESS.equals(jsonObject.getStr(SysContent.MSG_STR))) {
             String upjson = getParamMchCertUpload(shopHomeBaseInfo);
             JSONObject object = JSONUtil.parseObj(upjson);
-            if (SysContent.STR_200.equals(object.getStr("result")) && SysContent.SUCCESS.equals(object.getStr("msg"))) {
+            if (SysContent.STR_200.equals(object.getStr(SysContent.RESULT)) && SysContent.SUCCESS.equals(object.getStr(SysContent.MSG_STR))) {
 //
                 return SysContent.OK_STR;
             } else {
-                throw new Exception(object.getStr("msg"));
+                throw new Exception(object.getStr(SysContent.MSG_STR));
             }
         } else {
-            throw new Exception(jsonObject.getStr("msg"));
+            throw new Exception(jsonObject.getStr(SysContent.MSG_STR));
         }
     }
 
     @Override
     public String getParamMchCertUpload(TShopHomeBaseInfo shopHomeBaseInfo) {
-        String param = ShopImport.getParamMchCertUpload(shopHomeBaseInfo,imgDoConfig.getHost());
-        String url = sykUtil.getHttpUrl() + "?" + param;
-        String result = HttpUtil.post(url, "");
+        String param = ShopImport.getParamMchCertUpload(shopHomeBaseInfo,imgDoConfig.getHost(),sykUtil.getApiKey());
+        String url = sykUtil.getHttpUrl();
+        String result = HttpUtil.post(url,  param);
         return result;
     }
 }

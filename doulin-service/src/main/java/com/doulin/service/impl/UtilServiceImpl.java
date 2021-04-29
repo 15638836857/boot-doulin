@@ -393,13 +393,16 @@ public class UtilServiceImpl implements UtilService {
     }
 
     @Override
-    public void deleteImag(String url) throws Exception {
+    public void deleteImag(String[] url) throws Exception {
         try {
-            String imgUrl=url.replace(imgDoConfig.getPrefix(),imgDoConfig.getFilePath());
-            File file=new File(imgUrl);
-            if(file.exists()){
-                file.delete();
+            for (String s : url) {
+                String imgUrl=s.replace(imgDoConfig.getPrefix(),imgDoConfig.getFilePath());
+                File file=new File(imgUrl);
+                if(file.exists()){
+                    file.delete();
+                }
             }
+
         } catch (Exception e) {
            throw new Exception(e.getMessage());
         }

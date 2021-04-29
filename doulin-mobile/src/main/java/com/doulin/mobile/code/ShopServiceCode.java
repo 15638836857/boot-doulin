@@ -103,6 +103,7 @@ public class ShopServiceCode{
 		if (null == c ) {
 			res.setObjects(new TShopHomeBaseInfo());
 			res.setResultNote(SysContent.SHOP_NO);
+			res.setResult(SysContent.INTGER_0.toString());
 			res.setZcState(ShopApplicyStatus.STATUS_6.getCode().toString());
 			return res;
 		}
