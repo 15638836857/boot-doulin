@@ -101,8 +101,8 @@ public class TGoods implements Serializable {
      * 商品下架  Y/N
      */
     @ApiModelProperty(value = "商品下架  Y/N")
-    @TableField("goods_lowerframe")
-    private String goodsLowerframe;
+    @TableField("goods_lower_frame")
+    private String goodsLowerFrame;
 
     /**
      * 排序
@@ -146,17 +146,10 @@ public class TGoods implements Serializable {
             for (String s : sku) {
                 String[] price=s.split("-");
                 TGoodsSku  tGoodsSku=new TGoodsSku();
-                for (String s1 : price) {
-                    if(StrUtil.isEmpty(tGoodsSku.getSku())){
-                        tGoodsSku.setSku(s1);
-                    }else   if(null==tGoodsSku.getPrice()){
-                       tGoodsSku.setPrice(BigDecimal.valueOf(Long.valueOf(s1)));
-                   }else if(null==tGoodsSku.getCuPrice()){
-                        tGoodsSku.setCuPrice(BigDecimal.valueOf(Long.valueOf(s1)));
-                    }else if(null==tGoodsSku.getStock()){
-                        tGoodsSku.setStock(Integer.valueOf(s1));
-                    }
-                }
+                tGoodsSku.setSku(price[0]);
+                tGoodsSku.setPrice(BigDecimal.valueOf(Long.valueOf(price[1])));
+                tGoodsSku.setCuPrice(BigDecimal.valueOf(Long.valueOf(price[2])));
+                tGoodsSku.setStock(Integer.valueOf(price[3]));
                 list.add(tGoodsSku);
             }
             return list;

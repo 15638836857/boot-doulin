@@ -500,8 +500,9 @@ public class TShopHomeBaseInfo implements Serializable {
         if (ApplyFlagUtil.STATUS_Y.getCode().equals(applyFlag)) {
 
             if (null != restTimeStart && null != restTimeEnd) {
-                boolean flag = EntityDateUtil.isInDate(restTimeStart, new Date());
-                boolean flag2 = EntityDateUtil.isInDate(restTimeEnd, new Date());
+                Date date=new Date();
+                boolean flag = date.after(restTimeStart);
+                boolean flag2 = date.before(restTimeEnd);
                 if (flag && flag2) {
                     return "休息中";
                 }

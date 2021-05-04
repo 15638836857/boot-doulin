@@ -120,10 +120,5 @@ public class EntityDateUtil {
             return null;
         }
     }
-//    public static void main(String[] args) {
-//        String str="20210429 22:00:00";
-//
-//
-//        System.out.println(isInDate(new Date(), DateUtil.parse(str,format1)));
-//    }
+
 }

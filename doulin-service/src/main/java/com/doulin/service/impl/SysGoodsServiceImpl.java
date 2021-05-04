@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -125,39 +122,30 @@ public class SysGoodsServiceImpl extends ServiceImpl<SysGoodsMapper, SysGoods> i
     @Override
     public List<Map<String, Object>> getListByName(String goodsName) {
         List<Map<String, Object>> map = sysGoodsMapper.getListByName(goodsName);
-        List<Map<String, Object>> names = new ArrayList<>();
-
+        List<Map<String,Object>> namelist=new ArrayList<>();
         for (Map<String, Object> strMap : map) {
-            Map<String, Object> mapName = new HashMap<>();
-            String skuId = strMap.get("skuId").toString();
-            String id = strMap.get(SysContent.ID_STR).toString();
-            String goodsName1 = strMap.get(SysContent.GOODSNAME).toString();
-            String goodsImg = strMap.get("goodsImg").toString();
-            mapName.put("id", id);
-            mapName.put("goodsName", goodsName1);
-            mapName.put("goodsImg", goodsImg);
-            names.add(mapName);
-        }
-        for (Map<String, Object> nameMap : names) {
-            List<Map<String, Object>> skuList = new ArrayList<>();
-            String name = nameMap.get(SysContent.GOODSNAME).toString();
-            for (Map<String, Object> strMap : map) {
-                Map<String, Object> skuc = new HashMap<>();
-                String goodsName1 = strMap.get(SysContent.GOODSNAME).toString();
-                if (name.equals(goodsName1)) {
-                    String sku = strMap.get("sku").toString();
-                    String prices = strMap.get("prices").toString();
-                    skuc.put("sku", sku);
-                    skuc.put("price", prices);
-                    skuc.put("cuPrice", prices);
-                    skuc.put("stock", 0);
-                    skuList.add(skuc);
-                }
-
+            Map<String, Object> nameMap=new LinkedHashMap<>();
+            String[] skuList=strMap.get("sku").toString().split(SysContent.EN_D);
+            nameMap.put("id",strMap.get(SysContent.ID_STR));
+            nameMap.put("goodsName",strMap.get("goodsName"));
+            nameMap.put("goodsImag",strMap.get("goodsImag"));
+            List skuP=new ArrayList();
+            for (String s : skuList) {
+                Map<String,Object> skuc=new HashMap<>();
+                String[] sku=s.split("-");
+                String prices = sku[1];
+                String skuName=sku[0];
+                skuc.put("sku", skuName);
+                skuc.put("price", prices);
+                skuc.put("cuPrice", prices);
+                skuc.put("stock", 0);
+                skuP.add(skuc);
             }
-            nameMap.put("skuList", skuList);
+            nameMap.put("skuList", skuP);
+            namelist.add(nameMap);
         }
-        return names;
+
+        return namelist;
     }
 
 }

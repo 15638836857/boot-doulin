@@ -45,6 +45,9 @@ public class SysGoods implements Serializable {
     @ApiModelProperty(value = "商品图片")
     @TableField("goods_img")
     private String goodsImg;
+    @ApiModelProperty(value = "商品图片")
+    @TableField("category_id")
+    private Integer categoryId;
 
     /**
     * 删除标识  0正常   1删除

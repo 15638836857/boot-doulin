@@ -77,7 +77,7 @@ public class TGoodsController extends BaseAppController {
             "    \"content\": \"商品详情\",\n" +
             "    \"keyword\": \"搜索关键字   如：苹,红苹果,黄瓜\",\n" +
             "    \"remark\": \"商品备注\",\n" +
-            "    \"goodsLowerframe\": \"商品下架  Y/N\",\n" +
+            "    \"goodsLowerFrame\": \"商品下架  Y/N\",\n" +
             "    \"sort\": \"排序\",\n" +
             "    \"skuList\": [\n" +
             "        {\n" +
@@ -110,7 +110,7 @@ public class TGoodsController extends BaseAppController {
             tGoodsService.addOrUpdate(SysContent.OPER_ADD,tGoods);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
-            log.error("app/tgs/getSysgoodsByName**********" + e.getMessage());
+            log.error("app/tgs/goods/add**********" + e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }
@@ -118,7 +118,7 @@ public class TGoodsController extends BaseAppController {
      * 获取商品添加信息
      * @return
      */
-    @ApiOperation(value = "商品需改",notes = "{\n" +
+    @ApiOperation(value = "商品修改",notes = "{\n" +
             "    \"loginNo\": \"登录账号\",\n" +
             "    \"id\": \"数据id\",\n" +
             "    \"categoryId\": \"分组id\",\n" +
@@ -131,7 +131,7 @@ public class TGoodsController extends BaseAppController {
             "    \"content\": \"商品详情\",\n" +
             "    \"keyword\": \"搜索关键字   如：苹,红苹果,黄瓜\",\n" +
             "    \"remark\": \"商品备注\",\n" +
-            "    \"goodsLowerframe\": \"商品下架  Y/N\",\n" +
+            "    \"goodsLowerFrame\": \"商品下架  Y/N\",\n" +
             "    \"sort\": \"排序\",\n" +
             "    \"skuList\": [\n" +
             "        {\n" +
@@ -163,7 +163,7 @@ public class TGoodsController extends BaseAppController {
             tGoodsService.addOrUpdate(SysContent.OPER_EDIT,tGoods);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
-            log.error("app/tgs/getSysgoodsByName**********" + e.getMessage());
+            log.error("app/tgs/goods/update**********" + e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }
@@ -186,6 +186,34 @@ public class TGoodsController extends BaseAppController {
             return responseAppRes(ResJson.Ok(list));
         } catch (Exception e) {
             log.error("app/tgs/getGoodsByCateId**********" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
+    /**
+     * 获取商品分类信息
+     * @return
+     */
+    @ApiOperation(value = "搜索商家商品",notes = "{\n" +
+            "    \"loginNo\": \"登录账号\",\n" +
+            "    \"goodsLowerFrame\": \"商品是否下架   Y/N\",\n" +
+            "    \"value\": \"关键字\"\n" +
+            "}")
+    @PostMapping("getGoodsByValue")
+    public Object getGoodsByValue(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String loginNo = map.get(SysContent.LOGINNO_STR).toString();
+            String value="",goodsLowerFrame="";
+            if(null!=map.get("value")){
+                value = map.get("value").toString();
+            }
+            if(null!=map.get("goodsLowerFrame")){
+                goodsLowerFrame=map.get("goodsLowerFrame").toString();
+            }
+            List<TGoods> list = tGoodsService.getGoodsByValue(loginNo,goodsLowerFrame, value);
+            return responseAppRes(ResJson.Ok(list));
+        } catch (Exception e) {
+            log.error("app/tgs/getGoodsByValue**********" + e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }

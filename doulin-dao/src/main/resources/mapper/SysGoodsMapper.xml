@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.SysGoods">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="item" property="item" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
         <result column="sku" property="sku" jdbcType="VARCHAR"/>
         <result column="prices" property="prices" jdbcType="VARCHAR"/>
@@ -19,7 +20,7 @@
 
 
     <sql id="Base_Column_List">
-        id, goods_name, goods_img, del_flag, add_by, add_dt, edit_by, edit_dt
+        id, goods_name, goods_img, del_flag, add_by, add_dt, edit_by, edit_dt,category_id
     </sql>
 
 
@@ -40,6 +41,7 @@
         st.id,
         st.goods_name,
         st.goods_img,
+        st.category_id,
         get_sys_goods_sku_fk(1,st.id) sku ,
         get_sys_goods_sku_fk(2,st.id) prices,
         get_sys_goods_shopcount_fk(st.id) shopCount
@@ -62,6 +64,7 @@
                     st.id,
                     st.goods_name,
                     st.goods_img,
+                    st.category_id,
                     get_sys_goods_sku_fk(1,st.id) sku ,
                     get_sys_goods_sku_fk(2,st.id) prices,
                     get_sys_goods_shopcount_fk(st.id) shopCount
@@ -74,12 +77,11 @@
     </select>
     <select id="getListByName" parameterType="java.lang.String" resultType="java.util.Map">
         SELECT
+           DISTINCT
             t.id,
             t.goods_name goodsName,
             t.goods_img goodsImg,
-            t1.sku,
-            t1.id skuId,
-            t1.prices
+            get_sys_goods_sku_price_fk(t.id) sku
         FROM
             sys_goods_sku t1
         LEFT JOIN sys_goods t ON t1.sys_goods_id = t.id

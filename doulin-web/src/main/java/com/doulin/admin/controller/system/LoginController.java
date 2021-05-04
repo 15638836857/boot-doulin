@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +83,8 @@ public class LoginController extends BaseWebController {
                 subject.login(usernamePasswordToken);
 
                 SysUser sysUser=userService.getOneByLoginNo(loginNo.toString());
-                String token = SysUserTokenUtil.getToken(request.getRemoteAddr(), sysUser.getRoleId(), request.getRemoteAddr());
+                SecurityUtils.getSubject().getSession().setTimeout(1000*60*30);
+                Serializable token = subject.getSession().getId();
                 Map<String,Object> result=new HashMap<>();
                 result.put(SysUserTokenUtil.tokenHeard,token);
                 result.put(SysContent.LOGIN_USERID,sysUser.getId());

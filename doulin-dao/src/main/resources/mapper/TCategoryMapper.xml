@@ -16,6 +16,7 @@
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="goods_count" property="goodsCount" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -27,7 +28,7 @@
     <select id="findByQuery" resultType="com.doulin.entity.TCategory">
         select
         <include refid="Base_Column_List"/>
-        from t_category
+        from sys_goods_category
         <where>
             <if test="query !=null">
 
@@ -39,7 +40,7 @@
             t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
             t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
         FROM
-            t_category t
+            sys_goods_category t
         WHERE
             t.del_flag = 0
             <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
@@ -56,7 +57,7 @@
             t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
             t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
         FROM
-            t_category t
+            sys_goods_category t
         WHERE
             t.del_flag = 0
             <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
@@ -65,7 +66,7 @@
 
     </select>
     <update id="deleteByIdAndLoginId" >
-        UPDATE t_category t
+        UPDATE sys_goods_category t
         SET t.del_flag = 1,
              t.edit_by =#{loginUserId}, t.edit_dt=now()
         WHERE t.id =#{id}
@@ -74,12 +75,12 @@
 <!--        </foreach>-->
 
     </update>
-    <select id="selectOneByIdOrName" resultMap="BaseResultMap">
+    <select id="selectOneByNameAndHomeCode" resultMap="BaseResultMap">
         SELECT
             t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
             t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt
         FROM
-           t_category t
+           sys_goods_category t
         WHERE
            t.del_flag = 0
         <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
@@ -88,17 +89,28 @@
     </select>
 
     <select id="selectInfoByLoginNo"  parameterType="String" resultMap="BaseResultMap">
-           SELECT
-              DISTINCT
-                t1.id, -- 商品分类id
-                t1.`name` -- 商品的分类名称
+         SELECT
+            tb.id,
+            tb.`name`,
+            CASE WHEN (ISNULL(tb.`status`) OR tb.`status`='') THEN 'N'
+              ELSE tb.`status`
+            END `status`,
+                -- 商品数量
+                get_goodscount_by_cate_id (tb.id) goods_count
             FROM
-                t_goods t
-             LEFT JOIN t_category t1 on t.category_id=t1.id
-             LEFT JOIN t_shop_home_base_info  t2 ON t.shop_home_code=t2.shop_home_code
-            WHERE
-                t.del_flag = 0
-              AND t1.del_flag=0
-              AND t2.login_no=#{loginNo}
+                (
+                    SELECT DISTINCT
+                        t1.id,
+                        t1.`name`,
+                        t1.`status`
+                    FROM
+                        sys_goods_category t1
+                    LEFT JOIN t_shop_home_group t2 ON t1.shop_group_id = t2.id
+                    LEFT JOIN t_shop_home_base_info t3 ON t2.group_code = t3.shop_group_code
+                    WHERE
+                        t1.del_flag = 0
+                    AND t3.login_no = #{loginNo}
+                    ORDER BY  t1.sort
+                ) tb
     </select>
 </mapper>

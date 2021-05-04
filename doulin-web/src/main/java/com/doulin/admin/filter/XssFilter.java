@@ -36,14 +36,15 @@ public class XssFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+        log.info("************"+request);
         // 设置允许Cookie
         resp.addHeader("Access-Control-Allow-Credentials", "true");
         // 允许http://www.xxx.com域（自行设置，这里只做示例）发起跨域请求
-        resp.addHeader("Access-Control-Allow-Origin", "http://localhost:8090");
+        resp.addHeader("Access-Control-Allow-Origin", "*");
         // 设置允许跨域请求的方法
         resp.addHeader("Access-Control-Allow-Methods", "*");
         // 允许跨域请求包含content-type
-        resp.addHeader("Access-Control-Allow-Headers", "account_token,content-type,x-requested-with");
+        resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,account_token");
         resp.addHeader("Access-Control-Expose-Headers", "X-forwared-port，X-forwarded-host");
         resp.addHeader("Access-Control-expose-Headers", "Authorization,BiToken,Cookie");
         resp.addHeader("Set-Cookie", "SameSite=None");

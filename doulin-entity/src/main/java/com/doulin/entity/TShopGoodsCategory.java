@@ -12,74 +12,78 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * TCategory Entity
- *
- * @Author: malinging
- * @Date: 2021-04-09
- */
-@ApiModel(value = "TCategory Entity", description = "系统默认商品分类表")
+* TShopGoodsCategory Entity
+* @Author: malinging
+* @Date: 2021-04-30
+*/
+@ApiModel(value="TShopGoodsCategory Entity", description="商家商品分类表")
 @Data
-@TableName("sys_goods_category")
-public class TCategory implements Serializable {
+@TableName("t_shop_goods_category")
+public class TShopGoodsCategory implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField(exist = false)
-    private Integer item;
+    /**
+    * 商家分类id
+    */
+    @ApiModelProperty(value = "商家分类id")
+    @TableField("shop_group_id")
+    private Integer shopGroupId;
 
     /**
-     * 分类名称
-     */
+    * 商家编号
+    */
+    @ApiModelProperty(value = "商家编号")
+    @TableField("shop_home_code")
+    private String shopHomeCode;
+
+    /**
+    * 分类名称
+    */
     @ApiModelProperty(value = "分类名称")
     @TableField("name")
     private String name;
 
     /**
-     * 商家分类id
-     */
-    @ApiModelProperty(value = "商家分类id")
-    @TableField("shop_group_id")
-    private Integer shopGroupId;
-    /**
-     * 父级id
-     */
+    * 父级id
+    */
     @ApiModelProperty(value = "父级id")
     @TableField("parent_id")
     private Integer parentId;
 
     /**
-     * 分类的图片  base64 字符串
-     */
+    * 分类的图片  base64 字符串
+    */
     @ApiModelProperty(value = "分类的图片  base64 字符串")
     @TableField("image")
     private String image;
 
     /**
-     * 排序
-     */
+    * 排序
+    */
     @ApiModelProperty(value = "排序")
     @TableField("sort")
     private Integer sort;
 
     /**
-     * 是否禁用 Y/N
-     */
-    @ApiModelProperty(value = "是否禁用 Y/N")
+    * 是否显示  Y/N
+    */
+    @ApiModelProperty(value = "是否显示  Y/N")
     @TableField("status")
     private String status;
 
     /**
-     * 删除标识 0/1
-     */
+    * 删除标识 0/1
+    */
     @ApiModelProperty(value = "删除标识 0/1")
     @TableField("del_flag")
     private Integer delFlag;
 
     /**
-     * 添加人
-     */
+    * 添加人
+    */
     @ApiModelProperty(value = "添加人")
     @TableField("add_by")
     private String addBy;

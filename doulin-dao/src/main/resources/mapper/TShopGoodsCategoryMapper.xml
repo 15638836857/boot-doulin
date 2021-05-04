@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopGoodsCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopGoodsCategory">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="shop_group_id" property="shopGroupId" jdbcType="INTEGER"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="image" property="image" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="goods_count" property="goodsCount" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, shop_group_id, shop_home_code, name, parent_id, image, sort, status, del_flag, add_by, add_dt, edit_by, edit_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopGoodsCategory">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_goods_category
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOneByNameAndHomeCode" resultMap="BaseResultMap">
+        SELECT
+            t.id, t.name, t.parent_id, t.image, t.sort, t.status,t.shop_group_id,
+            t.del_flag, t.add_by, t.add_dt, t.edit_by, t.edit_dt,t.shop_home_code
+        FROM
+            t_shop_goods_category t
+        WHERE
+            t.del_flag = 0
+        <if test="name!='' and name!=null"> AND t.name =#{name}  </if>
+        <if test="shopHomeCode!='' and shopHomeCode!=null"> AND t.shop_home_code =#{shopHomeCode}  </if>
+
+    </select>
+    <update id="deleteByIdAndLoginId" >
+        UPDATE t_shop_goods_category t
+        SET t.del_flag = 1,
+        t.edit_by =#{loginUserId}, t.edit_dt=now()
+        WHERE t.id =#{id}
+        <!--        <foreach collection="ids" index="id" item="id" open="(" separator="," close=")">-->
+        <!--            CAST(#{id} AS SIGNED)-->
+        <!--        </foreach>-->
+
+    </update>
+    <select id="selectInfoByLoginNo"  parameterType="String" resultMap="BaseResultMap">
+          SELECT
+                t.id,
+                t.shop_group_id,
+                t.shop_home_code,
+                t.`name`,
+                t.image,
+                CASE WHEN IFNULL(t.`status`,'Y') OR t.`status`='' THEN 'Y'
+                  ELSE t.`status`
+                  END `status`,
+                get_goodscount_by_cate_id (t.id,1) goods_count
+            FROM
+                t_shop_goods_category t
+            LEFT JOIN t_shop_home_base_info t2 ON t.shop_home_code=t2.shop_home_code
+            WHERE
+                t.del_flag = 0
+             AND t2.login_no=#{loginNo}
+            ORDER BY sort
+    </select>
+
+    <select id="insertDefaultCatagory" >
+        INSERT INTO t_shop_goods_category (
+            shop_group_id, `name`,	image,	sort,	`status`,
+            del_flag, add_by, add_dt, edit_by,
+            edit_dt, shop_home_code
+        )
+         SELECT
+            t.shop_group_id,
+            t.`name`,
+            t.image,
+            t.sort,
+            t.`status`,
+            t.del_flag,
+            t.add_by,
+            t.add_dt,
+            t.edit_by,
+            t.edit_dt,
+           #{shopHomeCode} shop_home_code
+        FROM
+            sys_goods_category t
+        WHERE
+            t.del_flag = 0
+        AND t.shop_group_id = #{shopGroupId}
+    </select>
+</mapper>

@@ -18,11 +18,12 @@ public interface TGoodsService extends IService<TGoods> {
     IPage<TGoods> page(VQuery query);
 
     /**
-     * 根据商品名称查询商品
-     * @param goodsName
+     * 根据商家编码商品名称 模糊查询商品 是否有类似存在
+     * @param goodsName 商品名称
+     * @param shopHomeCode 商家编码
      * @return
      */
-    TGoods getInfoByName(String goodsName);
+    TGoods getInfoByName(String shopHomeCode,String goodsName);
     /**
      * 获取商品分组
      * @param loginNo 商家登录号
@@ -36,4 +37,13 @@ public interface TGoodsService extends IService<TGoods> {
      * @param tGoods
      */
     void addOrUpdate(String oper, TGoods tGoods) throws Exception;
+
+    /**
+     * 根据商品 的关键字搜索商品
+     * @param loginNo
+     * @param value
+     * @param goodsLowerFrame
+     * @return
+     */
+    List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame, String value);
 }

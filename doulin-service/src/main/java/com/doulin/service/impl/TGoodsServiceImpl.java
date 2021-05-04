@@ -56,8 +56,8 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
     }
 
     @Override
-    public TGoods getInfoByName(String goodsName) {
-        return goodsMapper.selectByName(goodsName);
+    public TGoods getInfoByName(String shopHomeCode,String goodsName) {
+        return goodsMapper.selectByName(shopHomeCode,goodsName);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
             if (StrUtil.isEmpty(tGoods.getState())) {
                 tGoods.setState(SysContent.Y_STR);
             }
-            TGoods goods = getInfoByName(tGoods.getGoodsName());
+            TGoods goods = getInfoByName(tGoods.getShopHomeCode(),tGoods.getGoodsName());
             if (SysContent.OPER_ADD.equals(oper)) {
                 if (null != goods) {
                     throw new Exception(SysContent.ERROR_EXISIS);
@@ -179,6 +179,11 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    @Override
+    public List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame,String value) {
+        return goodsMapper.selectGoodsByValue(loginNo,goodsLowerFrame,value);
     }
 
 }

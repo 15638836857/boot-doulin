@@ -57,6 +57,9 @@ public class UserRealm extends AuthorizingRealm {
     @SneakyThrows
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        if(null==token.getPrincipal()||null==token.getCredentials()){
+            throw new UnknownAccountException("请先登录");
+        }
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
 
