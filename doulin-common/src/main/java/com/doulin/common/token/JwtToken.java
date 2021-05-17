@@ -1,10 +1,16 @@
 package com.doulin.common.token;
 
+import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.doulin.common.Base64Utils;
 import com.doulin.common.encrymlbgo.AESUtils;
+import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.TUser;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.SecretKey;
@@ -14,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.doulin.common.token.JwtTokenGet.getOldPw;
 
 /**
  * APP登录Token的生成和解析
@@ -36,7 +44,38 @@ public class JwtToken {
 	public static final String DEFAULT_KEYNAME_USER_PW = "pw";
 	public static final String DEFAULT_KEYNAME_USER_ID = "sub";
 	public static final String DEFAULT_FAIL_MSG = "token已失效";
-	
+	/**
+	 * 根据Token获取user_id
+	 * @param token
+	 * @return user_id
+	 */
+	public static String getAppUID(String token) throws Exception {
+		Map<String, Claim> claims = verifyToken(token);
+		Claim user_id_claim = claims.get(DEFAULT_KEYNAME_USER_ID);
+		if (null == user_id_claim || StrUtil.isEmpty(user_id_claim.asString())) {
+			return DEFAULT_FAIL_MSG;
+			// token 校验失败, 抛出Token验证非法异常
+		}
+		return decrypt(user_id_claim.asString());
+	}
+	/**
+	 * 解密Token
+	 * @param token
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String, Claim> verifyToken(String token) {
+		DecodedJWT jwt = null;
+		try {
+			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+			jwt = verifier.verify(token);
+		} catch (Exception e) {
+			Map failMap = Maps.newHashMap();
+			failMap.put("failMsg", DEFAULT_FAIL_MSG);
+			return failMap;
+		}
+		return jwt.getClaims();
+	}
 	/**
 	 * 创建TOKEN
 	 * @param request
@@ -44,7 +83,7 @@ public class JwtToken {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String createToken(HttpServletRequest request, TUser user) throws Exception {
+	public static String createToken(HttpServletRequest request, TShopHomeBaseInfo user) throws Exception {
 		Date iatDate = new Date();
 		Calendar nowTime = Calendar.getInstance();
 		nowTime.add(calendarField, calendarInterval);
@@ -85,7 +124,7 @@ public class JwtToken {
 		return token;
 	}
 	//加密
-	private static String encrypt(String ss){
+	public  static String encrypt(String ss){
 		try {
 			if(null!=ss && !"".equals(ss)){
 				SecretKey aesKey = AESUtils.loadKeyAES(SECRET.substring(0, 16));
@@ -98,6 +137,42 @@ public class JwtToken {
 		return "";
 	}
 
+	/**
+	 * 解密
+	 * @param ss
+	 * @return
+	 */
+	public static String decrypt(String ss){
+		try {
+			SecretKey aesKey = AESUtils.loadKeyAES(SECRET.substring(0, 16));
+			IvParameterSpec ivAes = AESUtils.loadIvAES(SECRET.substring(0, 16));
+			return new String(AESUtils.decryptAES(Base64Utils.base642Byte(ss), aesKey, ivAes));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * 验证Token
+	 * @param token
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean validateToken(String token,String passWord) {
+		try {
+			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+			verifier.verify(token);
+			String uid = getAppUID(token);
+			String pw =passWord;
+			if (!pw.equals(getOldPw(token))) {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 
 //	public static void main(String[] args) throws Exception {
 //		Tuser user = new Tuser();

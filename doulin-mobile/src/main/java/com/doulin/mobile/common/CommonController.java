@@ -1,6 +1,7 @@
 package com.doulin.mobile.common;
 
 import cn.hutool.core.util.PhoneUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.doulin.common.Base64Utils;
@@ -8,8 +9,10 @@ import com.doulin.common.content.SysContent;
 import com.doulin.common.encrymlbgo.HttpEncryptUtil;
 import com.doulin.common.encrymlbgo.KeyUtil;
 import com.doulin.entity.SysDictValue;
+import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.common.ResJson;
 import com.doulin.entity.common.SelectVo;
+import com.doulin.entity.edo.Industrycate;
 import com.doulin.service.SysDictValueService;
 import com.doulin.service.SysUserService;
 import com.doulin.service.TShopHomeBaseInfoService;
@@ -24,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -53,10 +57,53 @@ public class CommonController extends BaseAppController {
     @Autowired
     private SysDictValueService dictValueService;
 
-
+    @Autowired
+    private TShopHomeBaseInfoService tShopHomeBaseInfoService;
     /**
      * 新增
      */
+    @ApiOperation(value = "获取行业类别", notes =
+            " {\n" +
+            "        \"hyType\": \"1 /行业类别  2/微信行业类别   tree: 1/树形数据  2/平级数据 \"\n" +
+            "    }\n")
+    @PostMapping("/getHyType")
+    public Object getHyType( String json) {
+        try {
+            String type=getRequestCk(json).get("hyType").toString();
+            String tree="0";
+            if(null!=getRequestCk(json).get("tree")){
+                tree=getRequestCk(json).get("tree").toString();
+            }
+            List<Industrycate >list=tShopHomeBaseInfoService.getHyCodeList(Integer.valueOf(type),Integer.valueOf(tree));
+           return responseAppRes(ResJson.Ok(list));
+        } catch (Exception e) {
+            log.error("app/tool/getHyType" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
+    /**
+     * 新增
+     */
+    @ApiOperation(value = "获取行业类别", notes =
+            " {\n" +
+            "        \"hyType\": \"1 /行业类别  2/微信行业类别  3/经营类目  tree: 1/树形数据  2/平级数据 \"\n" +
+            "    }\n")
+    @PostMapping("/getHyTypeTest")
+    public Object getHyTypeTest(@RequestBody Map<String,Object> map) {
+        try {
+            String type=map.get("hyType").toString();
+            String tree="0";
+            if(null!=map.get("tree")){
+                tree=map.get("tree").toString();
+            }
+            List<Industrycate >list=tShopHomeBaseInfoService.getHyCodeList(Integer.valueOf(type),Integer.valueOf(tree));
+           return list;
+        } catch (Exception e) {
+            log.error("app/tool/getHyType" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
+
     @ApiOperation(value = "根据手机号获取验证码", notes =
             " {\n" +
             "        \"codeType\": \"短信类型 0/老版本 1/绑定手机  2/找回密码   3/身份验证   4/修改密码  5/注册  6/登录\",\n" +
@@ -121,6 +168,57 @@ public class CommonController extends BaseAppController {
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
             return responseAppRes(ResJson.error("请求处理异常"+e.getMessage()));
+        }
+    }
+
+    /**
+     * 商家编辑图片
+     *
+     * @param
+     */
+    @ApiOperation(value = "商家店内图片 编辑/删除", notes = "file:文件 添加时必传  ；loginNo：必传登录商家号    oper:add/添加del/删除 必传;  url:删除时必传图片路径")
+    @RequestMapping(value ="/updateInShopImg")
+    public Object updateImg( MultipartFile[] file, String loginNo,String oper,String url) {
+        try {
+            TShopHomeBaseInfo shopHomeBaseInfo = tShopHomeBaseInfoService.getInfoByLoginNo(loginNo);
+            if (null != shopHomeBaseInfo) {
+                String inDoor = shopHomeBaseInfo.getShopIndoorPhoto();
+                if (SysContent.OPER_ADD.equals(oper)) {
+                    List<String> fileUrl = utilService.uploadImg(file, SysContent.INTGER_1.toString());
+                    if (StrUtil.isEmpty(inDoor)) {
+                        inDoor = String.join(SysContent.EN_D, fileUrl);
+                    } else {
+                        inDoor = inDoor + SysContent.EN_D + String.join(SysContent.EN_D, fileUrl);
+                    }
+                } else {
+                    //删除
+                    if (StrUtil.isEmpty(url)) {
+                        throw new Exception(SysContent.ERROR_PARAM);
+                    }
+
+                    String[] urls = inDoor.split(SysContent.EN_D);
+                    List<String> lsitU = Arrays.asList(urls);
+                    List<String> up=new ArrayList<>();
+                    for (String s : lsitU) {
+                        if(s.equals(url)) {
+                            continue;
+                        }
+                        up.add(s);
+                    }
+
+                    String[] deleteUrl = {url};
+                    utilService.deleteImag(deleteUrl);
+                    inDoor = String.join(",", up);
+                }
+                shopHomeBaseInfo.setShopIndoorPhoto(inDoor);
+                tShopHomeBaseInfoService.updateById(shopHomeBaseInfo);
+                return responseAppNoMi(R.ok(SysContent.OK_OPER));
+            } else {
+                return responseAppNoMi(R.failed("商家异常"));
+            }
+        } catch (Exception e) {
+            log.error("app/tbbf/updateInShopImg*****" + e.getMessage());
+            return responseAppNoMi(R.failed(e.getMessage()));
         }
     }
     @ApiOperation(value ="根据字典code获取字典值" ,notes = "{\n" +
@@ -245,8 +343,8 @@ public class CommonController extends BaseAppController {
         }
        return null;
     }
-}
 
+}
 
 
 

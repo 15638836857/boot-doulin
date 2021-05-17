@@ -5,6 +5,7 @@
     <resultMap id="BaseResultMap" type="com.doulin.entity.TGoods">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
         <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
         <result column="image_title" property="imageTitle" jdbcType="VARCHAR"/>
@@ -13,7 +14,7 @@
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="sales_volume" property="salesVolume" jdbcType="DECIMAL"/>
+        <result column="sales_volume" property="salesVolume" jdbcType="INTEGER"/>
         <result column="goods_lower_frame" property="goodsLowerFrame" jdbcType="VARCHAR"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
@@ -22,6 +23,7 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
         <result column="sku_price" property="skuPrice" jdbcType="TIMESTAMP"/>
+        <result column="all_flag" property="allFlag" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -44,27 +46,94 @@
         SELECT <include refid="Base_Column_List"/>
          from t_goods t
         where t.del_flag=0
-          AND t.goods_name like '%${goodsName}%'
-          AND t.shop_home_code=#{shopHomeCode}
+        <if test="goodsName!=null and goodsName!=''">
+            AND t.goods_name = #{goodsName}
+        </if>
+
+          <if test="shopHomeCode!=null and shopHomeCode!=''">
+              AND t.shop_home_code=#{shopHomeCode}
+          </if>
+
     </select>
 <select id="selectGoodsByCateId"  parameterType="String" resultMap="BaseResultMap">
-          SELECT
-            t.id,
-            t.goods_name,
-            t.goods_lower_frame,
-            t.content,
-            t.goods_title,
-            t.image_title,
-            t.remark,
-            t.sales_volume,
-            t.category_id,
-            get_goods_sku_by_goodsid_fk(t.id) sku_price
-        FROM
-            t_goods t
+        SELECT
+                DISTINCT
+                t.id,
+                t.goods_name,
+                t.goods_lower_frame,
+                t.content,
+                t.goods_title,
+                t.image_title,
+                t.remark,
+                case when ISNULL(sales_volume) THEN 0
+                ELSE sales_volume
+                END sales_volume,
+                t.category_id,
+                t1.`name` category_name,
+                get_goods_sku_by_goodsid_fk(t.id) sku_price,
+                IFNULL(t3.all_flag,'N') all_flag
+                FROM
+                t_goods t
+                LEFT JOIN t_shop_goods_category t1 ON t.category_id=t1.id
+                LEFT JOIN t_shop_home_base_info t2 ON t.shop_home_code=t2.shop_home_code
+                LEFT JOIN t_shop_vip_base t3 ON t.shop_home_code=t3.shop_home_code
         WHERE
             t.del_flag = 0
-          AND t.category_id=#{cateid}
-ORDER BY t.sort;
+          <if test="cateid!='' and cateid!=null"> AND  t.category_id=#{cateid} </if>
+          <if test="loginNo!='' and loginNo!=null"> AND  t2.login_no=#{loginNo} </if>
+          <if test="goodsLowerFrame!='' and goodsLowerFrame!=null"> and t.goods_lower_frame=#{goodsLowerFrame} </if>
+       ORDER BY t.sort;
+</select>
+    <select id="selectGoodsId"  parameterType="Integer" resultMap="BaseResultMap">
+        SELECT
+                DISTINCT
+                t.id,
+                t.goods_name,
+                t.goods_lower_frame,
+                t.content,
+                t.goods_title,
+                t.image_title,
+                t.remark,
+                case when ISNULL(sales_volume) THEN 0
+                ELSE sales_volume
+                END sales_volume,
+                t.category_id,
+                t1.`name` category_name,
+                get_goods_sku_by_goodsid_fk(t.id) sku_price,
+                IFNULL(t3.all_flag,'N') all_flag
+                FROM
+                t_goods t
+                LEFT JOIN t_shop_goods_category t1 ON t.category_id=t1.id
+                LEFT JOIN t_shop_home_base_info t2 ON t.shop_home_code=t2.shop_home_code
+                LEFT JOIN t_shop_vip_base t3 ON t.shop_home_code=t3.shop_home_code
+        WHERE
+            t.id=#{id}
+</select>
+    <select id="selectGoodsSkuId"  parameterType="Integer" resultMap="BaseResultMap">
+        SELECT
+					DISTINCT
+					t.id,
+					t.goods_name,
+					t.goods_lower_frame,
+					t.content,
+					t.goods_title,
+					t.image_title,
+					t.remark,
+					case when ISNULL(sales_volume) THEN 0
+					ELSE sales_volume
+					END sales_volume,
+					t.category_id,
+					t1.`name` category_name,
+					get_goods_sku_by_goodsid_fk(t.id) sku_price,
+					IFNULL(t3.all_flag,'N') all_flag
+					FROM
+					t_goods t
+					LEFT JOIN t_shop_goods_category t1 ON t.category_id=t1.id
+					LEFT JOIN t_shop_home_base_info t2 ON t.shop_home_code=t2.shop_home_code
+					LEFT JOIN t_shop_vip_base t3 ON t.shop_home_code=t3.shop_home_code
+					LEFT JOIN t_goods_sku t4 ON t4.goods_id=t.id
+           WHERE
+               t4.id=#{skuId}
 </select>
     <select id="selectGoodsByValue"  resultMap="BaseResultMap">
         SELECT
@@ -86,6 +155,7 @@ ORDER BY t.sort;
                 t.del_flag = 0
                 <if test="loginNo!='' and loginNo!=null"> AND t1.login_no=#{loginNo}</if>
                 <if test="goodsLowerFrame!='' and goodsLowerFrame!=null"> AND t.goods_lowerframe =#{goodsLowerFrame}</if>
+                <if test="categoryId!='' and categoryId!=null"> AND t.category_id =#{categoryId}</if>
                 <if test="value!='' and value!=null">
                     (
                       OR t.goods_name like '%${value}%'

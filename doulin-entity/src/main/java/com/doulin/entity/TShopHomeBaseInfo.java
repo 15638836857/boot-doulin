@@ -1,5 +1,6 @@
 package com.doulin.entity;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -251,7 +252,7 @@ public class TShopHomeBaseInfo implements Serializable {
      */
     @ApiModelProperty(value = "商户类型 ")
     @TableField("company_class")
-    private Integer companyClass;
+    private String  companyClass;
 
     /**
      * 经营范围
@@ -426,7 +427,7 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField(exist = false)
     private String bankName;
     /**
-     * 商户受理书图片  业务员上传
+     * 商户受理书图片 /开户许可证
      */
     @TableField("shop_acceptance_letter_img")
     private String shopAcceptanceLetterImg;
@@ -449,12 +450,12 @@ public class TShopHomeBaseInfo implements Serializable {
      * 休息时间开始
      */
     @TableField("rest_time_start")
-    private Date restTimeStart;
+    private String restTimeStart;
     /**
      * 休息时间结束
      */
     @TableField("rest_time_end")
-    private Date restTimeEnd;
+    private String restTimeEnd;
 
 
     /**
@@ -485,6 +486,33 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField("apply_date")
     private Date applyDate;
     /**
+     * 行业类别编号
+     */
+    @TableField("industry_no")
+    private String industryNo;
+    /**
+     * 经营类目
+     */
+    @TableField("category_no")
+    private String categoryNo;
+    @TableField(exist = false)
+    private String categoryNoName;
+    /**
+     * 微信行业类别编号
+     */
+    @TableField("industry_no_weixin")
+    private String industryNoWeixin;
+    /**
+     * 行业类别编号name
+     */
+    @TableField(exist = false)
+    private String industryNoName;
+    /**
+     * 微信行业类别编号name
+     */
+    @TableField(exist = false)
+    private String industryNoNameWeixin;
+    /**
      * 县区
      */
     @ApiModelProperty(value = "县区")
@@ -495,20 +523,20 @@ public class TShopHomeBaseInfo implements Serializable {
     @TableField(exist = false)
     private String businessStatus;
 
+
     public String getBusinessStatus() {
-
         if (ApplyFlagUtil.STATUS_Y.getCode().equals(applyFlag)) {
+            if (!StrUtil.isEmpty(restTimeStart) && !StrUtil.isEmpty(restTimeEnd) ) {
+                Date start= DateUtil.parse(restTimeStart,"yyyy-MM-dd HH:mm");
+                Date end= DateUtil.parse(restTimeEnd,"yyyy-MM-dd HH:mm");
 
-            if (null != restTimeStart && null != restTimeEnd) {
                 Date date=new Date();
-                boolean flag = date.after(restTimeStart);
-                boolean flag2 = date.before(restTimeEnd);
+                boolean flag = date.after(start);
+                boolean flag2 = date.before(end);
                 if (flag && flag2) {
                     return "休息中";
                 }
             }
-
-
             String timeopen;
             String timeclose;
             if (!StrUtil.isEmpty(shopOpenBusinessTime) && !StrUtil.isEmpty(shopCloseBusinessTime)) {
@@ -526,5 +554,6 @@ public class TShopHomeBaseInfo implements Serializable {
             return ShopApplicyStatus.getNameByCode(applyState);
         }
     }
+
 
 }

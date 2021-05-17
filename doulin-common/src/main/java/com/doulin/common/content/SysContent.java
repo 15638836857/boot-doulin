@@ -130,4 +130,22 @@ public class SysContent extends ErrorContent{
     public static final String MSG_STR ="msg" ;
     public static final String GOODSNAME = "goodsName";
     public static final String UPDATE = "Update";
+    public static final int INTEGER_7 =7 ;
+    public static final String DATA_STR ="data" ;
+    public static final String STR_100 = "100";
+    public static final String  MYCODE = "我的收款码";
+    public static final String SHOPORDERCODE = "店铺下单码";
+    public static final String CQ_STR ="长期" ;
+    public static final String OPER_OPEN = "open";
+
+    public static final String OPER_VALID="valid";
+    public static final String OPER_STR = "oper";
+    public static final String ERROR_SHOP_HOME_CODE ="商家编号有误" ;
+    public static final String SHOP_VIP_BASE_ID ="shop_vip_base_id" ;
+    public static final String VIPFLAG = "vipFlag";
+    public static final String VALIDFLAG ="validFlag" ;
+    public static final String ERROR_DATA ="数据有误" ;
+    public static final String OPEN_FLAG = "openFlag";
+    public static final String ORDER_TYPE ="orderType" ;
+    public static final String SHOP_HOME_CODE = "shopHomeCode";
 }

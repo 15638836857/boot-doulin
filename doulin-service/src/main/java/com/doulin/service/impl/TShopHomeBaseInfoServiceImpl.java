@@ -8,6 +8,7 @@ import com.doulin.common.content.SysContent;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.common.UserLoginReq;
 import com.doulin.entity.common.UserLoginRes;
+import com.doulin.entity.edo.Industrycate;
 import com.doulin.entity.shop.ShopApplicyStatus;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TShopHomeBaseInfoMapper;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     @Override
     public TShopHomeBaseInfo getInfoByLoginNo(String loginNo) {
 
-        return shopHomeBaseInfoMapper.selectByLoginNo(loginNo);
+        return shopHomeBaseInfoMapper.selectByLoginNoOrShopHomeCode(loginNo,null);
     }
 
     @Override
@@ -107,22 +109,24 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     }
 
     @Override
-    public void updateInfoById(TShopHomeBaseInfo tsb,String oper) throws Exception {
+    public void updateInfoById(TShopHomeBaseInfo tsb,TShopHomeBaseInfo dbInfo,String oper) throws Exception {
         try {
-            if(SysContent.OPER_ADD.equals(oper)) {
-//            if (SysContent.INTGER_3 == tsb.getApplyState()) {
-//                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.ADD);
-//                tsb.setApplyDate(new Date());
-//                //申请状态 Z申请中
-//                tsb.setApplyFlag(SysContent.Z_STR);
-//            }
-            }else{
-//                shopToTreeService.operToSykAddOrUpdate(tsb, SysContent.Mchinlet, SysContent.UPDATE);
-////                tsb.setApplyDate(new Date());
-////                //申请状态 Z申请中
-////                tsb.setApplyFlag(SysContent.Z_STR);
+            if (SysContent.ADD.equals(oper)) {
+                if (SysContent.INTGER_3 == tsb.getApplyState()) {
+                    shopToTreeService.operToSykAddOrUpdate(tsb,dbInfo, SysContent.Mchinlet, SysContent.ADD);
+                    tsb.setApplyDate(new Date());
+                    //申请状态 Z申请中
+                    tsb.setApplyFlag(SysContent.Z_STR);
+                }
+            } else {
+                shopToTreeService.operToSykAddOrUpdate(tsb, dbInfo,SysContent.Mchinlet, SysContent.UPDATE);
+                tsb.setApplyDate(new Date());
+                //申请状态 Z申请中
+                tsb.setApplyFlag(SysContent.Z_STR);
             }
-            updateById(tsb);
+            if (!updateById(tsb)) {
+                throw new Exception(SysContent.ERROR_PARAM);
+            }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -143,6 +147,41 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     @Override
     public Integer getCount(Map<String, Object> map) {
         return shopHomeBaseInfoMapper.selectCount(map);
+    }
+
+    @Override
+    public TShopHomeBaseInfo getInfoByShopHomeCode(String shopHomeCode) {
+        return shopHomeBaseInfoMapper.selectByLoginNoOrShopHomeCode(null,shopHomeCode);
+    }
+
+    @Override
+    public List<Industrycate>  getHyCodeList(Integer type,Integer treeType) {
+        List<Industrycate> list = shopHomeBaseInfoMapper.selectHyCodeList(type);
+        if(SysContent.INTGER_1==treeType) {
+            List<Industrycate> topNodes = new ArrayList<Industrycate>();
+
+            for (Industrycate child : list) {
+                String pid = child.getPid();
+                String name = child.getName().trim();
+                if (pid.equals("0")) {
+                    topNodes.add(child);
+                    continue;
+                }
+
+
+                for (Industrycate parent : list) {
+                    if (!pid.equals("0") && parent.getName().trim().equals(pid)) {
+                        parent.getChild().add(child);
+                        continue;
+                    }
+                }
+            }
+            return topNodes;
+        }else{
+            return list;
+        }
+
+
     }
 
     @Override

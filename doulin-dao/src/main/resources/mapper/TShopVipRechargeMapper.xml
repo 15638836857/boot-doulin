@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopVipRechargeMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopVipRecharge">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="to_money" property="toMoney" jdbcType="DECIMAL"/>
+        <result column="recharge_money" property="rechargeMoney" jdbcType="DECIMAL"/>
+        <result column="vip_to_money" property="vipToMoney" jdbcType="DECIMAL"/>
+        <result column="shop_vip_base_id" property="shopVipBaseId" jdbcType="INTEGER"/>
+        <result column="open_flag" property="openFlag" jdbcType="VARCHAR"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="vip_flag" property="vipFlag" jdbcType="VARCHAR"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+            id,
+            to_money,
+            `name`,
+            recharge_money,
+            shop_vip_base_id,
+            open_flag,
+            valid_flag,
+            vip_flag,
+            shop_home_code,del_flag,vip_to_money
+
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopVipRecharge">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_vip_recharge
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectByVipBaseId" parameterType="Integer" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from t_shop_vip_recharge
+         where shop_vip_base_id=#{id}
+    </select>
+    <select id="selectVipStored" resultMap="BaseResultMap">
+       SELECT
+            t.id,
+            t.to_money,
+            t.`name`,
+            t.recharge_money,
+            t.shop_vip_base_id,
+            t.open_flag,
+            t.valid_flag,
+            t.vip_flag,
+            t.shop_home_code,
+            t.del_flag,
+            t.vip_to_money
+        FROM
+            t_shop_vip_recharge t,
+            t_shop_home_base_info t1
+        WHERE
+            t.del_flag = 0
+        AND t.shop_home_code = t1.shop_home_code
+        <if test="loginNo!='' and loginNo!=null"> AND t1.login_no =#{loginNo}</if>
+        <if test="shopHomeCode!='' and shopHomeCode!=null"> AND t1.shop_home_code =#{shopHomeCode}</if>
+        <if test="name!='' and name!=null">  AND  t.`name` =#{name}</if>
+        <if test="vipFlag!='' and vipFlag!=null"> AND t.vip_flag = #{vipFlag}</if>
+        <if test="validFlag!='' and validFlag!=null"> AND t.valid_flag = #{validFlag}</if>
+    </select>
+    <update id="updateByIdsAndVipBaseId">
+        UPDATE t_shop_vip_recharge t
+          SET t.shop_vip_base_id = NULL,  t.`valid_flag` =  &apos;N&apos;
+        WHERE
+           t.shop_vip_base_id=#{vipBaseId}
+        AND t.del_flag = 0
+
+    </update>
+    <update id="updateVipByIds">
+            UPDATE t_shop_vip_recharge t1
+            SET t1.shop_vip_base_id = #{vipBaseId}, t1.`valid_flag` =  &apos;Y&apos;
+            WHERE  t1.del_flag=0
+            AND
+            t1.id IN
+            <foreach collection="ids" index="id" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </update>
+</mapper>

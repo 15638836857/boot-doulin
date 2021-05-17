@@ -128,7 +128,9 @@ public class SysGoodsServiceImpl extends ServiceImpl<SysGoodsMapper, SysGoods> i
             String[] skuList=strMap.get("sku").toString().split(SysContent.EN_D);
             nameMap.put("id",strMap.get(SysContent.ID_STR));
             nameMap.put("goodsName",strMap.get("goodsName"));
-            nameMap.put("goodsImag",strMap.get("goodsImag"));
+            //商品简介
+            nameMap.put("goodsTitle","");
+            nameMap.put("goodsImg",strMap.get("goodsImg"));
             List skuP=new ArrayList();
             for (String s : skuList) {
                 Map<String,Object> skuc=new HashMap<>();

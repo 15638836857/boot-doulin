@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopToucanHdGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopToucanHdGoods">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="goods_num" property="goodsNum" jdbcType="INTEGER"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="shop_goods_id" property="shopGoodsId" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="order_type" property="orderType" jdbcType="VARCHAR"/>
+        <result column="the_second_discount" property="theSecondDiscount" jdbcType="DOUBLE"/>
+        <result column="shop_goods_sku_id" property="shopGoodsSkuId" jdbcType="INTEGER"/>
+        <result column="add_money" property="addMoney" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap id="BaseResultMapGoods" type="com.doulin.entity.TShopToucanHdGoods">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DECIMAL"/>
+        <result column="goods_num" property="goodsNum" jdbcType="INTEGER"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="shop_goods_id" property="shopGoodsId" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="order_type" property="orderType" jdbcType="VARCHAR"/>
+        <result column="the_second_discount" property="theSecondDiscount" jdbcType="DOUBLE"/>
+        <result column="shop_goods_sku_id" property="shopGoodsSkuId" jdbcType="INTEGER"/>
+        <result column="add_money" property="addMoney" jdbcType="DECIMAL"/>
+        <collection property="goods" ofType="com.doulin.entity.TGoods" column="shop_goods_sku_id" fetchType="lazy" select="com.doulin.mapper.TGoodsMapper.selectGoodsSkuId">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+            <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+            <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+            <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+            <result column="image_title" property="imageTitle" jdbcType="VARCHAR"/>
+            <result column="goods_title" property="goodsTitle" jdbcType="VARCHAR"/>
+            <result column="state" property="state" jdbcType="VARCHAR"/>
+            <result column="content" property="content" jdbcType="VARCHAR"/>
+            <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+            <result column="remark" property="remark" jdbcType="VARCHAR"/>
+            <result column="sales_volume" property="salesVolume" jdbcType="INTEGER"/>
+            <result column="goods_lower_frame" property="goodsLowerFrame" jdbcType="VARCHAR"/>
+            <result column="sort" property="sort" jdbcType="INTEGER"/>
+            <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+            <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+            <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+            <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+            <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+            <result column="sku_price" property="skuPrice" jdbcType="TIMESTAMP"/>
+            <result column="all_flag" property="allFlag" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, `name`, price, goods_num, valid_flag, shop_goods_id,
+        shop_home_code, del_flag,add_dt,edit_dt,order_type,
+        the_second_discount,shop_goods_sku_id,add_money
+    </sql>
+    <sql id="tBase_Column_List">
+        t.id, t.`name`, t.price, t.goods_num, t.valid_flag,
+         t.shop_goods_id,t.shop_home_code,t.the_second_discount,
+         t.del_flag,t.add_dt,t.edit_dt,t.order_type,t.shop_goods_sku_id,t.add_money
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopToucanHdGoods">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_toucan_hd_goods
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectByShopHomeCodeAndOrderType" resultMap="BaseResultMapGoods">
+        select
+        <include refid="tBase_Column_List"/>
+        from t_shop_toucan_hd_goods t
+        <where>
+            t.shop_home_code=#{shopHomeCode}
+            AND t.order_type=#{orderType}
+            AND t.del_flag=0
+        </where>
+    </select>
+
+</mapper>

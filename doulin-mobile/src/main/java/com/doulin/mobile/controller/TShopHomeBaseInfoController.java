@@ -2,7 +2,10 @@ package com.doulin.mobile.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.doulin.common.content.SysContent;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.common.ResJson;
@@ -15,9 +18,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TShopHomeBaseInfoController
@@ -70,7 +73,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"companyName\": \"公司单位名称\",\n" +
             "    \"foundDt\": \"创办成立时间\",\n" +
             "    \"periodOfValidity\": \"有效期yyyymmdd-yyyymmdd\",\n" +
-            "    \"companyClass\": \"公司类型 字典表\",\n" +
+            "    \"companyClass\": \"公司类型 \",\n" +
             "    \"businessScope\": \"经营范围\",\n" +
             "    \"businessClass\": \"经营类型\",\n" +
             "    \"telePhone\": \"联系方式\",\n" +
@@ -99,6 +102,9 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"communityName\": \"社区名称\",\n" +
             "    \"shopToUserMinMoney\": \"配送最低消费\",\n" +
             "    \"userGiveShopMoney\": \"配送费\",\n" +
+            "    \"industryNo\": \"行业类别编码\",\n" +
+            "    \"industryNoWeixin\": \"微信行业类别编码\",\n" +
+            "    \"categoryNo\": \"经营类目\",\n" +
             "    \"shopHomeCode\": \"商家 后台生成的编码\"\n" +
             "}")
     @PostMapping("/add")
@@ -120,7 +126,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             tsb.setDelFlag(SysContent.INTGER_0);
             tsb.setEditDt(new Date());
             tsb.setId(tsbio.getId());
-            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.ADD);
+            tShopHomeBaseInfoService.updateInfoById(tsb,tsbio,SysContent.ADD);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
             log.error("app/tbbf/add**********"+e.getMessage());
@@ -142,7 +148,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"legalPersonBankHandImage\": \"法人手持银行卡图片\",\n" +
             "    \"telePhone\": \"手机号\"\n" +
             "}")
-    @GetMapping("/business/bankInfo")
+    @PostMapping("/business/bankInfo")
     public Object bankInfo(String json) {
         try {
             Map<String,Object>  map= getRequestCk(json);
@@ -155,7 +161,7 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             shopHomeBaseInfo.setLegalPersonBankImage(tsb.getLegalPersonBankImage());
             shopHomeBaseInfo.setLegalPersonBankHandImage(tsb.getLegalPersonBankHandImage());
             shopHomeBaseInfo.setTelePhone(tsb.getTelePhone());
-            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.UPDATE);
+            tShopHomeBaseInfoService.updateInfoById(tsb,shopHomeBaseInfo,SysContent.UPDATE);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
           log.error("/business/bankInfo*****"+e.getMessage());
@@ -164,7 +170,6 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
 
     }
     /**
-     * 删除
      *
      * @param json
      */
@@ -173,9 +178,12 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             "    \"shopHomeName\": \"店铺名称\",\n" +
             "    \"shopAddress\": \"商家位置\",\n" +
             "    \"doorToDoor\": \"是否支持上门  Y/N\",\n" +
+            "    \"shopOpenBusinessTime\": \"商家上班时间 如：8:00\",\n" +
+            "    \"shopCloseBusinessTime\": \"商家下班时间 如: 20:00\",\n" +
             "    \"shopToUserMinMoney\": \"配送标准：如：19.9\",\n" +
             "    \"userGiveShopMoney\": \"配送费用：如：3\",\n" +
             "    \"shopGetOrderAutoFlag\": \"商家是否自动接单 Y/N\",\n" +
+            "    \"orderCancelMaxtime\": \"接单后允许订单取消最大时间\",\n" +
             "    \"shopPaywaterPrefix\": \"商家流水前缀\",\n" +
             "    \"restTimeStart\": \"休息时间开始  2020-05-01 18:00\",\n" +
             "    \"restTimeEnd\": \"休息时间开始  2020-05-05 18:00\"\n" +
@@ -194,27 +202,68 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
             shopHomeBaseInfo.setUserGiveShopMoney(tsb.getUserGiveShopMoney());
             shopHomeBaseInfo.setShopGetOrderAutoFlag(tsb.getShopGetOrderAutoFlag());
             shopHomeBaseInfo.setShopPaywaterPrefix(tsb.getShopPaywaterPrefix());
+            shopHomeBaseInfo.setShopOpenBusinessTime(tsb.getShopOpenBusinessTime());
+            shopHomeBaseInfo.setShopCloseBusinessTime(tsb.getShopCloseBusinessTime());
             shopHomeBaseInfo.setRestTimeStart(tsb.getRestTimeStart());
             shopHomeBaseInfo.setRestTimeEnd(tsb.getRestTimeEnd());
-            tShopHomeBaseInfoService.updateInfoById(tsb,SysContent.ADD);
+            shopHomeBaseInfo.setOrderCancelMaxtime(tsb.getOrderCancelMaxtime());
+            tShopHomeBaseInfoService.updateInfoById(shopHomeBaseInfo,shopHomeBaseInfo,SysContent.ADD);
             return responseAppRes(ResJson.Ok());
         } catch (Exception e) {
             log.error("app/tbbf/setShop*****"+e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
-
-
     }
 
     /**
-     * 更新
+     * 商家编辑图片
      *
-     * @param tShopHomeBaseInfo
+     * @param
      */
-    @ApiOperation(value = "update", notes = "")
-    @PostMapping("/update")
-    public void update(@RequestBody TShopHomeBaseInfo tShopHomeBaseInfo) {
-        tShopHomeBaseInfoService.updateById(tShopHomeBaseInfo);
+    @ApiOperation(value = "商家店内图片 编辑/删除", notes = "file:文件 添加时必传  ；loginNo：必传登录商家号    oper:add/添加del/删除 必传;  url:删除时必传图片路径")
+    @PostMapping(value ="/updateInShopImg",headers = "content-type=multipart/form-data")
+    public Object updateImg(@RequestParam("file") MultipartFile[] file, String loginNo,String oper,String url) {
+        try {
+            TShopHomeBaseInfo shopHomeBaseInfo = tShopHomeBaseInfoService.getInfoByLoginNo(loginNo);
+            if (null != shopHomeBaseInfo) {
+                String inDoor = shopHomeBaseInfo.getShopIndoorPhoto();
+                if (SysContent.OPER_ADD.equals(oper)) {
+                    List<String> fileUrl = utilService.uploadImg(file, SysContent.INTGER_1.toString());
+                    if (StrUtil.isEmpty(inDoor)) {
+                        inDoor = String.join(SysContent.EN_D, fileUrl);
+                    } else {
+                        inDoor = inDoor + SysContent.EN_D + String.join(SysContent.EN_D, fileUrl);
+                    }
+                } else {
+                    //删除
+                    if (StrUtil.isEmpty(url)) {
+                        throw new Exception(SysContent.ERROR_PARAM);
+                    }
+
+                    String[] urls = inDoor.split(SysContent.EN_D);
+                    List<String> lsitU = Arrays.asList(urls);
+                    List<String> up=new ArrayList<>();
+                    for (String s : lsitU) {
+                        if(s.equals(url)) {
+                            continue;
+                        }
+                        up.add(s);
+                    }
+
+                    String[] deleteUrl = {url};
+                    utilService.deleteImag(deleteUrl);
+                    inDoor = String.join(",", up);
+                }
+                shopHomeBaseInfo.setShopIndoorPhoto(inDoor);
+                tShopHomeBaseInfoService.updateById(shopHomeBaseInfo);
+                return responseAppNoMi(R.ok(SysContent.OK_OPER));
+            } else {
+                return responseAppNoMi(R.failed("商家异常"));
+            }
+        } catch (Exception e) {
+            log.error("app/tbbf/updateInShopImg*****" + e.getMessage());
+            return responseAppNoMi(R.failed(e.getMessage()));
+        }
     }
 
     /**
@@ -223,19 +272,20 @@ public class TShopHomeBaseInfoController  extends BaseAppController {
      * @param json
      * @return
      */
-    @ApiOperation(value = "detail", notes = "{\n" +
+    @ApiOperation(value = "获取商家详情", notes = "{\n" +
             "    \"loginNo\": \"商家登录的手机号\"\n" +
             "}")
     @PostMapping("/detail")
     public String detail(String json) {
         try {
-            Map<String,Object>  map=getRequestCk(json);
-            String loginNo=map.get(SysContent.LOGINNO_STR).toString();
-            TShopHomeBaseInfo e=  tShopHomeBaseInfoService.getInfoByLoginNo(loginNo);
-         return   responseAppRes( ResJson.Ok(e));
+            Map<String, Object> map = getRequestCk(json);
+            String loginNo = map.get(SysContent.LOGINNO_STR).toString();
+            TShopHomeBaseInfo e = tShopHomeBaseInfoService.getInfoByLoginNo(loginNo);
+            JSONObject jsonObject = JSONUtil.parseObj(e);
+            return responseAppRes(ResJson.Ok(jsonObject));
         } catch (Exception e) {
-            log.error("商家获取详情失败***"+e.getMessage());
-            return   responseAppRes( ResJson.Ok(e));
+            log.error("商家获取详情失败***" + e.getMessage());
+            return responseAppRes(ResJson.Ok(e));
         }
     }
 

@@ -37,14 +37,13 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
     @Autowired
     private TGoodsSkuMapper goodsSkuMapper;
     @Autowired
+    private TGoodsSkuService skuService;
+    @Autowired
     private SysGoodsSkuService sysGoodsSkuService;
     @Autowired
     private SysGoodsService sysGoodsService;
     @Autowired
     private SysGoodsShopHomeService sysGoodsShopHomeService;
-
-    //    @Autowired
-//    private  shopHomeBaseInfoService;
     @Override
     public IPage<TGoods> page(VQuery query) {
         IPage<TGoods> page = new Page<>();
@@ -61,9 +60,9 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
     }
 
     @Override
-    public List<TGoods> getGoodsGategory(String loginNo, String cateid) {
+    public List<TGoods> getGoodsGategory(String loginNo, String cateid,String goodsLowerFrame) {
 
-        return goodsMapper.selectGoodsByCateId(cateid);
+        return goodsMapper.selectGoodsByCateId(loginNo,cateid,goodsLowerFrame);
 
     }
 
@@ -83,7 +82,7 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
                 }
                 save(tGoods);
             } else if (SysContent.OPER_EDIT.equals(oper)) {
-                if (null != goods && tGoods.getId().equals(goods.getId())) {
+                if (null != goods && !tGoods.getId().equals(goods.getId())) {
                     throw new Exception(SysContent.ERROR_EXISIS);
                 }
                 updateById(tGoods);
@@ -93,15 +92,16 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
             //判断sku商品是否存在
             List<TGoodsSku> skuList = goodsSkuMapper.selectList(
                     new QueryWrapper<TGoodsSku>()
-                            .eq("goodsId", tGoods.getId())
+                            .eq("goods_id", tGoods.getId())
                             .eq(SysContent.DEL_FLAG, SysContent.INTGER_0));
-            if (null != skuList) {
+            if (null != skuList && !skuList.isEmpty()) {
                 goodsSkuMapper.delete(new QueryWrapper<TGoodsSku>()
-                        .eq("goodsId", tGoods.getId())
+                        .eq("goods_id", tGoods.getId())
                         .eq(SysContent.DEL_FLAG, SysContent.INTGER_0));
             }
             skuList = tGoods.getSkuList();
             for (TGoodsSku tGoodsSku : skuList) {
+                tGoodsSku.setDelFlag(SysContent.INTGER_0);
                 if (SysContent.OPER_ADD.equals(oper)) {
                     tGoodsSku.setAddBy(tGoods.getAddBy());
                     tGoodsSku.setAddDt(tGoods.getEditDt());
@@ -111,6 +111,9 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
                 }
                 tGoodsSku.setGoodsId(tGoods.getId());
             }
+            //添加商家商品
+            skuService.saveBatch(skuList);
+
             //判断商品是否存在 系统逗邻商品  前端是否传过来id
             //如果移动端没有传值  系统认为 系统商品没有就添加
             SysGoods sysGoods = new SysGoods();
@@ -182,8 +185,8 @@ public class TGoodsServiceImpl extends ServiceImpl<TGoodsMapper, TGoods> impleme
     }
 
     @Override
-    public List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame,String value) {
-        return goodsMapper.selectGoodsByValue(loginNo,goodsLowerFrame,value);
+    public List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame,Integer categoryId,String value) {
+        return goodsMapper.selectGoodsByValue(loginNo,goodsLowerFrame,categoryId,value);
     }
 
 }

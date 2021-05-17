@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopVipBaseMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopVipBase">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="vip_type" property="vipType" jdbcType="VARCHAR"/>
+        <result column="order_discount" property="orderDiscount" jdbcType="DECIMAL"/>
+        <result column="to_send_discount" property="toSendDiscount" jdbcType="DECIMAL"/>
+        <result column="score_times" property="scoreTimes" jdbcType="INTEGER"/>
+        <result column="all_discount" property="allDiscount" jdbcType="DECIMAL"/>
+        <result column="any_discount" property="allFlag" jdbcType="DECIMAL"/>
+        <result column="vip_money_type" property="vipMoneyType" jdbcType="VARCHAR"/>
+        <result column="vip_month_money" property="vipMonthMoney" jdbcType="DECIMAL"/>
+        <result column="vip_season_money" property="vipSeasonMoney" jdbcType="DECIMAL"/>
+        <result column="vip_year_money" property="vipYearMoney" jdbcType="DECIMAL"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="open_flag" property="openFlag" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMapForType" type="com.doulin.entity.TShopVipBase">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="order_discount" property="orderDiscount" jdbcType="DECIMAL"/>
+        <result column="to_send_discount" property="toSendDiscount" jdbcType="DECIMAL"/>
+        <result column="vip_type" property="vipType" jdbcType="VARCHAR"/>
+        <result column="score_times" property="scoreTimes" jdbcType="INTEGER"/>
+        <result column="all_discount" property="allDiscount" jdbcType="DECIMAL"/>
+        <result column="all_flag" property="allFlag" jdbcType="VARCHAR"/>
+        <result column="vip_money_type" property="vipMoneyType" jdbcType="VARCHAR"/>
+        <result column="vip_month_money" property="vipMonthMoney" jdbcType="DECIMAL"/>
+        <result column="vip_season_money" property="vipSeasonMoney" jdbcType="DECIMAL"/>
+        <result column="vip_year_money" property="vipYearMoney" jdbcType="DECIMAL"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="add_by" property="addBy" jdbcType="VARCHAR"/>
+        <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="open_flag" property="openFlag" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection property="vipRecharges" ofType="com.doulin.entity.TShopVipRecharge" column="id"
+                    javaType="ArrayList" fetchType="lazy" select="com.doulin.mapper.TShopVipRechargeMapper.selectByVipBaseId">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="to_money" property="toMoney" jdbcType="DECIMAL"/>
+            <result column="recharge_money" property="rechargeMoney" jdbcType="DECIMAL"/>
+            <result column="shop_vip_base_id" property="shopVipBaseId" jdbcType="INTEGER"/>
+        </collection>
+        <collection property="vipConsumerCoupons" ofType="com.doulin.entity.TShopVipConsumerCoupon" column="id"
+                    javaType="ArrayList" fetchType="lazy" select="com.doulin.mapper.TShopVipConsumerCouponMapper.selectByVipBaseId">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+            <result column="shop_vip_base_id" property="shopVipBaseId" jdbcType="INTEGER"/>
+            <result column="time_day" property="timeDay" jdbcType="INTEGER"/>
+            <result column="consume_money" property="consumeMoney" jdbcType="DECIMAL"/>
+            <result column="to_money_send" property="toMoneySend" jdbcType="DECIMAL"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, shop_home_code, vip_type,name,order_discount, to_send_discount, open_flag,score_times, all_discount, any_discount, vip_money_type, vip_month_money, vip_season_money, vip_year_money, add_dt, add_by, edit_by, edit_dt
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopVipBase">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_vip_base
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+<select id="selectInfoByLoginNo" resultMap="BaseResultMapForType">
+                SELECT
+                        t.id,
+                        t.shop_home_code,
+                        t.vip_type,
+                        t.order_discount,
+                        t.to_send_discount,
+                        t.score_times,
+                        t.all_discount,
+                        t.all_flag,
+                        t.vip_money_type,
+                        t.vip_month_money,
+                        t.vip_season_money,
+                        t.vip_year_money,
+                        t.open_flag,
+                        t.name
+                FROM
+                    t_shop_vip_base t
+                    LEFT JOIN t_shop_home_base_info t2 ON t.shop_home_code=t2.shop_home_code
+              where t2.login_no=#{loginNo}
+--                 LEFT JOIN t_shop_vip_recharge t2 ON t.id=t2.shop_vip_base_id
+--                 LEFT JOIN t_shop_vip_consumer_coupon t3 ON t.id=t3.shop_vip_base_id
+
+              --                         t2.shop_vip_base_id rcharge_id,
+--                         t2.to_money, -- 送多少钱
+--                         t2.recharge_money,-- 充值多少钱
+--                         t3.shop_vip_base_id coupon_id,
+--                         t3.`name` qname,-- 每月领券的名称
+--                         t3.time_day,-- 有效期
+--                         t3.to_money_send,-- 消费赠送金额
+--                         t3.consume_money-- 消费门槛
+</select>
+    <select id="selectActivity" resultType="java.util.Map">
+
+            
+              SELECT
+            CASE
+             WHEN ((SELECT count(t.id) FROM t_shop_vip_recharge t,t_shop_home_base_info t1
+                   where t.shop_home_code=t1.shop_home_code AND t1.login_no=#{loginNo}  AND t.open_flag='Y')>0) THEN 'Y'
+             ELSE 'N'
+           END '储值卡',
+          CASE WHEN ((SELECT COUNT(t3.id) FROM t_shop_vip_base t3,t_shop_home_base_info t2
+                where t3.shop_home_code=t2.shop_home_code and t3.open_flag='Y' AND t2.login_no =#{loginNo} )>0) THEN 'Y'
+             ELSE 'N'
+           END '会员权益',       
+            (SELECT IFNULL(t.open_flag,'N') FROM t_shop_score_setting t,t_shop_home_base_info t2 WHERE  t.shop_home_code=t2.shop_home_code AND t2.login_no=#{loginNo})
+             AS '积分累计',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_order_coupon t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.del_flag=0
+								 AND t.order_type='DDFQ') AS '订单返券',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_toucan_hd t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.order_type='FGTC'
+              ) AS '复购套餐',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_order_coupon t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.del_flag=0
+								 AND t.order_type='JDLQ') AS '进店领券',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_order_coupon t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.del_flag=0
+								 AND t.order_type='XRLQ') AS '新人领券',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_toucan_hd t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.order_type='JJG') AS '加价购',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_toucan_hd t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.order_type='DEJNZ') AS '第二件N折',
+            'N' AS '凑单提醒',
+            (SELECT  IFNULL(t.open_flag,'N')
+							 FROM  t_shop_order_coupon t,
+										 t_shop_home_base_info t2 
+							WHERE  
+									   t.shop_home_code=t2.shop_home_code
+								 AND t2.login_no=#{loginNo} 
+								 AND t.del_flag=0
+								 AND t.order_type='MJHD') AS '订单满减/满减活动',
+            'N' AS '现时秒杀'
+        FROM
+            DUAL
+            
+            --        SELECT
+--             CASE
+--              WHEN ((SELECT count(t.id) FROM t_shop_vip_recharge t,t_shop_home_base_info t1
+--                    where t.shop_home_code=t1.shop_home_code AND t1.login_no=#{loginNo}  AND t.open_flag='Y')>0) THEN 'Y'
+--              ELSE 'N'
+--            END '储值卡',
+--           CASE WHEN ((SELECT COUNT(t3.id) FROM t_shop_vip_base t3,t_shop_home_base_info t2
+--                 where t3.shop_home_code=t2.shop_home_code and t3.open_flag='Y' AND t2.login_no =#{loginNo} )>0) THEN 'Y'
+--              ELSE 'N'
+--            END '会员权益',
+--             'N' AS '积分累计',
+--             'N' AS '订单返券',
+--             'N' AS '复购套餐',
+--             'N' AS '进店领券',
+--             'N' AS '新人领券',
+--             'N' AS '加价购',
+--             'N' AS '第二件N折',
+--             'N' AS '凑单提醒',
+--             'N' AS '订单满减',
+--             'N' AS '现时秒杀'
+--         FROM
+--             DUAL
+    </select>
+</mapper>

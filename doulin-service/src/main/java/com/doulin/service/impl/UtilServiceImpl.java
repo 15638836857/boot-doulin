@@ -2,6 +2,7 @@ package com.doulin.service.impl;
 
 import cn.hutool.core.util.PhoneUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.JWT;
@@ -27,6 +28,7 @@ import com.doulin.entity.edo.Tree;
 import com.doulin.entity.edo.TreeUtil;
 import com.doulin.entity.image.ImgDoConfig;
 import com.doulin.entity.shop.BankCardTypeVo;
+import com.doulin.entity.shop.BankDo;
 import com.doulin.service.*;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +70,8 @@ public class UtilServiceImpl implements UtilService {
     private TCommunityService tCommunityService;
     @Autowired
     private TShopHomeGroupService shopHomeGroupService;
-
+    @Autowired
+    private BankDo bankDo;
 
 
     @Override
@@ -334,7 +337,7 @@ public class UtilServiceImpl implements UtilService {
             res.setResultNote("手机号不能为空");
             return res;
         }
-        TUser tuser = tUserService.getOneByLoginPhone(req.getPhone());
+        TShopHomeBaseInfo tuser = shopHomeBaseInfoService.getInfoByLoginNo(req.getPhone());
         if (StrUtil.isBlank(req.getPassword())) {
             res.setResultNote("密码不能为空");
             return res;
@@ -385,7 +388,7 @@ public class UtilServiceImpl implements UtilService {
                 communnityTokenService.save(tt);
             }
         }
-        TUser user = new TUser();
+        TShopHomeBaseInfo user = new TShopHomeBaseInfo();
         user.setId(c.getId());
         user.setPassword(c.getPassword());
         String token= JwtToken.createToken(request, user);
@@ -427,7 +430,9 @@ public class UtilServiceImpl implements UtilService {
                 String time1=getWords(SysContent.JFRQ_CARD,json);
                 String time2=getWords(SysContent.SXRJ_CARD,json);
                 time1= DateUtils.dateFormat(time1,"yyyyMMdd","yyyy/MM/dd");
-                time2= DateUtils.dateFormat(time2,"yyyyMMdd","yyyy/MM/dd");
+                if(!SysContent.CQ_STR.equals(time2)) {
+                    time2 = DateUtils.dateFormat(time2, "yyyyMMdd", "yyyy/MM/dd");
+                }
                 cardInfo.setTime(time1+"-"+time2);
                 return ResJson.Ok(cardInfo);
             }else if(SysContent.BANK_CARD_STR.equals(type)){
@@ -551,6 +556,32 @@ public class UtilServiceImpl implements UtilService {
     public Object getShopClassSelect() {
         List<SelectVo> list = shopHomeGroupService.getSelectInfo();
         return list;
+    }
+
+    @Override
+    public String getBankLogoByCardNo(String cardNo) throws Exception {
+
+        String image= null;
+        try {
+            String result=bankDo.getHttpUrl();
+            String url=result.replace("{cardNo}",cardNo);
+            String str=HttpUtil.get(url);
+            JSONObject jsonObject=JSONUtil.parseObj(str);
+            //{
+            //    "bank": "PSBC",
+            //    "cardType": "DC",
+            //    "key": "6221506020009066385",
+            //    "messages": [],
+            //    "stat": "ok",
+            //    "validated": true
+            //}
+            String bank=jsonObject.getStr("bank");
+            String logourl=bankDo.getLogoUrl();
+            image = logourl.replace("{code}",bank);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return image;
     }
 
     public String getWords(String key,String json){

@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.doulin.entity.util.EntityDateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,6 +27,8 @@ import java.util.List;
 @ApiModel(value = "TGoods Entity", description = "商品表")
 @Data
 @TableName("t_goods")
+@AllArgsConstructor
+@NoArgsConstructor
 public class TGoods implements Serializable {
 
 
@@ -37,6 +41,8 @@ public class TGoods implements Serializable {
 
     @TableField("category_id")
     private Integer categoryId;
+    @TableField(exist = false)
+    private String categoryName;
 
     /**
      * 商家编码
@@ -94,8 +100,11 @@ public class TGoods implements Serializable {
     @TableField("remark")
     private String remark;
 
+    /**
+     * 销量
+     */
     @TableField("sales_volume")
-    private BigDecimal salesVolume;
+    private int salesVolume;
 
     /**
      * 商品下架  Y/N
@@ -130,31 +139,63 @@ public class TGoods implements Serializable {
     @TableField("edit_dt")
     private Date editDt;
     /**
-     * sku商品list
+     * 商品库存是否大于5 件小于5 存在不足  Y
      */
     @TableField(exist = false)
-    private List<TGoodsSku> skuList;
+    private String  stockFlag;
+    /**
+     * 是否有全场打折 Y/N
+     */
+    @TableField(exist = false)
+    private String  allFlag;
+
+    /**
+     * sku商品list 入参
+     */
+    @TableField(exist = false)
+    private List<TGoodsSku> skuList=new ArrayList<>();
     @TableField(exist = false)
     private Integer  sysGoodsId;
     @TableField(exist = false)
     private String  skuPrice;
+    //出参
+    @TableField(exist = false)
+    private List<TGoodsSku> skuListV;
 
-    public List<TGoodsSku> getSkuList(){
-        if(StrUtil.isEmpty(skuPrice)){
-            List<TGoodsSku> list=new LinkedList<>();
+   public List<TGoodsSku> getSkuListV(){
+       if(!StrUtil.isEmpty(skuPrice)){
+           List<TGoodsSku> list=new LinkedList<>();
+           String[] sku=skuPrice.split(",");
+           for (String s : sku) {
+               String[] price=s.split("-");
+               TGoodsSku  tGoodsSku=new TGoodsSku();
+               tGoodsSku.setSku(price[0]);
+               String pr=price[1];
+               tGoodsSku.setPrice(EntityDateUtil.getBigDecimal(pr));
+               tGoodsSku.setCuPrice(EntityDateUtil.getBigDecimal(price[2]));
+               tGoodsSku.setVipPrice((EntityDateUtil.getBigDecimal(price[3])));
+               tGoodsSku.setStock(Integer.valueOf(price[4]));
+               tGoodsSku.setDiscount(price[5]);
+               tGoodsSku.setId(Integer.valueOf(price[6]));
+               list.add(tGoodsSku);
+           }
+           return list;
+       }
+       return new ArrayList<TGoodsSku>();
+   }
+   //库存不足状态判断
+    public String getStockFlag(){
+        if(!StrUtil.isEmpty(skuPrice)){
             String[] sku=skuPrice.split(",");
             for (String s : sku) {
                 String[] price=s.split("-");
-                TGoodsSku  tGoodsSku=new TGoodsSku();
-                tGoodsSku.setSku(price[0]);
-                tGoodsSku.setPrice(BigDecimal.valueOf(Long.valueOf(price[1])));
-                tGoodsSku.setCuPrice(BigDecimal.valueOf(Long.valueOf(price[2])));
-                tGoodsSku.setStock(Integer.valueOf(price[3]));
-                list.add(tGoodsSku);
+                if(this.goodsLowerFrame.equals("N")) {
+                    if (Integer.valueOf(price[4]) <= 5) {
+                        return "Y";
+                    }
+                }
             }
-            return list;
         }
-        return new ArrayList<TGoodsSku>();
+        return "N";
     }
-
 }

@@ -56,7 +56,7 @@ public class OcrBaiduUtil {
             String result =   HttpUtil.post(url, accessToken, param);
             return result;
         } catch (Exception e) {
-            log.error("读取身份证失败"+e.getMessage());
+            log.error("读取身份证失败,图片大小不得超过2M"+e.getMessage());
         }
         return null;
     }

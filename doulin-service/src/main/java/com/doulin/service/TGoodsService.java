@@ -29,7 +29,7 @@ public interface TGoodsService extends IService<TGoods> {
      * @param loginNo 商家登录号
      * @param cateid 分类id
      */
-    List<TGoods> getGoodsGategory(String loginNo, String cateid);
+    List<TGoods> getGoodsGategory(String loginNo, String cateid,String goodsLowerFrame);
 
     /**
      * 商品添加或修改
@@ -45,5 +45,5 @@ public interface TGoodsService extends IService<TGoods> {
      * @param goodsLowerFrame
      * @return
      */
-    List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame, String value);
+    List<TGoods> getGoodsByValue(String loginNo,String goodsLowerFrame, Integer categoryId,String value);
 }

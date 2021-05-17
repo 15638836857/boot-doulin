@@ -101,4 +101,6 @@ public interface UtilService {
      * @return
      */
     Object getShopClassSelect();
+
+    String getBankLogoByCardNo(String cardNo) throws Exception;
 }

@@ -57,7 +57,7 @@ public class TGoodsController extends BaseAppController {
             List<Map<String, Object>> list = sysGoodsService.getListByName(goodsName);
             return responseAppRes(ResJson.Ok(list));
         } catch (Exception e) {
-            log.error("app/tgs/getSysgoodsByName**********" + e.getMessage());
+            log.error("app/tgs/getSysGoodsByName**********" + e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }
@@ -167,6 +167,33 @@ public class TGoodsController extends BaseAppController {
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }
+    /**
+     * 获取商品添加信息
+     * @return
+     */
+    @ApiOperation(value = "商品上下架",notes = "{\n" +
+            "    \"loginNo\": \"登录账号\",\n" +
+            "    \"id\": \"数据id\",\n" +
+            "    \"goodsLowerFrame\": \"商品下架  Y/N" +
+            "}")
+    @PostMapping("goods/lowerFrame")
+    public Object lowerFrame(String json) {
+        try {
+            Map<String, Object> map = getRequestCk(json);
+            String loginNo = map.get(SysContent.LOGINNO_STR).toString();
+            String goodsLowerFrame = map.get("goodsLowerFrame").toString();
+            String id=map.get(SysContent.ID_STR).toString();
+            TGoods tGoods= tGoodsService.getById(id);
+            tGoods.setEditBy(loginNo);
+            tGoods.setEditDt(new Date());
+            tGoods.setGoodsLowerFrame(goodsLowerFrame);
+            tGoodsService.updateById(tGoods);
+            return responseAppRes(ResJson.Ok());
+        } catch (Exception e) {
+            log.error("app/tgs/goods/lowerFrame**********" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
 
     /**
      * 获取商品分类信息
@@ -174,6 +201,7 @@ public class TGoodsController extends BaseAppController {
      */
     @ApiOperation(value = "根据分组id商品信息",notes = "{\n" +
             "    \"loginNo\": \"登录账号\",\n" +
+            "    \"goodsLowerFrame\": \"商品是否下架   Y/N\",\n" +
             "    \"cateId\": \"商品分类id\"\n" +
             "}")
     @PostMapping("getGoodsByCateId")
@@ -182,7 +210,11 @@ public class TGoodsController extends BaseAppController {
             Map<String, Object> map = getRequestCk(json);
             String loginNo = map.get(SysContent.LOGINNO_STR).toString();
             String cateId = map.get("cateId").toString();
-            List<TGoods> list = tGoodsService.getGoodsGategory(loginNo, cateId);
+            String goodsLowerFrame = null;
+            if(null!=map.get("goodsLowerFrame")){
+                goodsLowerFrame=map.get("goodsLowerFrame").toString();
+            }
+            List<TGoods> list = tGoodsService.getGoodsGategory(loginNo, cateId,goodsLowerFrame);
             return responseAppRes(ResJson.Ok(list));
         } catch (Exception e) {
             log.error("app/tgs/getGoodsByCateId**********" + e.getMessage());
@@ -196,6 +228,7 @@ public class TGoodsController extends BaseAppController {
     @ApiOperation(value = "搜索商家商品",notes = "{\n" +
             "    \"loginNo\": \"登录账号\",\n" +
             "    \"goodsLowerFrame\": \"商品是否下架   Y/N\",\n" +
+            "    \"categoryId\": \"分类id\",\n" +
             "    \"value\": \"关键字\"\n" +
             "}")
     @PostMapping("getGoodsByValue")
@@ -210,10 +243,37 @@ public class TGoodsController extends BaseAppController {
             if(null!=map.get("goodsLowerFrame")){
                 goodsLowerFrame=map.get("goodsLowerFrame").toString();
             }
-            List<TGoods> list = tGoodsService.getGoodsByValue(loginNo,goodsLowerFrame, value);
+            Integer categoryId = null;
+            if(null!=map.get("categoryId")){
+                categoryId=Integer.valueOf(map.get("categoryId").toString());
+            }
+            List<TGoods> list = tGoodsService.getGoodsByValue(loginNo,goodsLowerFrame,categoryId, value);
             return responseAppRes(ResJson.Ok(list));
         } catch (Exception e) {
             log.error("app/tgs/getGoodsByValue**********" + e.getMessage());
+            return responseAppRes(ResJson.error(e.getMessage()));
+        }
+    }
+    /**
+     * 商品删除
+     * @return
+     */
+    @ApiOperation(value = "商品删除",notes = "{\n" +
+            "    \"loginNo\": \"登录账号\",\n" +
+            "    \"id\": \"数据id\"\n" +
+            "}")
+    @PostMapping("delete")
+    public Object delete(String json) {
+        try {
+            String id=getRequestCk(json).get(SysContent.ID_STR).toString();
+            TGoods tGoods=tGoodsService.getById(id);
+            tGoods.setDelFlag(SysContent.INTGER_1);
+            tGoods.setEditDt(new Date());
+            tGoods.setEditBy(getRequestCk(json).get(SysContent.LOGINNO_STR).toString());
+            tGoodsService.updateById(tGoods);
+           return   responseAppRes(ResJson.Ok());
+        } catch (Exception e) {
+            log.error("app/tgs/delete**********" + e.getMessage());
             return responseAppRes(ResJson.error(e.getMessage()));
         }
     }

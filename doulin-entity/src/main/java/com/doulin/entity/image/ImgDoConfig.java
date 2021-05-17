@@ -18,10 +18,17 @@ import java.io.Serializable;
 @ConfigurationProperties(prefix = "filesdo")
 @Data
 public class ImgDoConfig implements Serializable {
+    //图片路径 ip
     @Value("${filesdo.host}")
     private String host;
+    /**
+     * 文件真实路径
+     */
     @Value("${filesdo.filePath}")
     private String filePath;
+    /**
+     * 文件路径前缀
+     */
     @Value("${filesdo.prefix}")
     private String prefix;
 }

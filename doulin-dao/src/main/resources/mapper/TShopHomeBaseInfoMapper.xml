@@ -35,7 +35,7 @@
         <result column="company_name" property="companyName" jdbcType="VARCHAR"/>
         <result column="found_dt" property="foundDt" jdbcType="VARCHAR"/>
         <result column="period_of_validity" property="periodOfValidity" jdbcType="VARCHAR"/>
-        <result column="company_class" property="companyClass" jdbcType="INTEGER"/>
+        <result column="company_class" property="companyClass" jdbcType="VARCHAR"/>
         <result column="business_scope" property="businessScope" jdbcType="VARCHAR"/>
         <result column="business_class" property="businessClass" jdbcType="VARCHAR"/>
         <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
@@ -78,8 +78,14 @@
         <result column="shop_to_user_min_money" property="shopToUserMinMoney" jdbcType="DECIMAL"/>
         <result column="user_give_shop_money" property="userGiveShopMoney" jdbcType="DECIMAL"/>
         <result column="door_to_door" property="doorToDoor" jdbcType="VARCHAR"/>
-        <result column="rest_time_start" property="restTimeStart" jdbcType="TIMESTAMP"/>
-        <result column="rest_time_end" property="restTimeEnd" jdbcType="TIMESTAMP"/>
+        <result column="rest_time_start" property="restTimeStart" jdbcType="VARCHAR"/>
+        <result column="rest_time_end" property="restTimeEnd" jdbcType="VARCHAR"/>
+        <result column="industry_no_weixin" property="industryNoWeixin" jdbcType="VARCHAR"/>
+        <result column="industry_no" property="industryNo" jdbcType="VARCHAR"/>
+        <result column="industry_no_name" property="industryNoName" jdbcType="VARCHAR"/>
+        <result column="industry_no_weixin_name" property="industryNoNameWeixin" jdbcType="VARCHAR"/>
+        <result column="category_no" property="categoryNo" jdbcType="VARCHAR"/>
+        <result column="category_no_name" property="categoryNoName" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -97,7 +103,7 @@
          community_name,
          apply_date,
          shop_to_user_min_money,user_give_shop_money,door_to_door,
-         rest_time_start,rest_time_end
+         rest_time_start,rest_time_end,industry_no_weixin,industry_no,category_no
     </sql>
 
 
@@ -111,9 +117,7 @@
             </if>
         </where>
     </select>
-    <select id="selectByLoginNo" parameterType="String" resultMap="BaseResultMap">
-        SELECT
-            t.id,
+    <sql id="cloumQuery">            t.id,
             t.login_no,
             t.password,
             t.login_name,
@@ -174,6 +178,12 @@
             t.door_to_door,
             t.rest_time_start,
             t.rest_time_end,
+            t.industry_no_weixin,
+            t.industry_no,
+            t.category_no,
+            (SELECT h.level_4 from t_industrycate h where h.`code`=t.industry_no ) industry_no_name,
+            (SELECT h.level_3 from t_industrycate h where h.`code`=t.industry_no_weixin ) industry_no_weixin_name,
+            (SELECT h.level_1 from t_industrycate h where h.`code`=t.category_no ) category_no_name,
           b.bank_name,
           b.bank_child bank_child_name,
           b.province bank_province,
@@ -181,14 +191,22 @@
           c.community_name,
           (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
           (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
-          (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
-
+          (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name </sql>
+    <select id="selectByLoginNoOrShopHomeCode" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+           <include refid="cloumQuery"/>
         FROM
             t_shop_home_base_info t
           LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
           LEFT JOIN t_community c ON t.community_code=c.community_code
             LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
-        where t.del_flag=0 and  t.login_no=#{loginNo}
+        where t.del_flag=0
+        <if test="loginNo!='' and loginNo!=null">
+             AND t.login_no=#{loginNo}
+        </if>
+        <if test="shopHomeCode!='' and shopHomeCode!=null">
+            AND  t.shop_home_code=#{shopHomeCode}
+        </if>
 
     </select>
     <select id="selectPageList" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -197,76 +215,7 @@
         (
         select (@i :=@i + 1) AS item,t1.* from
         ( SELECT
-        t.id,
-        t.login_no,
-        t.password,
-        t.login_name,
-        t.shop_home_code,
-        t.shop_home_name,
-        t.shop_group_code,
-        (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name,
-        t.shop_user_id,
-        t.community_code,
-        t.shop_province_id,
-        t.shop_city_id,
-        t.shop_district_id,
-        t.shop_address,
-        t.shop_flag,
-        t.shop_open_business_time,
-        t.shop_close_business_time,
-        t.shop_balance,
-        t.shop_title_image,
-        t.shop_logo,
-        t.shop_indoor_photo,
-        t.shop_qrcode,
-        t.shop_get_order_auto_flag,
-        t.shop_paywater_prefix,
-        t.order_cancel_time_unit,
-        t.order_cancel_maxtime,
-        t.business_license_image,
-        t.social_credit_code,
-        t.company_name,
-        t.found_dt,
-        t.period_of_validity,
-        t.company_class,
-        t.business_scope,
-        t.business_class,
-        t.tele_phone,
-        t.company_email,
-        t.legal_person_card_name,
-        t.legal_person_card_num,
-        t.legal_person_card_time,
-        t.legal_person_card_z,
-        t.legal_person_card_f,
-        t.legal_person_bank_card,
-        t.legal_person_card_p,
-        t.legal_person_bank_card_l,
-        t.legal_person_bank_image,
-        t.legal_person_bank_hand_image,
-        t.ywq_code,
-        e.`name` ywq_name,
-        t.apply_state,
-        t.apply_flag,
-        t.apply_return_msg,
-        t.shop_acceptance_letter_img,
-        t.shop_settlement_book_img,
-        t.cashier_photo,
-        t.plat_id,
-        t.apply_date,
-        t.shop_to_user_min_money,
-        t.user_give_shop_money,
-        t.door_to_door,
-        t.rest_time_start,
-        t.rest_time_end,
-        b.bank_name,
-        b.bank_child bank_child_name,
-        b.province bank_province,
-        b.city bank_city,
-        c.community_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
-
+             <include refid="cloumQuery"/>
         FROM
         t_shop_home_base_info t
         LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
@@ -288,76 +237,7 @@
 <select id="selectCount" parameterType="java.util.Map" resultType="INTEGER">
       SELECT count(t1.id) from(
        SELECT
-        t.id,
-        t.login_no,
-        t.password,
-        t.login_name,
-        t.shop_home_code,
-        t.shop_home_name,
-        t.shop_group_code,
-        (SELECT p.group_name FROM t_shop_home_group p WHERE p.group_code=t.shop_group_code)shop_group_code_name,
-        t.shop_user_id,
-        t.community_code,
-        t.shop_province_id,
-        t.shop_city_id,
-        t.shop_district_id,
-        t.shop_address,
-        t.shop_flag,
-        t.shop_open_business_time,
-        t.shop_close_business_time,
-        t.shop_balance,
-        t.shop_title_image,
-        t.shop_logo,
-        t.shop_indoor_photo,
-        t.shop_qrcode,
-        t.shop_get_order_auto_flag,
-        t.shop_paywater_prefix,
-        t.order_cancel_time_unit,
-        t.order_cancel_maxtime,
-        t.business_license_image,
-        t.social_credit_code,
-        t.company_name,
-        t.found_dt,
-        t.period_of_validity,
-        t.company_class,
-        t.business_scope,
-        t.business_class,
-        t.tele_phone,
-        t.company_email,
-        t.legal_person_card_name,
-        t.legal_person_card_num,
-        t.legal_person_card_time,
-        t.legal_person_card_z,
-        t.legal_person_card_f,
-        t.legal_person_bank_card,
-        t.legal_person_card_p,
-        t.legal_person_bank_card_l,
-        t.legal_person_bank_image,
-        t.legal_person_bank_hand_image,
-        t.ywq_code,
-        e.`name` ywq_name,
-        t.apply_state,
-        t.apply_flag,
-        t.apply_return_msg,
-        t.shop_acceptance_letter_img,
-        t.shop_settlement_book_img,
-        t.cashier_photo,
-        t.plat_id,
-        t.apply_date,
-        t.shop_to_user_min_money,
-        t.user_give_shop_money,
-        t.door_to_door,
-        t.rest_time_start,
-        t.rest_time_end,
-        b.bank_name,
-        b.bank_child bank_child_name,
-        b.province bank_province,
-        b.city bank_city,
-        c.community_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.province_id) shop_province_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.city_id)shop_city_name,
-        (SELECT f.`name` from province_city_district f where f.id=c.district_id)shop_district_name
-
+         <include refid="cloumQuery"/>
         FROM  t_shop_home_base_info t
         LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
         LEFT JOIN t_community c ON t.community_code=c.community_code
@@ -368,4 +248,67 @@
             <if test="applyFlag!=''  and applyFlag!=null and applyFlag!='Y'.toString() ">  and (t.apply_flag='N' OR t.apply_flag='Z') </if>
           ) t1
 </select>
+    <select id="selectHyCodeList" resultType="com.doulin.entity.edo.Industrycate">
+
+        <if test="1==type">
+            SELECT DISTINCT
+                '0' pid,
+                t.level_1 `name`,
+                t.level_1 `code`
+            FROM
+                t_industrycate t  WHERE t.type=#{type}
+            UNION ALL
+            SELECT DISTINCT
+                t.level_1 pid,
+                t.level_2 `name`,
+                t.level_2 `code`
+            FROM
+            t_industrycate t WHERE t.type=#{type}
+            UNION ALL
+            SELECT DISTINCT
+                t.level_2 pid,
+                t.level_3 `name`,
+                t.level_3 `code`
+            FROM
+                 t_industrycate t  WHERE t.type=#{type}
+            UNION ALL
+            SELECT DISTINCT
+                 t.level_3 pid,
+                t.level_4 `name`,
+                `code`
+            FROM
+                t_industrycate t  WHERE t.type=#{type}
+        </if>
+        <if test="2==type">
+            SELECT DISTINCT
+                '0' pid,
+                t.level_1 `name`,
+                t.level_1 `code`
+            FROM
+                 t_industrycate t  WHERE t.type=#{type}
+            UNION ALL
+            SELECT DISTINCT
+                t.level_1 pid,
+                t.level_2 `name`,
+                t.level_2 `code`
+            FROM
+                t_industrycate t WHERE t.type=#{type}
+            UNION ALL
+            SELECT DISTINCT
+                t.level_2 pid,
+                t.level_3 `name`,
+                 `code`
+            FROM
+               t_industrycate t  WHERE t.type=#{type}
+
+        </if>
+        <if test="3==type">
+            SELECT DISTINCT
+                '0' pid,
+                t.level_1 `name`,
+               `code`
+            FROM
+             t_industrycate t  WHERE t.type=#{type}
+        </if>
+    </select>
 </mapper>

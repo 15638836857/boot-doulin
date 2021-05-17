@@ -3,6 +3,7 @@ package com.doulin.mobile.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.doulin.common.content.SysContent;
 import com.doulin.common.date.DateFormatUtil;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.common.*;
@@ -80,7 +81,12 @@ public class LoginMobileController extends BaseAppController {
             "    \"randomCode\": \"验证码\",\n" +
             "    \"type\": \"/1商家  2/用户\",\n" +
             "    \"phone\": \"电话\"\n" +
-            "}"})
+            "}","商家密码验证json={\n" +
+            "    \"cmd\": \"validateLoginPassword\",\n" +
+            "    \"loginNo\": \"登录号\",\n" +
+            "    \"passWord\": \"密码\"\n" +
+            "}"
+    })
     @PostMapping(value = "/service")
     public String service(HttpServletRequest request, HttpServletResponse response,   String json) {
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -116,6 +122,12 @@ public class LoginMobileController extends BaseAppController {
             }else if ("findUserPassword".equals(cmd)) { // 1.4用户找回密码
                 FindUserPasswordReq req = BeanUtil.toBean(json, FindUserPasswordReq.class);
                 res = usc.codecVerify(req, request);
+            }else if ("validateLogin".equals(cmd)) { // 1.73 验证登录
+                res = usc.codec(request);
+            }else if ("validateLoginPassword".equals(cmd)) { // 验证密码
+                String loginNo=obj.get(SysContent.LOGINNO_STR).toString();
+                String password=obj.get(SysContent.PASSWORD).toString();
+                res = usc.validateLoginPassword(loginNo,password);
             }
 //            else if ("userRegister".equals(cmd)) { // 1.1用户注册
 ////                res = usc.codec(request, req);

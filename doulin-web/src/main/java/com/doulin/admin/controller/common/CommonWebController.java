@@ -2,7 +2,6 @@ package com.doulin.admin.controller.common;
 
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
-import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.service.ShopToTreeService;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
@@ -74,24 +73,24 @@ public class CommonWebController extends BaseWebController {
             return R.error( e.getMessage());
         }
     }
-    @ApiOperation(value ="商家信息上传" ,notes = "{\n" +
-            "    \"s\": {\n" +
-            "        \"loginUserId\": \"登录用户userId\",\n" +
-            "        \"page\": 1,\n" +
-            "        \"rows\": 10\n" +
-            "    },\n" +
-            "    \"v\": {\n" +
-            "        \"phone\": \"文件路径\"\n" +
-            "    }\n" +
-            "}")
-    @PostMapping(value = "/shopImpot")
-    public Object shopImpot( String pone) {
-        try {
-            TShopHomeBaseInfo st=shopHomeBaseInfoService.getInfoByLoginNo(pone);
-            return R.ok(shopToTreeService.operToSykAddOrUpdate(st,"Mchinlet","Add"));
-        } catch (Exception e) {
-            log.error("请求处理异常" + e.getMessage());
-            return R.error(SysContent.ERROR_REQUEST);
-        }
-    }
+//    @ApiOperation(value ="商家信息上传" ,notes = "{\n" +
+//            "    \"s\": {\n" +
+//            "        \"loginUserId\": \"登录用户userId\",\n" +
+//            "        \"page\": 1,\n" +
+//            "        \"rows\": 10\n" +
+//            "    },\n" +
+//            "    \"v\": {\n" +
+//            "        \"phone\": \"文件路径\"\n" +
+//            "    }\n" +
+//            "}")
+//    @PostMapping(value = "/shopImpot")
+//    public Object shopImpot( String pone) {
+//        try {
+//            TShopHomeBaseInfo st=shopHomeBaseInfoService.getInfoByLoginNo(pone);
+//            return R.ok(shopToTreeService.operToSykAddOrUpdate(st,"Mchinlet","Add"));
+//        } catch (Exception e) {
+//            log.error("请求处理异常" + e.getMessage());
+//            return R.error(SysContent.ERROR_REQUEST);
+//        }
+//    }
 }

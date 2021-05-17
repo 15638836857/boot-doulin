@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,6 +23,8 @@ import java.util.Date;
 @ApiModel(value = "TGoodsSku Entity", description = "商品 规格 对应的价格表")
 @Data
 @TableName("t_goods_sku")
+@AllArgsConstructor
+@NoArgsConstructor
 public class TGoodsSku implements Serializable {
 
 
@@ -39,6 +43,12 @@ public class TGoodsSku implements Serializable {
     @ApiModelProperty(value = "原价")
     @TableField("price")
     private BigDecimal price;
+    /**
+     * 会员价
+     */
+    @ApiModelProperty(value = "会员价")
+    @TableField("vip_price")
+    private BigDecimal vipPrice;
 
     /**
      * 促销价
@@ -90,4 +100,10 @@ public class TGoodsSku implements Serializable {
 
     @TableField("edit_dt")
     private Date editDt;
+
+    /**
+     * 折扣 百分比
+     */
+    @TableField(exist = false)
+    private String   discount;
 }

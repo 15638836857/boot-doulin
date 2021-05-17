@@ -22,6 +22,10 @@ public class SykUtil implements Serializable {
      */
     private String httpUrl;
     /**
+     * 商云客 添加或修改二维码
+     */
+    private String qrcodeAddOrUpdateUrl;
+    /**
      * 商云客 分配id
      */
     private String  platId;

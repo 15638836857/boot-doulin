@@ -11,6 +11,13 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.net.URL;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 public class TestHttpEncrypt {
@@ -26,6 +33,25 @@ public class TestHttpEncrypt {
 ////		System.out.println("RSA私钥Base64编码:" + privateKeyStr);
 //	}
 
+	//测试  APP加密请求内容,服务器解密
+	@Test
+	public void htmlToImage() throws Exception{
+		JEditorPane ed = new JEditorPane(new URL("http://localhost:8080/a/index.html"));
+		ed.setSize(2000,2000);
+
+		//create a new image
+		BufferedImage image = new BufferedImage(ed.getWidth(), ed.getHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+
+		//paint the editor onto the image
+		SwingUtilities.paintComponent(image.createGraphics(),
+				ed,
+				new JPanel(),
+				0, 0, image.getWidth(), image.getHeight());
+		//save the image to file
+		ImageIO.write((RenderedImage)image, "png", new File("html.png"));
+
+	}
 	//测试  APP加密请求内容,服务器解密
 	@Test
 	public void testAppEncrypt() throws Exception{

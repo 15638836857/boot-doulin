@@ -3,6 +3,7 @@ package com.doulin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TShopHomeBaseInfo;
+import com.doulin.entity.edo.Industrycate;
 import com.doulin.entity.vo.VQuery;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
      */
     TShopHomeBaseInfo addPassByPhone(HttpServletRequest request,TShopHomeBaseInfo tShopHomeBaseInfo) throws Exception;
 
-    void updateInfoById(TShopHomeBaseInfo tsb,String oper) throws Exception;
+    void updateInfoById(TShopHomeBaseInfo tsb,TShopHomeBaseInfo dbInfo,String oper) throws Exception;
 
     /**
      * 商家分页数据
@@ -53,4 +54,8 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
 
     List<TShopHomeBaseInfo> getPageList(Map<String, Object> map);
      Integer getCount(Map<String, Object> map);
+
+    TShopHomeBaseInfo getInfoByShopHomeCode(String shopHomeCode);
+
+    List<Industrycate> getHyCodeList(Integer type,Integer treeType);
 }

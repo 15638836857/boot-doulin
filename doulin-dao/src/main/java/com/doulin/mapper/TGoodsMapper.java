@@ -19,11 +19,15 @@ public interface TGoodsMapper extends BaseMapper<TGoods> {
 
     IPage<TGoods> findByQuery(IPage<TGoods> page, @Param("query") VQuery query);
 
-    TGoods selectByName(@Param("Param") String shopHomeCode,@Param("goodsName")String goodsName);
+    TGoods selectByName(@Param("shopHomeCode") String shopHomeCode,@Param("goodsName")String goodsName);
 
-    List<TGoods> selectGoodsByCateId(@Param("cateid")String cateid);
+    List<TGoods> selectGoodsByCateId(@Param("loginNo")String loginNo,@Param("cateid")String cateid,
+                                     @Param("goodsLowerFrame") String goodsLowerFrame);
 
     List<TGoods> selectGoodsByValue(@Param("loginNo")String loginNo,
                                     @Param("goodsLowerFrame")String goodsLowerFrame,
+                                    @Param("categoryId")Integer categoryId,
                                     @Param("value")String value);
+    List<TGoods> selectGoodsId(Integer id);
+    List<TGoods> selectGoodsSkuId(Integer id);
 }

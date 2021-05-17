@@ -1,14 +1,14 @@
 package com.doulin.mobile.code;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.doulin.common.content.SysContent;
 import com.doulin.common.j2cache.CacheUtils;
+import com.doulin.common.token.JwtToken;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.entity.TUser;
-import com.doulin.entity.common.EditUserPasswordReq;
-import com.doulin.entity.common.FindUserPasswordReq;
-import com.doulin.entity.common.ResJson;
-import com.doulin.entity.common.UserRegisterReq;
+import com.doulin.entity.common.*;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.TUserService;
 import org.slf4j.Logger;
@@ -404,31 +404,31 @@ public class UserServiceCode{
 	/**
 	 * 验证登录
 	 *
-	 * @param req
+	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
-//	public ResJson codec(HttpServletRequest request) throws Exception {
-//		UserLoginRes res = new UserLoginRes();
-//		res.setResult("0");
-//		res.setResultNote("登录成功");
-//		Tuser tuser = new Tuser();
-//		if (StringUtils.isBlank(request.getHeader("token"))) {
-//			JSONObject req = JSONObject.parseObject(request.getParameter("json").toString());
-//			if(req.containsKey("uid")&&StringUtils.isNotBlank(req.getString("uid"))){
-//				tuser = tuserService.get(req.getString("uid"));
-//				res.setToken(JwtToken.createToken(request, tuser));
-//			}else{
-//				res.setResult("2");//登录已失效专用字CODE
-//				res.setResultNote("登录已失效，请重新登录！");
-//			}
-//		} else if (JwtToken.validateToken(request.getHeader("token"))) {
-//			tuser = tuserService.get(JwtToken.getAppUID(request.getHeader("token")));
-//			res.setToken(JwtToken.createToken(request, tuser));
-//		} else {
-//			res.setResult("2");//登录已失效专用字CODE
-//			res.setResultNote("登录已失效，请重新登录！");
-//		}
+	public ResJson codec(HttpServletRequest request) throws Exception {
+		UserLoginRes res = new UserLoginRes();
+		res.setResult(SysContent.INTGER_0.toString());
+		res.setResultNote("登录成功");
+		TShopHomeBaseInfo tuser = new TShopHomeBaseInfo();
+		if (StrUtil.isBlank(request.getHeader("token"))) {
+			JSONObject req = JSONUtil.parseObj(request.getParameter("json").toString());
+			if(req.containsKey("uid")&&StrUtil.isNotBlank(req.getStr("uid"))){
+				tuser = shopHomeBaseInfoService.getById(req.getStr("uid"));
+				res.setToken(JwtToken.createToken(request, tuser));
+			}else{
+				res.setResult("2");//登录已失效专用字CODE
+				res.setResultNote("登录已失效，请重新登录！");
+			}
+		} else if (JwtToken.validateToken(request.getHeader("token"),tuser.getPassword())) {
+			tuser = shopHomeBaseInfoService.getById(JwtToken.getAppUID(request.getHeader("token")));
+			res.setToken(JwtToken.createToken(request, tuser));
+		} else {
+			res.setResult("2");//登录已失效专用字CODE
+			res.setResultNote("登录已失效，请重新登录！");
+		}
 //		if(res.getResult().equals("0")){
 //			Map<String,Object>ordernum = couponService.execSelectSqlEntityObjMap("SELECT COUNT(1) as num FROM t_user_order a where a.uid='"+tuser.getId()+"' AND a.`status`!='12'");
 //			if(Double.valueOf(ordernum.get("num").toString())==0&&StringUtils.isNotBlank(tuser.getCommunityid())){//未购买过的用户
@@ -480,8 +480,8 @@ public class UserServiceCode{
 //				}
 //			}
 //		}
-//		return res;
-//	}
+		return res;
+	}
 
 	/**
 	 * 1.2用户登录
@@ -1093,6 +1093,25 @@ public class UserServiceCode{
 				tuser.setPassword(req.getNewPassword());
 				tUserService.updateById(tuser);
 				return ResJson.Ok("修改成功");
+			}
+		}
+	}
+
+	/**
+	 * 密码验证
+	 * @param loginNo 登录号
+	 * @param password 密码
+	 * @return
+	 */
+	public ResJson validateLoginPassword(String loginNo, String password) {
+		TShopHomeBaseInfo tShopHomeBaseInfo=shopHomeBaseInfoService.getInfoByLoginNo(loginNo);
+		if (null == tShopHomeBaseInfo) {
+			return ResJson.error(SysContent.ERROR_SYS);
+		} else {
+			if (!tShopHomeBaseInfo.getPassword().equals(password)) {
+				return ResJson.error("密码错误");
+			} else {
+				return ResJson.Ok("密码正确");
 			}
 		}
 	}

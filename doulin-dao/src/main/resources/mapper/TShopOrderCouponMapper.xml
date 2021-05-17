@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TShopOrderCouponMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TShopOrderCoupon">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="order_to_money" property="orderToMoney" jdbcType="DECIMAL"/>
+        <result column="to_money_send" property="toMoneySend" jdbcType="DECIMAL"/>
+        <result column="consume_money" property="consumeMoney" jdbcType="DECIMAL"/>
+        <result column="time_day" property="timeDay" jdbcType="INTEGER"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
+        <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="valid_flag" property="validFlag" jdbcType="VARCHAR"/>
+        <result column="open_flag" property="openFlag" jdbcType="VARCHAR"/>
+        <result column="order_type" property="orderType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, `name`, order_to_money,order_type, to_money_send, consume_money, time_day, del_flag, add_dt, edit_dt, shop_home_code,valid_flag,open_flag
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TShopOrderCoupon">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_order_coupon
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectInfoByShopHomeCode"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_order_coupon
+        <where>
+            <if test="shopHomeCode !=null">
+                shop_home_code=#{shopHomeCode}
+            </if>
+            <if test="orderType !=null">
+              AND
+                order_type=#{orderType}
+            </if>
+            and
+            del_flag=0
+
+
+        </where>
+    </select>
+    <update id="openOrCloseBy">
+        update t_shop_order_coupon t set  t.open_flag=#{openFlag} where
+         t.shop_home_code=#{shopHomeCode} and  t.order_type=#{orderType}
+    </update>
+
+</mapper>
