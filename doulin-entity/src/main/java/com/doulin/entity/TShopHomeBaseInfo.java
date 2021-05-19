@@ -16,7 +16,9 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * TShopHomeBaseInfo Entity
@@ -87,6 +89,12 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "社区编码")
     @TableField("community_code")
     private String communityCode;
+    /**
+     * 其它社区编码 逗号间隔
+     */
+    @ApiModelProperty(value = "其它社区编码")
+    @TableField("any_community_code")
+    private String anyCommunityCode;
 
     /**
      * 省份
@@ -522,6 +530,11 @@ public class TShopHomeBaseInfo implements Serializable {
     @ApiModelProperty(value = "营业状态")
     @TableField(exist = false)
     private String businessStatus;
+    @ApiModelProperty(value = "商家关联的其它社区/小区")
+    @TableField(exist = false)
+    private List<TCommunity> communityList=new ArrayList<>();
+
+
 
 
     public String getBusinessStatus() {

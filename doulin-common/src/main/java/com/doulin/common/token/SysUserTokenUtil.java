@@ -14,8 +14,16 @@ import java.util.Date;
 public class SysUserTokenUtil {
     private static final String secret = "secret";
     public static final String tokenHeard = "account_token";
-    private static final Long expTime = 60 * 5 * 1000L;
+    public static final String accountNo = "account_no";
+    private static final Long expTime = 60 * 20 * 1000L;
 
+    /**
+     * 创建一个token
+     * @param name
+     * @param id
+     * @param ip
+     * @return
+     */
     public static String getToken(String name,String id,String ip) {
         JwtBuilder builder = Jwts.builder();
         builder.signWith(SignatureAlgorithm.HS256,secret);
@@ -31,9 +39,13 @@ public class SysUserTokenUtil {
         return body;
     }
 
-    public static String getName(String token) {
-        Claims body = getTokenBody(token);
-        String id = body.getId();
-        return id;
+    public static String getName(String token) throws Exception {
+        try {
+            Claims body = getTokenBody(token);
+            String id = body.getId();
+            return id;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 }

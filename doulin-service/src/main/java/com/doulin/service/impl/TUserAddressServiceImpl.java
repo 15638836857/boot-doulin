@@ -7,8 +7,11 @@ import com.doulin.entity.TUserAddress;
 import com.doulin.entity.vo.VQuery;
 import com.doulin.mapper.TUserAddressMapper;
 import com.doulin.service.TUserAddressService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -20,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class TUserAddressServiceImpl extends ServiceImpl<TUserAddressMapper, TUserAddress> implements TUserAddressService {
+    @Autowired
+    private TUserAddressMapper userAddressMapper;
 
     @Override
     public IPage<TUserAddress> page(VQuery query) {
@@ -29,6 +34,11 @@ public class TUserAddressServiceImpl extends ServiceImpl<TUserAddressMapper, TUs
         page.setCurrent(pageNum == null ? 1 : pageNum);
         page.setSize(pageSize == null ? 10 : pageSize);
         return baseMapper.findByQuery(page, query);
+    }
+
+    @Override
+    public List<TUserAddress> getByOpenId(String openId) {
+        return userAddressMapper.selectByOpenId(openId);
     }
 
 }

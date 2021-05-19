@@ -24,14 +24,14 @@ public class TUserAddress implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     /**
      * 用户id
      */
     @ApiModelProperty(value = "用户id")
     @TableField("user_id")
-    private Long userId;
+    private Integer userId;
 
     /**
      * 社区编码
@@ -84,5 +84,11 @@ public class TUserAddress implements Serializable {
     @ApiModelProperty(value = "编辑时间")
     @TableField("edit_dt")
     private Date editDt;
+    /**
+     * 联系电话
+     */
+    @ApiModelProperty(value = "联系电话")
+    @TableField("tele_phone")
+    private String telePhone;
 
 }

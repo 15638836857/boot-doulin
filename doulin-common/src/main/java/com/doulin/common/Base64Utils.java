@@ -21,7 +21,7 @@ public class Base64Utils {
         return decoder.decodeBuffer(base64Key);
     }
 
-    public String js_getBase64(String imgPath) {
+    public static  String js_getBase64(String imgPath) {
         byte[] data = null;
 // 读取图片字节数组
         String image = imgPath.substring(8);
@@ -40,4 +40,8 @@ public class Base64Utils {
         return strLocalImageToBase64;//base64编码
     }
 
+//    public static  String StrToBase64(String str){
+//        BASE64Encoder encoder = new BASE64Encoder();
+//        String base64Sign = encoder.e(string.getBytes("UTF-8"));
+//    }
 }

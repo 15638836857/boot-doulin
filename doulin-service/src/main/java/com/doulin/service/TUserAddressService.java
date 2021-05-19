@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.doulin.entity.TUserAddress;
 import com.doulin.entity.vo.VQuery;
 
+import java.util.List;
+
 /**
  * TUserAddressService
  *
@@ -15,4 +17,5 @@ public interface TUserAddressService extends IService<TUserAddress> {
 
     IPage<TUserAddress> page(VQuery query);
 
+    List<TUserAddress> getByOpenId(String openId);
 }

@@ -17,6 +17,7 @@
         <result column="the_second_discount" property="theSecondDiscount" jdbcType="DOUBLE"/>
         <result column="shop_goods_sku_id" property="shopGoodsSkuId" jdbcType="INTEGER"/>
         <result column="add_money" property="addMoney" jdbcType="DECIMAL"/>
+        <result column="consume_money" property="consumeMoney" jdbcType="DECIMAL"/>
     </resultMap>
     <resultMap id="BaseResultMapGoods" type="com.doulin.entity.TShopToucanHdGoods">
         <id column="id" property="id" jdbcType="INTEGER"/>
@@ -33,7 +34,9 @@
         <result column="the_second_discount" property="theSecondDiscount" jdbcType="DOUBLE"/>
         <result column="shop_goods_sku_id" property="shopGoodsSkuId" jdbcType="INTEGER"/>
         <result column="add_money" property="addMoney" jdbcType="DECIMAL"/>
-        <collection property="goods" ofType="com.doulin.entity.TGoods" column="shop_goods_sku_id" fetchType="lazy" select="com.doulin.mapper.TGoodsMapper.selectGoodsSkuId">
+        <result column="consume_money" property="consumeMoney" jdbcType="DECIMAL"/>
+        <collection property="goods" ofType="com.doulin.entity.TGoods"
+                    column="{skuId=shop_goods_sku_id,goodsId=shop_goods_id}"  fetchType="lazy" select="com.doulin.mapper.TGoodsMapper.selectGoodsSkuId">
             <id column="id" property="id" jdbcType="INTEGER"/>
             <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
             <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
@@ -62,12 +65,12 @@
     <sql id="Base_Column_List">
         id, `name`, price, goods_num, valid_flag, shop_goods_id,
         shop_home_code, del_flag,add_dt,edit_dt,order_type,
-        the_second_discount,shop_goods_sku_id,add_money
+        the_second_discount,shop_goods_sku_id,add_money,consume_money
     </sql>
     <sql id="tBase_Column_List">
         t.id, t.`name`, t.price, t.goods_num, t.valid_flag,
          t.shop_goods_id,t.shop_home_code,t.the_second_discount,
-         t.del_flag,t.add_dt,t.edit_dt,t.order_type,t.shop_goods_sku_id,t.add_money
+         t.del_flag,t.add_dt,t.edit_dt,t.order_type,t.shop_goods_sku_id,t.add_money,t.consume_money
     </sql>
 
 

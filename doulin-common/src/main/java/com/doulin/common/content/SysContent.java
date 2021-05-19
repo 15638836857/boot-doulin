@@ -148,4 +148,10 @@ public class SysContent extends ErrorContent{
     public static final String OPEN_FLAG = "openFlag";
     public static final String ORDER_TYPE ="orderType" ;
     public static final String SHOP_HOME_CODE = "shopHomeCode";
+    public static final String JJG ="JJG" ;
+    public static final String WX_OPENID = "wx_operid";
+    public static final String USERINFO = "tuser";
+    public static final String AREA = "area";
+    public static final String LOGO = "logo";
+    public static final String COMMUNITYCODE ="communityCode" ;
 }

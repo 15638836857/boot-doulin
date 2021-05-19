@@ -26,5 +26,11 @@ public interface TShopVipBaseService extends IService<TShopVipBase> {
 
     void addVipInfo(String oper,TShopVipBase tShopVipBase) throws Exception;
 
+    /**
+     * 根据商家登录号获取 商家开通过的活动信息
+     * @param loginNo 商家登录号
+     * @param isOpen 是否开启
+     * @return
+     */
     List<Map<String, Object>> getActivity(String loginNo,String isOpen);
 }

@@ -13,11 +13,12 @@
         <result column="add_dt" property="addDt" jdbcType="TIMESTAMP"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
+        <result column="tele_phone" property="telePhone" jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, user_id, community_code, address, default_flag, del_flag, add_by, add_dt, edit_by, edit_dt
+        id, user_id, community_code, address, default_flag, del_flag, add_by, add_dt, edit_by, edit_dt,tele_phone
     </sql>
 
 
@@ -31,5 +32,25 @@
             </if>
         </where>
     </select>
-
+   <select id="selectByOpenId" parameterType="String" resultMap="BaseResultMap">
+       SELECT
+            t.id,
+            t.user_id,
+            t.community_code,
+            CONCAT(td.province_name,td.city_name,td.district_name,td.community_name,t.address) address,
+            t.default_flag,
+            t.del_flag,
+            t.add_by,
+            t.add_dt,
+            t.edit_by,
+            t.edit_dt,
+            t.tele_phone
+        FROM
+            t_user_address t
+        LEFT JOIN t_user tt ON t.user_id = tt.id
+        LEFT JOIN get_community_view td ON t.community_code = td.community_code
+        WHERE
+         t.del_flag=0
+        AND tt.wx_operid=#{openId}
+   </select>
 </mapper>

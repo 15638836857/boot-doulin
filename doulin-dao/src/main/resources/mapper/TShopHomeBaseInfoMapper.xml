@@ -86,6 +86,7 @@
         <result column="industry_no_weixin_name" property="industryNoNameWeixin" jdbcType="VARCHAR"/>
         <result column="category_no" property="categoryNo" jdbcType="VARCHAR"/>
         <result column="category_no_name" property="categoryNoName" jdbcType="VARCHAR"/>
+        <result column="any_community_code" property="anyCommunityCode" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -98,12 +99,9 @@
         business_scope, business_class, tele_phone, company_email, legal_person_card_name, legal_person_card_num,
         legal_person_card_time, legal_person_card_z, legal_person_card_f, legal_person_bank_card, legal_person_card_p,
         legal_person_bank_card_l, legal_person_bank_image, legal_person_bank_hand_image, ywq_code, apply_state, apply_flag,
-         apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag, shop_acceptance_letter_img,
-         shop_settlement_book_img, cashier_photo,plat_id,
-         community_name,
-         apply_date,
-         shop_to_user_min_money,user_give_shop_money,door_to_door,
-         rest_time_start,rest_time_end,industry_no_weixin,industry_no,category_no
+        apply_return_msg, add_by, add_dt, edit_by, edit_dt, del_flag, shop_acceptance_letter_img, shop_settlement_book_img,
+        cashier_photo,plat_id, community_name, apply_date, shop_to_user_min_money,user_give_shop_money,door_to_door,
+        rest_time_start,rest_time_end,industry_no_weixin,industry_no,category_no,any_community_code
     </sql>
 
 
@@ -117,7 +115,8 @@
             </if>
         </where>
     </select>
-    <sql id="cloumQuery">            t.id,
+    <sql id="cloumQuery">
+            t.id,
             t.login_no,
             t.password,
             t.login_name,
@@ -164,7 +163,7 @@
             t.legal_person_bank_image,
             t.legal_person_bank_hand_image,
             t.ywq_code,
-             e.`name` ywq_name,
+            e.`name` ywq_name,
             t.apply_state,
             t.apply_flag,
             t.apply_return_msg,
@@ -181,6 +180,7 @@
             t.industry_no_weixin,
             t.industry_no,
             t.category_no,
+            t.any_community_code,
             (SELECT h.level_4 from t_industrycate h where h.`code`=t.industry_no ) industry_no_name,
             (SELECT h.level_3 from t_industrycate h where h.`code`=t.industry_no_weixin ) industry_no_weixin_name,
             (SELECT h.level_1 from t_industrycate h where h.`code`=t.category_no ) category_no_name,
@@ -234,20 +234,36 @@
         </if>
     </select>
 
-<select id="selectCount" parameterType="java.util.Map" resultType="INTEGER">
-      SELECT count(t1.id) from(
-       SELECT
-         <include refid="cloumQuery"/>
-        FROM  t_shop_home_base_info t
-        LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
-        LEFT JOIN t_community c ON t.community_code=c.community_code
-        LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
-        where t.del_flag=0
-            <if test="applyState!='' and applyState!=null">  and t.apply_state=#{applyState}</if>
-            <if test="applyFlag=='Y'.toString()">  and t.apply_flag=#{applyFlag} </if>
-            <if test="applyFlag!=''  and applyFlag!=null and applyFlag!='Y'.toString() ">  and (t.apply_flag='N' OR t.apply_flag='Z') </if>
-          ) t1
-</select>
+    <select id="selectCount" parameterType="java.util.Map" resultType="INTEGER">
+          SELECT count(t1.id) from(
+           SELECT
+             <include refid="cloumQuery"/>
+            FROM  t_shop_home_base_info t
+            LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
+            LEFT JOIN t_community c ON t.community_code=c.community_code
+            LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
+            where t.del_flag=0
+                <if test="applyState!='' and applyState!=null">  and t.apply_state=#{applyState}</if>
+                <if test="applyFlag=='Y'.toString()">  and t.apply_flag=#{applyFlag} </if>
+                <if test="applyFlag!=''  and applyFlag!=null and applyFlag!='Y'.toString() ">  and (t.apply_flag='N' OR t.apply_flag='Z') </if>
+              ) t1
+    </select>
+    <select id="selectInfoAndAnyCommunityByLoginNo" parameterType="String" resultMap="BaseResultMap">
+        SELECT
+          <include refid="cloumQuery"/>
+        FROM
+           t_shop_home_base_info t
+           LEFT JOIN t_bank_info b on t.legal_person_bank_card_l=b.bank_num
+           LEFT JOIN t_community c ON t.community_code=c.community_code
+           LEFT JOIN  sys_salesman e ON  t.ywq_code=e.`code`
+        WHERE t.del_flag=0
+        <if test="loginNo!='' and loginNo!=null">
+            AND t.login_no=#{loginNo}
+        </if>
+
+    </select>
+
+
     <select id="selectHyCodeList" resultType="com.doulin.entity.edo.Industrycate">
 
         <if test="1==type">

@@ -91,8 +91,8 @@ public class TShopTaoCanController extends BaseAppController {
             "        \"id\": \" 套餐id 修改/删除 必传\",\n" +
             "        \"ids\": \"开启有效的套餐id 逗号间隔 必传\",\n" +
             "        \"shopGoodsId\": \"商品id 设置套餐时必填\",\n" +
-            "       \"shopGoodsSkuId\": \"商品skuid 设置套餐时必填\",\n" +
-            "        \"twoDiscount\": \"第二件则扣\"\n" +
+            "        \"shopGoodsSkuId\": \"商品skuid 设置套餐时必填\",\n" +
+            "        \"theSecondDiscount\": \"第二件则扣\"\n" +
             "}\n JJG加价购{\n" +
             "        \"oper\": \"add/edit/del/open\",\n" +
             "        \"loginNo\": \"登录号\",\n" +
@@ -103,6 +103,8 @@ public class TShopTaoCanController extends BaseAppController {
             "        \"id\": \" 套餐id 修改/删除 必传\",\n" +
             "        \"ids\": \"开启有效的套餐id 逗号间隔 必传\",\n" +
             "        \"shopGoodsId\": \"商品id 设置套餐时必填\",\n" +
+            "        \"shopGoodsSkuId\": \"商品skuid 设置套餐时必填\",\n" +
+            "        \"consumeMoney\": \"加价购 使用门槛\",\n" +
             "        \"addMoney\": \"加价购 加的金额\"\n" +
             "    }")
     @PostMapping("/addOrUpdate")

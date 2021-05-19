@@ -53,4 +53,17 @@ public interface TCommunityService extends IService<TCommunity> {
 
 
     TreeUtil<SelectVo> getTreeSelectVo();
+
+    /**
+     * 根据省市区获取 商家关联的 社区
+     * @param paramMap
+     * @return
+     */
+    List<TCommunity> getByProviceAndCityAndArea(Map<String, Object> paramMap);
+
+    /**
+     * 获取商家列表  下拉数据
+     * @return
+     */
+    List<TCommunity> getShopSelect();
 }

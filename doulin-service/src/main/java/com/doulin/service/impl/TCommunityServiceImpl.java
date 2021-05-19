@@ -120,4 +120,15 @@ public class TCommunityServiceImpl extends ServiceImpl<TCommunityMapper, TCommun
         return t;
     }
 
+    @Override
+    public List<TCommunity> getByProviceAndCityAndArea(Map<String, Object> map) {
+
+        return communityMapper.selectByProviceAndCityAndArea(map);
+    }
+
+    @Override
+    public List<TCommunity> getShopSelect() {
+        return communityMapper.selectShopSelect();
+    }
+
 }

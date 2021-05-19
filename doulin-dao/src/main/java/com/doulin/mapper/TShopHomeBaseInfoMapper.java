@@ -37,4 +37,6 @@ public interface TShopHomeBaseInfoMapper extends BaseMapper<TShopHomeBaseInfo> {
      * @return
      */
     List<Industrycate> selectHyCodeList(@Param("type") Integer type);
+
+    TShopHomeBaseInfo selectInfoAndAnyCommunityByLoginNo(@Param("loginNo")String loginNo);
 }

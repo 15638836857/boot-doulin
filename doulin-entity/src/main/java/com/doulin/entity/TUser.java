@@ -24,7 +24,7 @@ import java.util.Date;
 public class TUser implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -135,15 +135,26 @@ public class TUser implements Serializable {
     @TableField("del_flag")
     private Integer delFlag;
     /**
-     *  用户是否 禁用 0/1
+     *  用户是否有效  Y/N
      */
-    @ApiModelProperty(value = "用户是否 禁用 0/1")
+    @ApiModelProperty(value = " 用户是否有效  Y/N")
     @TableField("status")
-    private Integer status;
+    private String status;
     /**
      *   极光推送
      */
     @TableField("token")
     private String token;
+    /**
+     * 微信账户token
+     */
+    @TableField("wx_access_token")
+    private String wxAccessToken;
+    /**
+     * 微信会话密钥
+     */
+    @TableField("session_key")
+    private String sessionKey;
+
 
 }

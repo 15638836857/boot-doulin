@@ -24,7 +24,6 @@ import java.util.Map;
  * @Date 2021-04-09
  **/
 @Api(tags = "系统角色控制器类")
-@CrossOrigin
 @RestController
 @RequestMapping("/sysRole")
 @Slf4j

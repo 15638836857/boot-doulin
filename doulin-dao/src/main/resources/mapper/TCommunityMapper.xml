@@ -21,6 +21,15 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <resultMap id="BaseResultMapForCommunity" type="com.doulin.entity.TCommunity">
+        <result column="community_code" property="communityCode" jdbcType="VARCHAR"/>
+        <result column="community_name" property="communityName" jdbcType="VARCHAR"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR"/>
+        <result column="district_name" property="districtName" jdbcType="VARCHAR"/>
+        <result column="shop_home_code" property="shopHomeCode" jdbcType="VARCHAR"/>
+        <result column="shop_home_name" property="shopHomeName" jdbcType="VARCHAR"/>
+    </resultMap>
 
 
     <sql id="Base_Column_List">
@@ -28,20 +37,7 @@
         province_id, city_id, district_id, community_state, del_flag, add_by,
         add_dt, edit_by, edit_dt
     </sql>
-
-
-    <select id="findByQuery" resultType="com.doulin.entity.TCommunity">
-        select
-        <include refid="Base_Column_List"/>
-        from t_community
-        <where>
-            <if test="query !=null">
-
-            </if>
-        </where>
-    </select>
-    <select id="selectOneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        SELECT
+    <sql id="TBase_Column_List">
             t.id,
             t.community_name,
             t.community_code,
@@ -59,6 +55,21 @@
             t.add_dt,
             t.edit_by,
             t.edit_dt
+    </sql>
+
+    <select id="findByQuery" resultType="com.doulin.entity.TCommunity">
+        select
+        <include refid="Base_Column_List"/>
+        from t_community
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+    <select id="selectOneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+          <include refid="TBase_Column_List"/>
         FROM
             t_community t
         WHERE
@@ -75,23 +86,7 @@
                 FROM
                     (
                         SELECT
-                            t.id,
-                            t.community_name,
-                            t.community_code,
-                            t.community_address,
-                            t.community_logo,
-                            t.province_id,
-                            get_pcd_name_fk (t.province_id) province_name,
-                            t.city_id,
-                            get_pcd_name_fk (t.city_id) city_name,
-                            t.district_id,
-                            get_pcd_name_fk (t.district_id) district_name,
-                            t.community_state,
-                            t.del_flag,
-                            t.add_by,
-                            t.add_dt,
-                            t.edit_by,
-                            t.edit_dt
+                            <include refid="TBase_Column_List"/>
                         FROM
                             t_community t
                         WHERE
@@ -115,23 +110,7 @@
                 FROM
                     (
                         SELECT
-                            t.id,
-                            t.community_name,
-                            t.community_code,
-                            t.community_address,
-                            t.community_logo,
-                            t.province_id,
-                            get_pcd_name_fk (t.province_id) province_name,
-                            t.city_id,
-                            get_pcd_name_fk (t.city_id) city_name,
-                            t.district_id,
-                            get_pcd_name_fk (t.district_id) district_name,
-                            t.community_state,
-                            t.del_flag,
-                            t.add_by,
-                            t.add_dt,
-                            t.edit_by,
-                            t.edit_dt
+                             <include refid="TBase_Column_List"/>
                         FROM
                             t_community t
                         WHERE
@@ -141,6 +120,24 @@
                             </if>
                     ) t1
     </select>
+    <select id="selectInfoByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+      <if test="anyCommunityCode!='' and anyCommunityCode!=null">
+        SELECT
+           <include refid="TBase_Column_List"/>
+        FROM
+           t_community t
+        WHERE
+            t.del_flag = 0
+            AND t.community_code in
+            <!--（1）ids不能为null，否则报空指针异常。（2）因为字符串内的值是数值类型，所以 用单引号 将元素扩起来，而且使用$，而不用#-->
+        <foreach item="item" index="index" collection="anyCommunityCode.split(',')" open="(" separator="," close=")">
+            '${item}'
+        </foreach>
+      </if>
+    </select>
+
+
+
     <update id="deleteInfoBatchIds">
         UPDATE t_community t  SET t.del_flag = 1,
             t.edit_by =#{loginUserId}, t.edit_dt=now()
@@ -164,13 +161,13 @@
                 t.community_code
     </select>
     <select id="selectTreeCommunity"  resultType="com.doulin.entity.common.SelectVo">
-        SELECT
-            province_name label,
-            province_id `VALUE`,
-            '0' parent,
-            id
-        FROM
-            get_community_view
+            SELECT
+                province_name label,
+                province_id `VALUE`,
+                '0' parent,
+                id
+            FROM
+                get_community_view
         UNION ALL
             SELECT
                 city_name label,
@@ -179,21 +176,52 @@
                 id
             FROM
                 get_community_view
-            UNION ALL
-                SELECT
-                    district_name label,
-                    district_id `VALUE`,
-                    city_id parent,
-                    id
-                FROM
-                    get_community_view
-                UNION ALL
-                    SELECT
-                        community_name label,
-                        community_code `VALUE`,
-                        district_id parent,
-                        id
-                    FROM
-                        get_community_view
+        UNION ALL
+            SELECT
+                district_name label,
+                district_id `VALUE`,
+                city_id parent,
+                id
+            FROM
+                get_community_view
+        UNION ALL
+            SELECT
+                community_name label,
+                community_code `VALUE`,
+                district_id parent,
+                id
+            FROM
+                get_community_view
+    </select>
+
+    <select id="selectByProviceAndCityAndArea" parameterType="java.util.Map" resultMap="BaseResultMapForCommunity">
+        SELECT
+            `ttd`.`community_code` AS `community_code`,
+            `ttd`.`community_name` AS `community_name`,
+            `ttd`.`province_name` AS `province_name`,
+            `ttd`.`city_name` AS `city_name`,
+            `ttd`.`district_name` AS `district_name`,
+            `ttd`.`shop_home_code` AS `shop_home_code`,
+            `ttd`.`shop_home_name` AS `shop_home_name`
+        FROM
+            get_shop_community_view ttd
+        where 1=1
+        <if test="type==1">
+           LIMIT 0,1
+         </if>
+        <if test="type==2">
+            <if test="province!='' and province!=null" > and  `ttd`.`province_name`=#{province} </if>
+            <if test="city!='' and city!=null" > and  `ttd`.`city_name`=#{city} </if>
+            <if test="area!='' and area!=null" > and  `ttd`.`district_name`=#{area} </if>
+            <if test="shopHomeCode!='' and shopHomeCode!=null" > and  `ttd`.`shop_home_code`=#{shopHomeCode} </if>
+        </if>
+    </select>
+    <select id="selectShopSelect" resultMap="BaseResultMapForCommunity">
+        SELECT
+            DISTINCT
+                t.shop_home_code,
+                t.shop_home_name
+            FROM
+                get_shop_community_view t
     </select>
 </mapper>

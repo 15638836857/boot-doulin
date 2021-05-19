@@ -7,6 +7,7 @@ import com.doulin.entity.vo.VQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * TGoodsMapper
@@ -29,5 +30,11 @@ public interface TGoodsMapper extends BaseMapper<TGoods> {
                                     @Param("categoryId")Integer categoryId,
                                     @Param("value")String value);
     List<TGoods> selectGoodsId(Integer id);
-    List<TGoods> selectGoodsSkuId(Integer id);
+
+    /**
+     * @Param("skuId")Integer skuId,@Param("goodsId")Integer goodsId
+     * @param map
+     * @return
+     */
+    List<TGoods> selectGoodsSkuId(Map<String,Object> map);
 }

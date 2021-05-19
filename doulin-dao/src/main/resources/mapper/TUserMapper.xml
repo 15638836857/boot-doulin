@@ -20,14 +20,17 @@
         <result column="edit_dt" property="editDt" jdbcType="TIMESTAMP"/>
         <result column="wx_operid" property="wxOperid" jdbcType="VARCHAR"/>
         <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
-        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="session_key" property="sessionKey" jdbcType="VARCHAR"/>
+        <result column="wx_access_token" property="wxAccessToken" jdbcType="VARCHAR"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
         id, user_name, nick_name, password, tele_phone, shop_flag, email, user_logo, balance,
-        sex, job, add_by, add_dt, edit_by, edit_dt, wx_operid, del_flag,status,token
+        sex, job, add_by, add_dt, edit_by, edit_dt, wx_operid, del_flag,status,token,session_key,
+        wx_access_token
     </sql>
 
 
@@ -44,5 +47,6 @@
     <update id="updateToken">
         UPDATE t_user SET token=#{token} where id=#{id}
     </update>
+
 
 </mapper>

@@ -94,6 +94,9 @@ public class TShopToucanHdGoods implements Serializable {
  @ApiModelProperty(value = "加价购 加的金额")
  @TableField("add_money")
  private BigDecimal addMoney;
+ @ApiModelProperty(value = "加价购 门槛")
+ @TableField("consume_money")
+ private BigDecimal consumeMoney;
 
 
  @TableField(exist = false)

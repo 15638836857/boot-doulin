@@ -22,7 +22,7 @@ import java.util.Date;
 public class TCommunnityToken implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @TableField("token")

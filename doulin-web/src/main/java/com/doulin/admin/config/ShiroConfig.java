@@ -5,6 +5,8 @@ import com.doulin.admin.config.shiro.RedisCacheManager;
 import com.doulin.admin.config.shiro.RedisManager;
 import com.doulin.admin.config.shiro.RedisSessionDAO;
 import com.doulin.admin.config.shiro.UserRealm;
+import com.doulin.admin.filter.CORSAuthenticationFilter;
+import com.google.common.collect.Maps;
 import net.sf.ehcache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -18,17 +20,20 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 //import org.apache.shiro.cache.CacheManager;
 
 /**
  * @author
  */
-//@Configuration
+@Configuration
 public class ShiroConfig {
     @Value("${spring.redis.host}")
     private String host;
@@ -68,8 +73,13 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setUnauthorizedUrl("/302");
+        Map<String, Filter> filters = Maps.newHashMap();
+        filters.put("authc", new CORSAuthenticationFilter());
+        shiroFilterFactoryBean.setFilters(filters);
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login","anon");
+        filterChainDefinitionMap.put("/login/**","anon");
+        filterChainDefinitionMap.put("/tool/**","anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/static/js/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");

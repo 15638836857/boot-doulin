@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doulin.mapper.TFeedbackMapper">
+
+    <resultMap id="BaseResultMap" type="com.doulin.entity.TFeedback">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="img1" property="img1" jdbcType="VARCHAR"/>
+        <result column="img2" property="img2" jdbcType="VARCHAR"/>
+        <result column="img3" property="img3" jdbcType="VARCHAR"/>
+        <result column="img4" property="img4" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="adtime" property="adtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, uid, nickname, phone, content, img1, img2, img3, img4, type, adtime
+    </sql>
+
+
+    <select id="findByQuery" resultType="com.doulin.entity.TFeedback">
+        select
+        <include refid="Base_Column_List"/>
+        from t_feedback
+        <where>
+            <if test="query !=null">
+
+            </if>
+        </where>
+    </select>
+
+</mapper>

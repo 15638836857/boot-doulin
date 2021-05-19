@@ -98,6 +98,7 @@ public class TShopVipBaseServiceImpl extends ServiceImpl<TShopVipBaseMapper, TSh
             List<Map<String, Object>> listmap = new ArrayList<>();
             for (Map.Entry<String, Object> e : map.entrySet()) {
                 Map<String, Object> mapResult = Maps.newHashMap();
+                //如果获取的开启 值为空  默认为 N
                 String value=StrUtil.isBlankIfStr(e.getValue())?SysContent.N_STR:e.getValue().toString();
                 if (StrUtil.isEmpty(isOpen)) {
                     mapResult.put(SysContent.NAME_STR, e.getKey());

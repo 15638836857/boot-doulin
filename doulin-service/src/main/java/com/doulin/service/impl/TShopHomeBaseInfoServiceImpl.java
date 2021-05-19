@@ -1,5 +1,6 @@
 package com.doulin.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,11 +12,13 @@ import com.doulin.entity.common.UserLoginRes;
 import com.doulin.entity.edo.Industrycate;
 import com.doulin.entity.shop.ShopApplicyStatus;
 import com.doulin.entity.vo.VQuery;
+import com.doulin.mapper.TCommunityMapper;
 import com.doulin.mapper.TShopHomeBaseInfoMapper;
 import com.doulin.service.ShopToTreeService;
 import com.doulin.service.TCommunnityTokenService;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +44,8 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
     private TShopHomeBaseInfoMapper shopHomeBaseInfoMapper;
     @Autowired
     private TCommunnityTokenService communnityTokenService;
+    @Autowired
+    private TCommunityMapper tCommunityMapper;
     @Autowired
     private UtilService utilService;
     @Autowired
@@ -182,6 +187,20 @@ public class TShopHomeBaseInfoServiceImpl extends ServiceImpl<TShopHomeBaseInfoM
         }
 
 
+    }
+
+    @Override
+    public TShopHomeBaseInfo getInfoAndAnyCommunityByLoginNo(String loginNo) {
+        TShopHomeBaseInfo s=shopHomeBaseInfoMapper.selectInfoAndAnyCommunityByLoginNo(loginNo);
+        if(null!=s){
+            if(!StrUtil.isEmpty(s.getAnyCommunityCode())) {
+                Map<String, Object> map = Maps.newHashMap();
+                map.put("anyCommunityCode", s.getAnyCommunityCode());
+                s.setCommunityList(tCommunityMapper.selectInfoByMap(map));
+            }
+            return s;
+        }
+        return null;
     }
 
     @Override

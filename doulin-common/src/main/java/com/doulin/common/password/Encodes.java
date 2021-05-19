@@ -148,4 +148,14 @@ public class Encodes {
 			throw Exceptions.unchecked(e);
 		}
 	}
+
+//	public static void main(String[] args) {
+//		String str=Encodes.encodeBase64("123123456&adfasfsaf");
+//		String token=Encodes.decodeBase64String(str);
+//		System.out.println("str="+str);
+//		System.out.println("token="+token);
+//
+//		String openId = token.substring(0, token.indexOf("&"));
+//		System.out.println("openId="+openId);
+//	}
 }

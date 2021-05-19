@@ -58,4 +58,11 @@ public interface TShopHomeBaseInfoService extends IService<TShopHomeBaseInfo> {
     TShopHomeBaseInfo getInfoByShopHomeCode(String shopHomeCode);
 
     List<Industrycate> getHyCodeList(Integer type,Integer treeType);
+
+    /**
+     * 获取商家信息  和关联的其它社区信息
+     * @param loginNo
+     * @return
+     */
+    TShopHomeBaseInfo getInfoAndAnyCommunityByLoginNo(String loginNo);
 }

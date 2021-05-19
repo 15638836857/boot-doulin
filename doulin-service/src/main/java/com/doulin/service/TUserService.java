@@ -25,4 +25,13 @@ public interface TUserService extends IService<TUser> {
     void updateToken(Integer id, String token);
 
     TUser getByToken(String token);
+
+    /**
+     * 根据openId获取信息
+     * @param openid
+     * @return
+     */
+    TUser getByOpenidAndType(String openid);
+
+    void updateByOpenId(TUser tUser);
 }

@@ -1,15 +1,20 @@
 package com.doulin.admin.controller.shop;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.doulin.admin.controller.common.BaseWebController;
 import com.doulin.common.R;
+import com.doulin.common.content.SysContent;
 import com.doulin.entity.TShopHomeBaseInfo;
 import com.doulin.service.TShopHomeBaseInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -22,48 +27,16 @@ import java.util.Map;
 @CrossOrigin
 @RestController
 @RequestMapping("/tshopHomeBaseInfo")
+@Slf4j
 public class TShopHomeBaseInfoWebController extends BaseWebController {
 
     @Autowired
     private TShopHomeBaseInfoService tShopHomeBaseInfoService;
 
-    /**
-     * 新增
-     *
-     * @param tShopHomeBaseInfo
-     */
-//    @ApiOperation(value = "add", notes = "")
-//    @PostMapping("/add")
-//    public void add(@RequestBody TShopHomeBaseInfo tShopHomeBaseInfo) {
-//        tShopHomeBaseInfoService.save(tShopHomeBaseInfo);
-//    }
-
-    /**
-     * 删除
-     *
-     * @param ids
-     */
-//    @ApiOperation(value = "delete", notes = "")
-//    @GetMapping("/delete")
-//    public void delete(@RequestParam("ids") Long... ids) {
-//        tShopHomeBaseInfoService.removeByIds(Arrays.asList(ids));
-//    }
-
-    /**
-     * 更新
-     *
-     * @param tShopHomeBaseInfo
-     */
-//    @ApiOperation(value = "update", notes = "")
-//    @PostMapping("/update")
-//    public void update(@RequestBody TShopHomeBaseInfo tShopHomeBaseInfo) {
-//        tShopHomeBaseInfoService.updateById(tShopHomeBaseInfo);
-//    }
 
     /**
      * 详情
-     *
-     * @param id
+     * @param requestMap
      * @return
      */
     @ApiOperation(value = "查看详情", notes = "{\n" +
@@ -79,9 +52,42 @@ public class TShopHomeBaseInfoWebController extends BaseWebController {
     @PostMapping("/detail")
     public Object detail(@RequestBody Map<String,Object> requestMap) {
         String userNo = getVvalue(requestMap).get("userNo").toString();
-        TShopHomeBaseInfo shopHomeBaseInfo = tShopHomeBaseInfoService.getInfoByLoginNo(userNo);
+        TShopHomeBaseInfo shopHomeBaseInfo = tShopHomeBaseInfoService.getInfoAndAnyCommunityByLoginNo(userNo);
         return R.ok(shopHomeBaseInfo);
     }
+   @ApiOperation(value = "编辑对应多个社区", notes = "{\n" +
+            "    \"s\": {\n" +
+            "        \"loginUserId\": \"登录用户userId\",\n" +
+            "        \"page\": 1,\n" +
+            "        \"rows\": 10\n" +
+            "    },\n" +
+            "    \"v\": {\n" +
+            "        \"id\": \"数据id\",\n" +
+            "        \"anyCommunityCode\": \"商家关联其它社区的code 多个逗号间隔\"\n" +
+            "    }\n" +
+            "}")
+    @PostMapping("/update")
+    public Object update(@RequestBody Map<String,Object> requestMap) {
+       Map<String, Object> v = getVvalue(requestMap);
+       TShopHomeBaseInfo shopHomeBaseInfo = BeanUtil.toBean(v, TShopHomeBaseInfo.class);
+       try {
+           String userNo = getSvalue(requestMap).get("loginUserId").toString();
+           if (null == shopHomeBaseInfo.getId()) {
+               throw new Exception(SysContent.ERROR_PARAM);
+           } else if (StrUtil.isEmpty(shopHomeBaseInfo.getAnyCommunityCode())) {
+               throw new Exception(SysContent.ERROR_PARAM);
+           } else {
+               shopHomeBaseInfo.setEditBy(userNo);
+               shopHomeBaseInfo.setEditDt(new Date());
+               tShopHomeBaseInfoService.updateById(shopHomeBaseInfo);
+           }
+       } catch (Exception e) {
+           log.error("tshopHomeBaseInfo/update****" + e.getMessage());
+           return R.error(e.getMessage());
+       }
+       return R.ok();
+   }
+
 
     /**
      * 分页

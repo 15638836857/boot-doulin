@@ -7,6 +7,7 @@ import com.doulin.common.RandomValidateCodeUtil;
 import com.doulin.common.ShiroUtils;
 import com.doulin.common.content.SysContent;
 import com.doulin.common.j2cache.CacheUtils;
+import com.doulin.common.password.Encodes;
 import com.doulin.common.token.SysUserTokenUtil;
 import com.doulin.entity.SysUser;
 import com.doulin.service.SysUserRoleService;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,13 +84,19 @@ public class LoginController extends BaseWebController {
                 subject.login(usernamePasswordToken);
 
                 SysUser sysUser=userService.getOneByLoginNo(loginNo.toString());
-                SecurityUtils.getSubject().getSession().setTimeout(1000*60*30);
-                Serializable token = subject.getSession().getId();
+                sysUser.setLastLoginDate(new Date());
+                sysUser.setLastLoginIp(IPUtils.getIpAddr(request));
+                userService.updateById(sysUser);
+//                SecurityUtils.getSubject().getSession().setTimeout(1000*60*30);
+//                Serializable token = subject.getSession().getId();
+
                 Map<String,Object> result=new HashMap<>();
+                String token=SysUserTokenUtil.getToken(loginNo.toString(),sysUser.getId().toString(),IPUtils.getIpAddr(request));
                 result.put(SysUserTokenUtil.tokenHeard,token);
                 result.put(SysContent.LOGIN_USERID,sysUser.getId());
+                result.put(SysContent.LOGO,sysUser.getPhoto());
                 result.put(SysContent.NAME_STR,sysUser.getRealName());
-                result.put(SysContent.MENU_STR,sysUser.getMenuId());
+                result.put(SysContent.MENU_STR, Encodes.encodeBase64(sysUser.getMenuId()));
                 result.put(SysContent.ROLE_STR,sysUser.getRoleId());
 
                 return R.ok((Object) result);

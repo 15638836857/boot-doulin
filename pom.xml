@@ -17,6 +17,7 @@
         <module>doulin-web</module>
         <module>doulin-mobile</module>
         <module>doulin-config</module>
+        <module>doulin-wechat</module>
     </modules>
 
 
@@ -38,6 +39,7 @@
         <fastjson.version>1.2.75</fastjson.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <baidu.version>4.15.7</baidu.version>
+        <zxing.version>3.3.3</zxing.version>
     </properties>
     <dependencies>
         <dependency>
@@ -233,6 +235,21 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+        <dependency>
+            <groupId>QRCode</groupId>
+            <artifactId>QRCode</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>${zxing.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>${zxing.version}</version>
+        </dependency>
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->
         <!--<artifactId>spring-boot-devtools</artifactId>-->
@@ -312,6 +329,12 @@
             <artifactId>jgroups</artifactId>
             <version>4.2.11.Final</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/chrriis/dj-nativeswing -->
+<!--        <dependency>-->
+<!--            <groupId>chrriis</groupId>-->
+<!--            <artifactId>dj-nativeswing</artifactId>-->
+<!--            <version>1.0.2.20120308</version>-->
+<!--        </dependency>-->
 
         <!--war包部署需要-->
         <!--<dependency>-->

@@ -110,98 +110,133 @@
     <select id="selectActivity" resultType="java.util.Map">
 
             
-              SELECT
+      SELECT
             CASE
-             WHEN ((SELECT count(t.id) FROM t_shop_vip_recharge t,t_shop_home_base_info t1
-                   where t.shop_home_code=t1.shop_home_code AND t1.login_no=#{loginNo}  AND t.open_flag='Y')>0) THEN 'Y'
-             ELSE 'N'
-           END '储值卡',
-          CASE WHEN ((SELECT COUNT(t3.id) FROM t_shop_vip_base t3,t_shop_home_base_info t2
-                where t3.shop_home_code=t2.shop_home_code and t3.open_flag='Y' AND t2.login_no =#{loginNo} )>0) THEN 'Y'
-             ELSE 'N'
-           END '会员权益',       
-            (SELECT IFNULL(t.open_flag,'N') FROM t_shop_score_setting t,t_shop_home_base_info t2 WHERE  t.shop_home_code=t2.shop_home_code AND t2.login_no=#{loginNo})
-             AS '积分累计',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_order_coupon t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.del_flag=0
-								 AND t.order_type='DDFQ') AS '订单返券',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_toucan_hd t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.order_type='FGTC'
-              ) AS '复购套餐',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_order_coupon t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.del_flag=0
-								 AND t.order_type='JDLQ') AS '进店领券',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_order_coupon t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.del_flag=0
-								 AND t.order_type='XRLQ') AS '新人领券',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_toucan_hd t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.order_type='JJG') AS '加价购',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_toucan_hd t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.order_type='DEJNZ') AS '第二件N折',
-            'N' AS '凑单提醒',
-            (SELECT  IFNULL(t.open_flag,'N')
-							 FROM  t_shop_order_coupon t,
-										 t_shop_home_base_info t2 
-							WHERE  
-									   t.shop_home_code=t2.shop_home_code
-								 AND t2.login_no=#{loginNo} 
-								 AND t.del_flag=0
-								 AND t.order_type='MJHD') AS '订单满减/满减活动',
-            'N' AS '现时秒杀'
-        FROM
-            DUAL
+        WHEN (
+            (
+                SELECT
+                    count(t.id)
+                FROM
+                    t_shop_vip_recharge t,
+                    t_shop_home_base_info t1
+                WHERE
+                    t.shop_home_code = t1.shop_home_code
+                AND t1.login_no = #{loginNo}
+            AND t.open_flag='Y')>0) THEN 'Y'
+                ELSE
+                    'N'
+                END '储值卡',
+                CASE
+            WHEN (
+                (
+                    SELECT
+                        COUNT(t3.id)
+                    FROM
+                        t_shop_vip_base t3,
+                        t_shop_home_base_info t2
+                    WHERE
+                        t3.shop_home_code = t2.shop_home_code
+                    AND t3.open_flag = 'Y'
+                    AND t2.login_no = #{loginNo})>0
+              ) THEN 'Y'
+                    ELSE
+                        'N'
+                    END '会员权益',
+                    (
+                        SELECT
+                            IFNULL(t.open_flag, 'N')
+                        FROM
+                            t_shop_score_setting t,
+                            t_shop_home_base_info t2
+                        WHERE
+                            t.shop_home_code = t2.shop_home_code
+                        AND t2.login_no = #{loginNo})
+                        AS '积分累计',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_order_coupon t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.del_flag = 0
+                            AND t.order_type = 'DDFQ'
+                        ) AS '订单返券',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_toucan_hd t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.order_type = 'FGTC'
+                        ) AS '复购套餐',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_order_coupon t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.del_flag = 0
+                            AND t.order_type = 'JDLQ'
+                        ) AS '进店领券',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_order_coupon t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.del_flag = 0
+                            AND t.order_type = 'XRLQ'
+                        ) AS '新人领券',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_toucan_hd t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.order_type = 'JJG'
+                        ) AS '加价购',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_toucan_hd t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.order_type = 'DEJNZ'
+                        ) AS '第二件N折',
+                        'N' AS '凑单提醒',
+                        (
+                            SELECT
+                                IFNULL(t.open_flag, 'N')
+                            FROM
+                                t_shop_order_coupon t,
+                                t_shop_home_base_info t2
+                            WHERE
+                                t.shop_home_code = t2.shop_home_code
+                            AND t2.login_no = #{loginNo}
+                            AND t.del_flag = 0
+                            AND t.order_type = 'MJHD'
+                        ) AS '订单满减/满减活动',
+                        'N' AS '现时秒杀'
+                    FROM DUAL
             
-            --        SELECT
---             CASE
---              WHEN ((SELECT count(t.id) FROM t_shop_vip_recharge t,t_shop_home_base_info t1
---                    where t.shop_home_code=t1.shop_home_code AND t1.login_no=#{loginNo}  AND t.open_flag='Y')>0) THEN 'Y'
---              ELSE 'N'
---            END '储值卡',
---           CASE WHEN ((SELECT COUNT(t3.id) FROM t_shop_vip_base t3,t_shop_home_base_info t2
---                 where t3.shop_home_code=t2.shop_home_code and t3.open_flag='Y' AND t2.login_no =#{loginNo} )>0) THEN 'Y'
---              ELSE 'N'
---            END '会员权益',
---             'N' AS '积分累计',
---             'N' AS '订单返券',
---             'N' AS '复购套餐',
---             'N' AS '进店领券',
---             'N' AS '新人领券',
---             'N' AS '加价购',
---             'N' AS '第二件N折',
---             'N' AS '凑单提醒',
---             'N' AS '订单满减',
---             'N' AS '现时秒杀'
---         FROM
---             DUAL
+
     </select>
 </mapper>

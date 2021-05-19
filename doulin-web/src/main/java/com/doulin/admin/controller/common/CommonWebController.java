@@ -2,7 +2,9 @@ package com.doulin.admin.controller.common;
 
 import com.doulin.common.R;
 import com.doulin.common.content.SysContent;
+import com.doulin.entity.TCommunity;
 import com.doulin.service.ShopToTreeService;
+import com.doulin.service.TCommunityService;
 import com.doulin.service.TShopHomeBaseInfoService;
 import com.doulin.service.UtilService;
 import io.swagger.annotations.Api;
@@ -36,6 +38,8 @@ public class CommonWebController extends BaseWebController {
     private ShopToTreeService shopToTreeService;
     @Autowired
     private TShopHomeBaseInfoService shopHomeBaseInfoService;
+    @Autowired
+    private TCommunityService communityService;
 
     @ApiOperation(value = "上传图片",notes = "file:文件  type:1 商家  ，2/用户")
     @PostMapping(value = "/addimgs")
@@ -68,6 +72,17 @@ public class CommonWebController extends BaseWebController {
             String url[] = map.get(SysContent.URL_STR).toString().split(SysContent.EN_D);
             utilService.deleteImag(url);
             return R.ok(SysContent.OK_OPER);
+        } catch (Exception e) {
+            log.error("请求处理异常" + e.getMessage());
+            return R.error( e.getMessage());
+        }
+    }
+    @ApiOperation(value ="获取商家下拉列表" ,notes = "")
+    @PostMapping(value = "/getShopSelect")
+    public Object getShopSelect() {
+        try {
+            List<TCommunity> shoplist=communityService.getShopSelect();
+            return R.ok(shoplist);
         } catch (Exception e) {
             log.error("请求处理异常" + e.getMessage());
             return R.error( e.getMessage());

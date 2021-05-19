@@ -26,6 +26,9 @@ public interface TCommunityMapper extends BaseMapper<TCommunity> {
 
     TCommunity selectOneById(@Param("id") Integer id);
 
+
+    List<TCommunity> selectInfoByMap(Map<String,Object> map);
+
     List<TCommunity> pageInfo(Map<String, Object> map);
 
     Integer count(Map<String, Object> map);
@@ -34,4 +37,16 @@ public interface TCommunityMapper extends BaseMapper<TCommunity> {
 
     List<SelectVo> selectListInfo();
     List<SelectVo> selectTreeCommunity();
+
+    /**
+     * 根据省市区  "        \"type\": \"1/获取默认的社区  2/获取 指定周围社区的信息\",\n" +
+     *             "        \"province\": \"省:河南\",\n" +
+     *             "        \"city\": \"市：郑州\",\n" +
+     *             "        \"area\": \"区域/县：金水区\"\n" +
+     * @param map
+     * @return
+     */
+    List<TCommunity> selectByProviceAndCityAndArea(Map<String, Object> map);
+
+    List<TCommunity> selectShopSelect();
 }

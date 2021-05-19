@@ -22,7 +22,7 @@ import java.util.Date;
 public class TCommunity implements Serializable {
 
 
-    @TableId(value = "id", type = IdType.INPUT)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @TableField(exist = false)
@@ -135,5 +135,15 @@ public class TCommunity implements Serializable {
      */
     @TableField(exist = false)
     private Integer orderCount=0;
+    /**
+     * 商家编号
+     */
+    @TableField(exist = false)
+    private String shopHomeCode;
+    /**
+     * 商家名称
+     */
+    @TableField(exist = false)
+    private String shopHomeName;
 
 }

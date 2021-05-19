@@ -83,7 +83,7 @@ public class ShopImport implements Serializable {
   //行业类别编号
   String industry_no = StrUtil.isEmpty(thbif.getIndustryNo()) ? db.getIndustryNo() : thbif.getIndustryNo();
   map.put("p20_industry_no", industry_no);
-  map.put("p22_act", "Update");
+  map.put("p22_act", oper);
   String LegalPersonBankCardL = StrUtil.isEmpty(thbif.getLegalPersonBankCardL()) ? db.getLegalPersonBankCardL() : thbif.getLegalPersonBankCardL();
   map.put("p23_bank_no", LegalPersonBankCardL.replace(" ", ""));
   map.put("p24_bank_type", 1);

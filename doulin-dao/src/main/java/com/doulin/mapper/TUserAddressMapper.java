@@ -2,10 +2,11 @@ package com.doulin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import com.doulin.entity.TUserAddress;
 import com.doulin.entity.vo.VQuery;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * TUserAddressMapper
@@ -18,4 +19,5 @@ public interface TUserAddressMapper extends BaseMapper<TUserAddress> {
 
     IPage<TUserAddress> findByQuery(IPage<TUserAddress> page, @Param("query") VQuery query);
 
+    List<TUserAddress> selectByOpenId(@Param("openId")String openId);
 }
